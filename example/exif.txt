@@ -1,0 +1,40 @@
+[img/latov.jpg]--------------------
+array(5) {
+  ["GPSLatitudeRef"]=>
+  string(1) "N"
+  ["GPSLatitude"]=>
+  array(3) {
+    [0]=>
+    string(4) "37/1"
+    [1]=>
+    string(3) "3/1"
+    [2]=>
+    string(10) "26072/1000"
+  }
+  ["GPSLongitudeRef"]=>
+  string(1) "E"
+  ["GPSLongitude"]=>
+  array(3) {
+    [0]=>
+    string(5) "140/1"
+    [1]=>
+    string(4) "53/1"
+    [2]=>
+    string(10) "22398/1000"
+  }
+  ["GPSAltitude"]=>
+  string(8) "1700/100"
+}
+[img/IMG_1119.jpg]--------------------
+array(5) {
+  ["GPSLatitudeRef"]=>
+  NULL
+  ["GPSLatitude"]=>
+  NULL
+  ["GPSLongitudeRef"]=>
+  NULL
+  ["GPSLongitude"]=>
+  NULL
+  ["GPSAltitude"]=>
+  NULL
+}

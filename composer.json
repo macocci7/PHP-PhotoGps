@@ -1,0 +1,21 @@
+{
+    "name": "macocci7/php-photo-gps",
+    "description": "Gets GPS data from a photo.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Macocci7\\PhpPhotoGps\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "macocci7",
+            "email": "macocci7@yahoo.co.jp"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "intervention/image": "^2.7"
+    }
+}
