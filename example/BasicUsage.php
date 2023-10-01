@@ -8,9 +8,10 @@ $pg = new PhotoGps();
 $files = [
     'img/latov.jpg',    // GPSタグ有り
     'img/IMG_1119.jpg', // GPSタグ無し
+    'img/not_found.jpg', // 存在しないファイル
 ];
 
 foreach ($files as $filename) {
     echo "[" . $filename . "]--------------------\n";
-    var_dump($pg->get($filename));
+    var_dump($pg->coord($filename));
 }

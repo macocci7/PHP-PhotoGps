@@ -34,16 +34,28 @@ use Intervention\Image\ImageManagerStatic as Image;
         Image::configure(['driver' => 'imagick']);
     }
 
-    public function get($filename)
+    /**
+     * returns coordinate information in the EXIF data.
+     * @param   string  $filename
+     * @return  array
+     */
+    public function coord($filename)
     {
+        if (!is_readable($filename)) return;
         $exif = $this->exif($filename);
         $gpsTags = [];
         foreach ($this->keys as $key) {
-            $gpsTags[$key] = $exif[$key];
+            if (array_key_exists($key, $exif))
+                $gpsTags[$key] = $exif[$key];
         }
         return $gpsTags;
     }
 
+    /**
+     * returns EXIF data of the file.
+     * @param   string  $filename
+     * @return  array
+     */
     public function exif($filename)
     {
         return Image::make($filename)->exif();
