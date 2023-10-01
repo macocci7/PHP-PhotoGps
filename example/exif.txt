@@ -26,15 +26,7 @@ array(5) {
   string(8) "1700/100"
 }
 [img/IMG_1119.jpg]--------------------
-array(5) {
-  ["GPSLatitudeRef"]=>
-  NULL
-  ["GPSLatitude"]=>
-  NULL
-  ["GPSLongitudeRef"]=>
-  NULL
-  ["GPSLongitude"]=>
-  NULL
-  ["GPSAltitude"]=>
-  NULL
+array(0) {
 }
+[img/not_found.jpg]--------------------
+NULL
