@@ -1,8 +1,6 @@
 <?php
 namespace Macocci7\PhpPhotoGps;
 
-require('../vendor/autoload.php');
-
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
@@ -59,5 +57,49 @@ use Intervention\Image\ImageManagerStatic as Image;
     public function exif($filename)
     {
         return Image::make($filename)->exif();
+    }
+
+    /**
+     * converts GPS sexagesimal numbers to a decimal number
+     * @param array $s
+     * @return float
+     */
+    public function s2d($s)
+    {
+        if (!is_array($s)) return;
+        if (count($s) < 3) return;
+        /**
+         * GPS Longitude/Latitude data structure
+         * [0]: (string) "[degrees]/[scale]"
+         * [1]: (string) "[minutes]/[scale]"
+         * [2]: (string) "[seconds]/[scale]"
+         */
+        $degrees = explode("/", $s[0]);
+        $minutes = explode("/", $s[1]);
+        $seconds = explode("/", $s[2]);
+        if (count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2) return;
+        return (float) (
+               (int) $degrees[0] / (int) $degrees[1]
+             + (int) $minutes[0] / (int) $minutes[1] / 60
+             + (int) $seconds[0] / (int) $seconds[1] / 3600
+            );
+    }
+
+    /**
+     * converts a GPS decimal number to sexagesimal numbers
+     * @param float $d
+     * @return array
+     */
+    public function d2s($d)
+    {
+        if (!is_float($d)) return;
+        $degrees = (int) $d;
+        $minutes = (int) (($d - $degrees) * 60);
+        $seconds = (int) (($d - $degrees - $minutes / 60) * 3600);
+        return [
+            $degrees . "/" . 1,
+            $minutes . "/" . 1,
+            ($seconds * 1000) . "/" . 1000,
+        ];
     }
  }
