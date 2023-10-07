@@ -59,11 +59,31 @@ final class PhotoGpsTest extends TestCase
             [ "param" => [ 0, ], "return" => null, ],
             [ "param" => [ 0, 1, ], "return" => null, ],
             [ "param" => [ 0, 1, 2, ], "return" => null, ],
+            [ "param" => ["0/1/2", "0/1", "0/1000", ], "return" => null, ],
             [ "param" => ["0/1", "0/1", "0/1000", ], "return" => 0.0, ],
             [ "param" => ["37/1", "30/1", "30000/1000", ], "return" => 37.50833333333333, ],
         ];
         foreach ($cases as $case) {
             $this->assertSame($pg->s2d($case["param"]), $case["return"]);
+        }
+    }
+
+    public function test_d2s_can_return_correct_values(): void
+    {
+        $pg = new PhotoGps();
+        $cases = [
+            [ "param" => null, "return" => null, ],
+            [ "param" => true, "return" => null, ],
+            [ "param" => false, "return" => null, ],
+            [ "param" => 0, "return" => null, ],
+            [ "param" => -1.2, "return" => null, ],
+            [ "param" => "a", "return" => null, ],
+            [ "param" => [], "return" => null, ],
+            [ "param" => [136.27555555555557, ], "return" => null, ],
+            [ "param" => 136.27555555555557, "return" => ["136/1", "16/1", "32000/1000", ], ],
+        ];
+        foreach ($cases as $case) {
+            $this->assertSame($pg->d2s($case["param"]), $case["return"]);
         }
     }
 }
