@@ -9,7 +9,7 @@ use Intervention\Image\ImageManagerStatic as Image;
  * Description: The library only for getting GPS information from a jpeg file.
  */
 
- class PhotoGps {
+class PhotoGps {
 
     /**
      * 取得対象のGPS関連EXIFタグ
@@ -68,6 +68,9 @@ use Intervention\Image\ImageManagerStatic as Image;
     {
         if (!is_array($s)) return;
         if (count($s) < 3) return;
+        foreach ($s as $v) {
+            if (!preg_match('/^\d+\/\d+$/', $v)) return;
+        }
         /**
          * GPS Longitude/Latitude data structure
          * [0]: (string) "[degrees]/[scale]"
@@ -79,10 +82,10 @@ use Intervention\Image\ImageManagerStatic as Image;
         $seconds = explode("/", $s[2]);
         if (count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2) return;
         return (float) (
-               (int) $degrees[0] / (int) $degrees[1]
-             + (int) $minutes[0] / (int) $minutes[1] / 60
-             + (int) $seconds[0] / (int) $seconds[1] / 3600
-            );
+              (int) $degrees[0] / (int) $degrees[1]
+            + (int) $minutes[0] / (int) $minutes[1] / 60
+            + (int) $seconds[0] / (int) $seconds[1] / 3600
+        );
     }
 
     /**
@@ -93,6 +96,7 @@ use Intervention\Image\ImageManagerStatic as Image;
     public function d2s($d)
     {
         if (!is_float($d)) return;
+        if ($d < 0.0) return;
         $degrees = (int) $d;
         $minutes = (int) (($d - $degrees) * 60);
         $seconds = (int) (($d - $degrees - $minutes / 60) * 3600);
@@ -102,4 +106,4 @@ use Intervention\Image\ImageManagerStatic as Image;
             ($seconds * 1000) . "/" . 1000,
         ];
     }
- }
+}
