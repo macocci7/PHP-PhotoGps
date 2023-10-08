@@ -21,7 +21,7 @@ final class PhotoGpsTest extends TestCase
 
     public function test_coord_can_return_coord_data(): void
     {
-        $filename = 'example/img/latov.jpg';
+        $filename = 'example/img/with_gps.jpg';
         $pg = new PhotoGps();
         $coord = $pg->coord($filename);
         foreach ($this->keys as $key) {
@@ -31,7 +31,7 @@ final class PhotoGpsTest extends TestCase
 
     public function test_coord_can_return_empty_when_gps_does_not_exist(): void
     {
-        $filename = 'example/img/IMG_1119.jpg';
+        $filename = 'example/img/without_gps.jpg';
         $pg = new PhotoGps();
         $coord = $pg->coord($filename);
         $this->assertTrue(empty($coord));

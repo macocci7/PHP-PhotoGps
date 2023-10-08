@@ -1,4 +1,4 @@
-[img/latov.jpg]--------------------
+[img/with_gps.jpg]--------------------
 array(5) {
   ["GPSLatitudeRef"]=>
   string(1) "N"
@@ -25,7 +25,7 @@ array(5) {
   ["GPSAltitude"]=>
   string(8) "1700/100"
 }
-[img/IMG_1119.jpg]--------------------
+[img/without_gps.jpg]--------------------
 array(0) {
 }
 [img/not_found.jpg]--------------------
