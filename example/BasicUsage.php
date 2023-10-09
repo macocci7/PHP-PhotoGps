@@ -6,7 +6,7 @@ require('../src/PhotoGps.php');
 use Macocci7\PhpPhotoGps\PhotoGps;
 
 $pg = new PhotoGps();
-$filename = 'img/with_gps.jpg';    // GPSタグ有り
+$filename = 'img/with_gps.jpg';    // includes GPS tags
 $gps = $pg->coord($filename);
 
 echo "[" . $filename . "]--------------------\n";

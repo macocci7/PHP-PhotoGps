@@ -52,8 +52,9 @@ class PhotoGps {
      * @param   string  $lang
      * @return  self
      */
-    public function lang($lang)
+    public function lang($lang = null)
     {
+        if (is_null($lang)) return $this->lang;
         if (!is_string($lang)) return;
         if (!array_key_exists($lang, $this->coordUnits)) return;
         $this->lang = $lang;
@@ -186,6 +187,7 @@ class PhotoGps {
         $degrees = explode('/', $coord[0]);
         $minutes = explode('/', $coord[1]);
         $seconds = explode('/', $coord[2]);
+        if (count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2) return;
         $units = $this->coordUnits[$this->lang];
         return sprintf(
             "%d" . $units['degrees'] . "%02d" . $units['minutes'] . "%0.1f" . $units['seconds'] . "%s",
@@ -214,7 +216,9 @@ class PhotoGps {
          */
         if (!is_array($coord)) return;
         if (count($coord) <> 3) return;
-        if (!is_string($ref)) return;
+        foreach ($coord as $v) {
+            if (!preg_match('/^\d+\/\d+$/', $v)) return;
+        }
         if (!preg_match('/^[ENSW]$/', $ref)) return;
         return (preg_match('/^[NE]$/', $ref) ? 1 : -1) * $this->s2d($coord);
     }
@@ -292,6 +296,7 @@ class PhotoGps {
     {
         if (!is_array($gps)) return;
         if (!array_key_exists('GPSAltitude', $gps)) return;
+        if (!preg_match('/^\d+\/\d+$/', $gps['GPSAltitude'])) return;
         $altitudes = explode('/', $gps['GPSAltitude']);
         return (int) ( (int) $altitudes[0] / (int) $altitudes[1] );
     }
