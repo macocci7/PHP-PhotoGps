@@ -1,7 +1,6 @@
 <?php
 
 require('../vendor/autoload.php');
-require('../src/PhotoGps.php');
 
 use Macocci7\PhpPhotoGps\PhotoGps;
 
