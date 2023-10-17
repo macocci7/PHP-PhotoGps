@@ -1,4 +1,5 @@
 <?php
+
 namespace Macocci7\PhpPhotoGps;
 
 use Intervention\Image\ImageManagerStatic as Image;
@@ -9,8 +10,8 @@ use Intervention\Image\ImageManagerStatic as Image;
  * Description: The library only for getting GPS information from a jpeg file.
  */
 
-class PhotoGps {
-
+class PhotoGps
+{
     /**
      * 取得対象のGPS関連EXIFタグ
      */
@@ -27,13 +28,23 @@ class PhotoGps {
             'degrees' => '°',
             'minutes' => "'",
             'seconds' => '"',
-            'ref' => ['N' => 'N', 'S' => 'S', 'E' => 'E', 'W' => 'W', ], 
+            'ref' => [
+                'N' => 'N',
+                'S' => 'S',
+                'E' => 'E',
+                'W' => 'W',
+            ],
         ],
         'ja' => [
             'degrees' => '度',
             'minutes' => '分',
             'seconds' => '秒',
-            'ref' => ['N' => '(北緯)', 'S' => '(南緯)', 'E' => '(東経)', 'W' => '(西経)', ], 
+            'ref' => [
+                'N' => '(北緯)',
+                'S' => '(南緯)',
+                'E' => '(東経)',
+                'W' => '(西経)',
+            ],
         ],
     ];
 
@@ -52,11 +63,14 @@ class PhotoGps {
      * @param   string  $lang
      * @return  self
      */
-    public function lang($lang = null)
+    public function lang(string $lang = null)
     {
-        if (is_null($lang)) return $this->lang;
-        if (!is_string($lang)) return;
-        if (!array_key_exists($lang, $this->coordUnits)) return;
+        if (is_null($lang)) {
+            return $this->lang;
+        }
+        if (!isset($this->coordUnits[$lang])) {
+            return;
+        }
         $this->lang = $lang;
         return $this;
     }
@@ -76,9 +90,11 @@ class PhotoGps {
      * @param   string  $filename
      * @return  array
      */
-    public function exif($filename)
+    public function exif(string $filename)
     {
-        if (!is_readable($filename)) return;
+        if (!is_readable($filename)) {
+            return;
+        }
         return Image::make($filename)->exif();
     }
 
@@ -87,33 +103,19 @@ class PhotoGps {
      * @param   string  $filename
      * @return array
      */
-    public function gps($filename)
+    public function gps(string $filename)
     {
         $exif = $this->exif($filename);
-        if (!$exif) return;
+        if (!$exif) {
+            return;
+        }
         $gps = [];
         foreach ($exif as $key => $value) {
-            if (preg_match('/^GPS/', $key))
+            if (preg_match('/^GPS/', $key)) {
                 $gps[$key] = $value;
+            }
         }
         return $gps;
-    }
-
-    /**
-     * returns coordinate information in the EXIF data.
-     * @param   string  $filename
-     * @return  array
-     */
-    public function coord($filename)
-    {
-        if (!is_readable($filename)) return;
-        $exif = $this->exif($filename);
-        $gpsTags = [];
-        foreach ($this->keys as $key) {
-            if (array_key_exists($key, $exif))
-                $gpsTags[$key] = $exif[$key];
-        }
-        return $gpsTags;
     }
 
     /**
@@ -121,12 +123,15 @@ class PhotoGps {
      * @param array $s
      * @return float
      */
-    public function s2d($s)
+    public function s2d(array $s)
     {
-        if (!is_array($s)) return;
-        if (count($s) < 3) return;
+        if (count($s) < 3) {
+            return;
+        }
         foreach ($s as $v) {
-            if (!preg_match('/^\d+\/\d+$/', $v)) return;
+            if (!preg_match('/^\d+\/\d+$/', $v)) {
+                return;
+            }
         }
         /**
          * GPS Longitude/Latitude data structure
@@ -137,7 +142,11 @@ class PhotoGps {
         $degrees = explode('/', $s[0]);
         $minutes = explode('/', $s[1]);
         $seconds = explode('/', $s[2]);
-        if (count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2) return;
+        if (
+            count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2
+        ) {
+            return;
+        }
         return (float) (
               (int) $degrees[0] / (int) $degrees[1]
             + (int) $minutes[0] / (int) $minutes[1] / 60
@@ -150,10 +159,11 @@ class PhotoGps {
      * @param float $d
      * @return array
      */
-    public function d2s($d)
+    public function d2s(float $d)
     {
-        if (!is_float($d)) return;
-        if ($d < 0.0) return;
+        if ($d < 0.0) {
+            return;
+        }
         $degrees = (int) $d;
         $minutes = (int) (($d - $degrees) * 60);
         $seconds = (int) (($d - $degrees - $minutes / 60) * 3600);
@@ -170,7 +180,7 @@ class PhotoGps {
      * @param   string  $ref
      * @return  string
      */
-    public function sexagesimal($coord, $ref)
+    public function sexagesimal(array $coord, string $ref)
     {
         /**
          * the structure of coord must be
@@ -180,14 +190,20 @@ class PhotoGps {
          *      2 => (string) "dddddd/dddd",
          * ]
          */
-        if (!is_array($coord)) return;
-        if (count($coord) <> 3) return;
-        if (!is_string($ref)) return;
-        if (!preg_match('/^[ENSW]$/', $ref)) return;
+        if (count($coord) <> 3) {
+            return;
+        }
+        if (!preg_match('/^[ENSW]$/', $ref)) {
+            return;
+        }
         $degrees = explode('/', $coord[0]);
         $minutes = explode('/', $coord[1]);
         $seconds = explode('/', $coord[2]);
-        if (count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2) return;
+        if (
+            count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2
+        ) {
+            return;
+        }
         $units = $this->coordUnits[$this->lang];
         return sprintf(
             "%d" . $units['degrees'] . "%02d" . $units['minutes'] . "%0.1f" . $units['seconds'] . "%s",
@@ -204,7 +220,7 @@ class PhotoGps {
      * @param   string  $ref
      * @return  string
      */
-    public function decimal($coord, $ref)
+    public function decimal(array $coord, string $ref)
     {
         /**
          * the structure of coord must be
@@ -214,12 +230,17 @@ class PhotoGps {
          *      2 => (string) "dddddd/dddd",
          * ]
          */
-        if (!is_array($coord)) return;
-        if (count($coord) <> 3) return;
-        foreach ($coord as $v) {
-            if (!preg_match('/^\d+\/\d+$/', $v)) return;
+        if (count($coord) <> 3) {
+            return;
         }
-        if (!preg_match('/^[ENSW]$/', $ref)) return;
+        foreach ($coord as $v) {
+            if (!preg_match('/^\d+\/\d+$/', $v)) {
+                return;
+            }
+        }
+        if (!preg_match('/^[ENSW]$/', $ref)) {
+            return;
+        }
         return (preg_match('/^[NE]$/', $ref) ? 1 : -1) * $this->s2d($coord);
     }
 
@@ -228,14 +249,18 @@ class PhotoGps {
      * @param   array   $gps
      * @return  string
      */
-    public function latitudeS($gps)
+    public function latitudeS(array $gps)
     {
         /**
          * 'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
-        if (!is_array($gps)) return;
-        if (!array_key_exists('GPSLatitude', $gps) | !array_key_exists('GPSLatitudeRef', $gps)) return;
+        if (
+              !array_key_exists('GPSLatitude', $gps)
+            | !array_key_exists('GPSLatitudeRef', $gps)
+        ) {
+            return;
+        }
         return $this->sexagesimal($gps['GPSLatitude'], $gps['GPSLatitudeRef']);
     }
 
@@ -244,14 +269,18 @@ class PhotoGps {
      * @param   array   $gps
      * @return  float
      */
-    public function latitudeD($gps)
+    public function latitudeD(array $gps)
     {
         /**
          * 'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
-        if (!is_array($gps)) return;
-        if (!array_key_exists('GPSLatitude', $gps) | !array_key_exists('GPSLatitudeRef', $gps)) return;
+        if (
+              !array_key_exists('GPSLatitude', $gps)
+            | !array_key_exists('GPSLatitudeRef', $gps)
+        ) {
+            return;
+        }
         return $this->decimal($gps['GPSLatitude'], $gps['GPSLatitudeRef']);
     }
 
@@ -260,15 +289,22 @@ class PhotoGps {
      * @param   array   $gps
      * @return  string
      */
-    public function longitudeS($gps)
+    public function longitudeS(array $gps)
     {
         /**
          * 'GPSLongitudeRef',  // 経度基準（東経 or 西経）
          * 'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
          */
-        if (!is_array($gps)) return;
-        if (!array_key_exists('GPSLongitude', $gps) | !array_key_exists('GPSLongitudeRef', $gps)) return;
-        return $this->sexagesimal($gps['GPSLongitude'], $gps['GPSLongitudeRef']);
+        if (
+              !array_key_exists('GPSLongitude', $gps)
+            | !array_key_exists('GPSLongitudeRef', $gps)
+        ) {
+            return;
+        }
+        return $this->sexagesimal(
+            $gps['GPSLongitude'],
+            $gps['GPSLongitudeRef']
+        );
     }
 
     /**
@@ -276,14 +312,18 @@ class PhotoGps {
      * @param   array   $gps
      * @return  float
      */
-    public function longitudeD($gps)
+    public function longitudeD(array $gps)
     {
         /**
          * 'GPSLongitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLongitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
-        if (!is_array($gps)) return;
-        if (!array_key_exists('GPSLongitude', $gps) | !array_key_exists('GPSLongitudeRef', $gps)) return;
+        if (
+              !array_key_exists('GPSLongitude', $gps)
+            | !array_key_exists('GPSLongitudeRef', $gps)
+        ) {
+            return;
+        }
         return $this->decimal($gps['GPSLongitude'], $gps['GPSLongitudeRef']);
     }
 
@@ -292,11 +332,14 @@ class PhotoGps {
      * @param   array   $gps
      * @return  integer
      */
-    public function altitude($gps)
+    public function altitude(array $gps)
     {
-        if (!is_array($gps)) return;
-        if (!array_key_exists('GPSAltitude', $gps)) return;
-        if (!preg_match('/^\d+\/\d+$/', $gps['GPSAltitude'])) return;
+        if (!array_key_exists('GPSAltitude', $gps)) {
+            return;
+        }
+        if (!preg_match('/^\d+\/\d+$/', $gps['GPSAltitude'])) {
+            return;
+        }
         $altitudes = explode('/', $gps['GPSAltitude']);
         return (int) ( (int) $altitudes[0] / (int) $altitudes[1] );
     }

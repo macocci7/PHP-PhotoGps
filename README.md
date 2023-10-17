@@ -39,7 +39,7 @@ composer require macocci7/php-photo-gps
 
     $pg = new PhotoGps();
     $filename = 'img/with_gps.jpg';    // includes GPS tags
-    $gps = $pg->coord($filename);
+    $gps = $pg->gps($filename);
 
     echo "[" . $filename . "]--------------------\n";
 
@@ -82,6 +82,6 @@ composer require macocci7/php-photo-gps
 
 *Document created: 2023/09/30*
 
-*Document updated: 2023/10/09*
+*Document updated: 2023/10/17*
 
 Copyright 2023 macocci7

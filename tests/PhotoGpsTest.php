@@ -1,4 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+namespace Macocci7\Sitemap;
 
 require('vendor/autoload.php');
 require('src/PhotoGps.php');
@@ -41,42 +45,10 @@ final class PhotoGpsTest extends TestCase
         $this->assertSame($pg->langs(), $this->langs);
     }
 
-    public function test_coord_can_return_coord_data(): void
-    {
-        $filename = 'example/img/with_gps.jpg';
-        $pg = new PhotoGps();
-        $coord = $pg->coord($filename);
-        foreach ($this->keys as $key) {
-            $this->assertTrue(array_key_exists($key, $coord));
-        }
-    }
-
-    public function test_coord_can_return_empty_when_gps_does_not_exist(): void
-    {
-        $filename = 'example/img/without_gps.jpg';
-        $pg = new PhotoGps();
-        $coord = $pg->coord($filename);
-        $this->assertTrue(empty($coord));
-    }
-
-    public function test_coord_can_return_null_when_file_does_not_exist(): void
-    {
-        $filename = 'example/img/not_found.jpg';
-        $pg = new PhotoGps();
-        $coord = $pg->coord($filename);
-        $this->assertNull($coord);
-    }
-
     public function test_s2d_can_return_correct_value(): void
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "param" => null, "return" => null, ],
-            [ "param" => 0, "return" => null, ],
-            [ "param" => 0.1, "return" => null, ],
-            [ "param" => true, "return" => null, ],
-            [ "param" => false, "return" => null, ],
-            [ "param" => "a", "return" => null, ],
             [ "param" => [], "return" => null, ],
             [ "param" => [ 0, ], "return" => null, ],
             [ "param" => [ 0, 1, ], "return" => null, ],
@@ -94,14 +66,7 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "param" => null, "return" => null, ],
-            [ "param" => true, "return" => null, ],
-            [ "param" => false, "return" => null, ],
-            [ "param" => 0, "return" => null, ],
             [ "param" => -1.2, "return" => null, ],
-            [ "param" => "a", "return" => null, ],
-            [ "param" => [], "return" => null, ],
-            [ "param" => [136.27555555555557, ], "return" => null, ],
             [ "param" => 136.27555555555557, "return" => ["136/1", "16/1", "32000/1000", ], ],
         ];
         foreach ($cases as $case) {
@@ -165,12 +130,6 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "gps" => null, "expect" => null, ],
-            [ "gps" => true, "expect" => null, ],
-            [ "gps" => false, "expect" => null, ],
-            [ "gps" => 0, "expect" => null, ],
-            [ "gps" => 1.2, "expect" => null, ],
-            [ "gps" => "a", "expect" => null, ],
             [ "gps" => [], "expect" => null, ],
             [
                 "gps" => [
@@ -192,12 +151,6 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "gps" => null, "expect" => null, ],
-            [ "gps" => true, "expect" => null, ],
-            [ "gps" => false, "expect" => null, ],
-            [ "gps" => 0, "expect" => null, ],
-            [ "gps" => 1.2, "expect" => null, ],
-            [ "gps" => "a", "expect" => null, ],
             [ "gps" => [], "expect" => null, ],
             [
                 "gps" => [
@@ -229,12 +182,6 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "gps" => null, "expect" => null, ],
-            [ "gps" => true, "expect" => null, ],
-            [ "gps" => false, "expect" => null, ],
-            [ "gps" => 0, "expect" => null, ],
-            [ "gps" => 1.2, "expect" => null, ],
-            [ "gps" => "a", "expect" => null, ],
             [ "gps" => [], "expect" => null, ],
             [
                 "gps" => [
@@ -256,12 +203,6 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "gps" => null, "expect" => null, ],
-            [ "gps" => true, "expect" => null, ],
-            [ "gps" => false, "expect" => null, ],
-            [ "gps" => 0, "expect" => null, ],
-            [ "gps" => 1.2, "expect" => null, ],
-            [ "gps" => "a", "expect" => null, ],
             [ "gps" => [], "expect" => null, ],
             [
                 "gps" => [
@@ -293,12 +234,6 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $cases = [
-            [ "gps" => null, "expect" => null, ],
-            [ "gps" => true, "expect" => null, ],
-            [ "gps" => false, "expect" => null, ],
-            [ "gps" => 0, "expect" => null, ],
-            [ "gps" => 1.2, "expect" => null, ],
-            [ "gps" => "a", "expect" => null, ],
             [ "gps" => [], "expect" => null, ],
             [
                 "gps" => [

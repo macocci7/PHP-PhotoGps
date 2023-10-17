@@ -6,7 +6,7 @@ use Macocci7\PhpPhotoGps\PhotoGps;
 
 $pg = new PhotoGps();
 $filename = 'img/with_gps.jpg';    // includes GPS tags
-$gps = $pg->coord($filename);
+$gps = $pg->gps($filename);
 
 echo "[" . $filename . "]--------------------\n";
 
@@ -22,4 +22,4 @@ echo "経度: " . $pg->lang('ja')->longitudeS($gps) . "\n";
 echo "Altitude: " . $pg->altitude($gps) . "\n";
 
 // Coord in decimal format ('S' and 'W' results in negative value.)
-echo "Coord: " . $pg->latitudeD($gps) . ", " . $pg->longitudeD($gps) ."\n";
+echo "Coord: " . $pg->latitudeD($gps) . ", " . $pg->longitudeD($gps) . "\n";
