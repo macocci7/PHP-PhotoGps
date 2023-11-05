@@ -11,7 +11,7 @@ and can convert latitude/longitude into sexagesimal(English/Japanese) or decimal
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Example](#example)
+- [Examples](#examples)
 - [LICENSE](#license)
 
 ## Requirements
@@ -70,9 +70,11 @@ composer require macocci7/php-photo-gps
     Coord: 37.057242222222, 140.889555
     ```
 
-## Example
+## Examples
 
 - [BasicUsage.php](example/BasicUsage.php) >> results in [BasicUsage.txt](example/BasicUsage.txt)
+- [Exif.php](example/Exif.php) >> results in [Exif.txt](example/Exif.txt)
+- [GPStags.php](example/GPStags.php) >> results in [GPStags.txt](example/GPStags.txt)
 
 ## LICENSE
 
@@ -82,6 +84,6 @@ composer require macocci7/php-photo-gps
 
 *Document created: 2023/09/30*
 
-*Document updated: 2023/10/17*
+*Document updated: 2023/11/06*
 
 Copyright 2023 macocci7

@@ -6,9 +6,9 @@ use Macocci7\PhpPhotoGps\PhotoGps;
 
 $pg = new PhotoGps();
 $files = [
-    'img/with_gps.jpg',    // GPSタグ有り
-    'img/without_gps.jpg', // GPSタグ無し
-    'img/not_found.jpg', // 存在しないファイル
+    'img/with_gps.jpg',    // GPS tags included
+    'img/without_gps.jpg', // GPS tags not included
+    'img/not_found.jpg', // non-existent file
 ];
 
 foreach ($files as $filename) {
