@@ -13,7 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PhotoGps
 {
     /**
-     * 取得対象のGPS関連EXIFタグ
+     * EXIF GPS tags to retrieve
      */
     private $keys = [
         'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
@@ -256,8 +256,8 @@ class PhotoGps
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-              !array_key_exists('GPSLatitude', $gps)
-            | !array_key_exists('GPSLatitudeRef', $gps)
+               !array_key_exists('GPSLatitude', $gps)
+            || !array_key_exists('GPSLatitudeRef', $gps)
         ) {
             return;
         }
@@ -276,8 +276,8 @@ class PhotoGps
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-              !array_key_exists('GPSLatitude', $gps)
-            | !array_key_exists('GPSLatitudeRef', $gps)
+               !array_key_exists('GPSLatitude', $gps)
+            || !array_key_exists('GPSLatitudeRef', $gps)
         ) {
             return;
         }
@@ -296,8 +296,8 @@ class PhotoGps
          * 'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-              !array_key_exists('GPSLongitude', $gps)
-            | !array_key_exists('GPSLongitudeRef', $gps)
+               !array_key_exists('GPSLongitude', $gps)
+            || !array_key_exists('GPSLongitudeRef', $gps)
         ) {
             return;
         }
@@ -319,8 +319,8 @@ class PhotoGps
          * 'GPSLongitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-              !array_key_exists('GPSLongitude', $gps)
-            | !array_key_exists('GPSLongitudeRef', $gps)
+               !array_key_exists('GPSLongitude', $gps)
+            || !array_key_exists('GPSLongitudeRef', $gps)
         ) {
             return;
         }
