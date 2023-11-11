@@ -13,6 +13,16 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PhotoGps
 {
     /**
+     * path to the photo
+     */
+    private $path;
+
+    /**
+     * GPS data
+     */
+    public $gpsData;
+
+    /**
      * EXIF GPS tags to retrieve
      */
     private $keys = [
@@ -22,8 +32,17 @@ class PhotoGps
         'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
         'GPSAltitude',  // 高度数値（m）
     ];
-    private $lang = 'eng';  // English as default
+
+    /**
+     * language: English as default
+     */
+    private $lang = 'eng';
+
+    /**
+     * coord units in each language
+     */
     private $coordUnits = [
+        // English
         'eng' => [
             'degrees' => '°',
             'minutes' => "'",
@@ -35,6 +54,7 @@ class PhotoGps
                 'W' => 'W',
             ],
         ],
+        // Japanese
         'ja' => [
             'degrees' => '度',
             'minutes' => '分',
@@ -53,9 +73,28 @@ class PhotoGps
      * @param
      * @return
      */
-    public function __construct()
+    public function __construct(string $path = null)
     {
         Image::configure(['driver' => 'imagick']);
+        if (!is_null($path)) {
+            $this->load($path);
+        }
+        return $this;
+    }
+
+    /**
+     * loads photo
+     * @param   string  $path
+     * @return  self
+     */
+    public function load(string $path)
+    {
+        if (!is_readable($path)) {
+            throw new \Exception("[" . $path . "] is not readable.");
+        }
+        $this->path = $path;
+        $this->gpsData = $this->gps();
+        return $this;
     }
 
     /**
@@ -87,25 +126,25 @@ class PhotoGps
 
     /**
      * returns EXIF data of the file.
-     * @param   string  $filename
+     * @param
      * @return  array
      */
-    public function exif(string $filename)
+    public function exif()
     {
-        if (!is_readable($filename)) {
+        if (!is_readable($this->path)) {
             return;
         }
-        return Image::make($filename)->exif();
+        return Image::make($this->path)->exif();
     }
 
     /**
      * returns GPS data in the EXIF data.
-     * @param   string  $filename
+     * @param
      * @return array
      */
-    public function gps(string $filename)
+    public function gps()
     {
-        $exif = $this->exif($filename);
+        $exif = $this->exif();
         if (!$exif) {
             return;
         }
@@ -116,6 +155,24 @@ class PhotoGps
             }
         }
         return $gps;
+    }
+
+    /**
+     * judges if all GPS data necessary for this library exists or not
+     * @param
+     * @return  boolean
+     */
+    public function hasGps()
+    {
+        if (!$this->gpsData) {
+            return false;
+        }
+        foreach ($this->keys as $key) {
+            if (!isset($this->gpsData[$key])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -246,101 +303,110 @@ class PhotoGps
 
     /**
      * returns latitude in sexagesimal format.
-     * @param   array   $gps
+     * @param
      * @return  string
      */
-    public function latitudeS(array $gps)
+    public function latitudeS()
     {
         /**
          * 'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLatitude', $gps)
-            || !array_key_exists('GPSLatitudeRef', $gps)
+               !array_key_exists('GPSLatitude', $this->gpsData)
+            || !array_key_exists('GPSLatitudeRef', $this->gpsData)
         ) {
             return;
         }
-        return $this->sexagesimal($gps['GPSLatitude'], $gps['GPSLatitudeRef']);
+        return $this->sexagesimal(
+            $this->gpsData['GPSLatitude'],
+            $this->gpsData['GPSLatitudeRef']
+        );
     }
 
     /**
      * returns latitude in decimal format.
-     * @param   array   $gps
+     * @param
      * @return  float
      */
-    public function latitudeD(array $gps)
+    public function latitudeD()
     {
         /**
          * 'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLatitude', $gps)
-            || !array_key_exists('GPSLatitudeRef', $gps)
+               !array_key_exists('GPSLatitude', $this->gpsData)
+            || !array_key_exists('GPSLatitudeRef', $this->gpsData)
         ) {
             return;
         }
-        return $this->decimal($gps['GPSLatitude'], $gps['GPSLatitudeRef']);
+        return $this->decimal(
+            $this->gpsData['GPSLatitude'],
+            $this->gpsData['GPSLatitudeRef']
+        );
     }
 
     /**
      * returns longitude in sexagesimal format.
-     * @param   array   $gps
+     * @param
      * @return  string
      */
-    public function longitudeS(array $gps)
+    public function longitudeS()
     {
         /**
          * 'GPSLongitudeRef',  // 経度基準（東経 or 西経）
          * 'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLongitude', $gps)
-            || !array_key_exists('GPSLongitudeRef', $gps)
+               !array_key_exists('GPSLongitude', $this->gpsData)
+            || !array_key_exists('GPSLongitudeRef', $this->gpsData)
         ) {
             return;
         }
         return $this->sexagesimal(
-            $gps['GPSLongitude'],
-            $gps['GPSLongitudeRef']
+            $this->gpsData['GPSLongitude'],
+            $this->gpsData['GPSLongitudeRef']
         );
     }
 
     /**
      * returns longitude in decimal format.
-     * @param   array   $gps
+     * @param
      * @return  float
      */
-    public function longitudeD(array $gps)
+    public function longitudeD()
     {
         /**
          * 'GPSLongitudeRef',   // 緯度基準（北緯 or 南緯）
          * 'GPSLongitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLongitude', $gps)
-            || !array_key_exists('GPSLongitudeRef', $gps)
+               !array_key_exists('GPSLongitude', $this->gpsData)
+            || !array_key_exists('GPSLongitudeRef', $this->gpsData)
         ) {
             return;
         }
-        return $this->decimal($gps['GPSLongitude'], $gps['GPSLongitudeRef']);
+        return $this->decimal(
+            $this->gpsData['GPSLongitude'],
+            $this->gpsData['GPSLongitudeRef']
+        );
     }
 
     /**
      * returns altitude
-     * @param   array   $gps
+     * @param
      * @return  integer
      */
-    public function altitude(array $gps)
+    public function altitude()
     {
-        if (!array_key_exists('GPSAltitude', $gps)) {
+        if (!array_key_exists('GPSAltitude', $this->gpsData)) {
             return;
         }
-        if (!preg_match('/^\d+\/\d+$/', $gps['GPSAltitude'])) {
+        if (!preg_match('/^\d+\/\d+$/', $this->gpsData['GPSAltitude'])) {
             return;
         }
-        $altitudes = explode('/', $gps['GPSAltitude']);
+        $altitudes = explode('/', $this->gpsData['GPSAltitude']);
         return (int) ( (int) $altitudes[0] / (int) $altitudes[1] );
     }
 }
