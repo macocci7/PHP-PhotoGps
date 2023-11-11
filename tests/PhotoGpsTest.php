@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Macocci7\Sitemap;
 
 require('vendor/autoload.php');
-require('src/PhotoGps.php');
 
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\PhotoGps;
@@ -23,6 +22,53 @@ final class PhotoGpsTest extends TestCase
         'GPSAltitude',  // 高度数値（cm）
     ];
     private $langs = [ 'eng', 'ja', ];
+
+    public function test_load_can_throw_exception_with_invalid_path(): void
+    {
+        $cases = [
+            ['path' => '', ],
+            ['path' => 'notfound.jpg', ],
+        ];
+        foreach ($cases as $case) {
+            $this->expectException(\Exception::class);
+            $message = "[" . $case['path'] . "] is not readable.";
+            $this->expectExceptionMessage($message);
+            $pg = new PhotoGps($case['path']);
+        }
+    }
+
+    public function test_load_can_load_gps_data_correctly(): void
+    {
+        $cases = [
+            // GPS tags included
+            [
+                'path' => 'example/img/with_gps.jpg',
+                'expect' => [
+                    'GPSLatitudeRef' => 'N',
+                    'GPSLatitude' => ['37/1', '3/1', '26072/1000'],
+                    'GPSLongitudeRef' => 'E',
+                    'GPSLongitude' => ['140/1', '53/1', '22398/1000'],
+                    'GPSAltitude' => '1700/100',
+                ],
+            ],
+            // GPS tags not included
+            [
+                'path' => 'example/img/without_gps.jpg',
+                'expect' => [],
+            ],
+        ];
+        foreach ($cases as $case) {
+            $pg = new PhotoGps($case['path']);
+            if (empty($case['expect'])) {
+                $this->assertTrue(empty($pg->gps()));
+            } else {
+                foreach ($case['expect'] as $key => $value) {
+                    $gps = $pg->gps();
+                    $this->assertSame($value, $gps[$key]);
+                }
+            }
+        }
+    }
 
     public function test_lang_can_set_lang_correctly(): void
     {
@@ -43,6 +89,39 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps();
         $this->assertSame($pg->langs(), $this->langs);
+    }
+
+    public function test_hasGps_can_judge_correctly(): void
+    {
+        $cases = [
+            ['gps' => null, 'expect' => false, ],
+            ['gps' => [], 'expect' => false, ],
+            ['gps' => ['GPS' => 'gps', ], 'expect' => false, ],
+            [
+                'gps' => [
+                    'GPSLatitudeRef' => 'N',
+                    'GPSLatitude' => ['37/1', '3/1', '26072/1000'],
+                    'GPSLongitudeRef' => 'E',
+                    'GPSLongitude' => ['140/1', '53/1', '22398/1000'],
+                ],
+                'expect' => false,
+            ],
+            [
+                'gps' => [
+                    'GPSLatitudeRef' => 'N',
+                    'GPSLatitude' => ['37/1', '3/1', '26072/1000'],
+                    'GPSLongitudeRef' => 'E',
+                    'GPSLongitude' => ['140/1', '53/1', '22398/1000'],
+                    'GPSAltitude' => '1700/100',
+                ],
+                'expect' => true,
+            ],
+        ];
+        $pg = new PhotoGps();
+        foreach ($cases as $case) {
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($case['expect'], $pg->hasGps());
+        }
     }
 
     public function test_s2d_can_return_correct_value(): void
@@ -143,7 +222,8 @@ final class PhotoGpsTest extends TestCase
             ],
         ];
         foreach ($cases as $case) {
-            $this->assertSame($pg->latitudeS($case['gps']), $case['expect']);
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($pg->latitudeS(), $case['expect']);
         }
     }
 
@@ -174,7 +254,8 @@ final class PhotoGpsTest extends TestCase
             ],
         ];
         foreach ($cases as $case) {
-            $this->assertSame($pg->latitudeD($case['gps']), $case['expect']);
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($pg->latitudeD(), $case['expect']);
         }
     }
 
@@ -195,7 +276,8 @@ final class PhotoGpsTest extends TestCase
             ],
         ];
         foreach ($cases as $case) {
-            $this->assertSame($pg->longitudeS($case['gps']), $case['expect']);
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($pg->longitudeS(), $case['expect']);
         }
     }
 
@@ -226,7 +308,8 @@ final class PhotoGpsTest extends TestCase
             ],
         ];
         foreach ($cases as $case) {
-            $this->assertSame($pg->longitudeD($case['gps']), $case['expect']);
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($pg->longitudeD(), $case['expect']);
         }
     }
 
@@ -247,7 +330,8 @@ final class PhotoGpsTest extends TestCase
             ],
         ];
         foreach ($cases as $case) {
-            $this->assertSame($pg->altitude($case['gps']), $case['expect']);
+            $pg->gpsData = $case['gps'];
+            $this->assertSame($pg->altitude(), $case['expect']);
         }
     }
 }

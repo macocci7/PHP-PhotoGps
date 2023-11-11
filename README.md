@@ -6,6 +6,9 @@ This library reads EXIF data of a jpeg file,
 
 and can convert latitude/longitude into sexagesimal(English/Japanese) or decimal formats.
 
+*2023/11/11: version updated 1.1.1 => 1.2.0*
+*--- usages of some methods have been changed*
+
 ## Contents
 
 - [Requirements](#requirements)
@@ -37,25 +40,24 @@ composer require macocci7/php-photo-gps
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
-    $pg = new PhotoGps();
     $filename = 'img/with_gps.jpg';    // includes GPS tags
-    $gps = $pg->gps($filename);
+    $pg = new PhotoGps($filename);
 
     echo "[" . $filename . "]--------------------\n";
 
     // Latitude in sexagesimal format
-    echo "Latitude: " . $pg->latitudeS($gps) . "\n";
-    echo "緯度: " . $pg->lang('ja')->latitudeS($gps) . "\n";
+    echo "Latitude: " . $pg->latitudeS() . "\n";
+    echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
     // Longitude in sexagesimal format
-    echo "Longitude: " . $pg->lang('eng')->longitudeS($gps) . "\n";
-    echo "経度: " . $pg->lang('ja')->longitudeS($gps) . "\n";
+    echo "Longitude: " . $pg->lang('eng')->longitudeS() . "\n";
+    echo "経度: " . $pg->lang('ja')->longitudeS() . "\n";
 
     // Altitude
-    echo "Altitude: " . $pg->altitude($gps) . "\n";
+    echo "Altitude: " . $pg->altitude() . "\n";
 
     // Coord in decimal format ('S' and 'W' results in negative value.)
-    echo "Coord: " . $pg->latitudeD($gps) . ", " . $pg->longitudeD($gps) ."\n";
+    echo "Coord: " . $pg->latitudeD() . ", " . $pg->longitudeD() . "\n";
     ```
 
 - OUTPUT
@@ -84,6 +86,6 @@ composer require macocci7/php-photo-gps
 
 *Document created: 2023/09/30*
 
-*Document updated: 2023/11/06*
+*Document updated: 2023/11/11*
 
 Copyright 2023 macocci7
