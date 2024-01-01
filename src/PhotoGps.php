@@ -5,87 +5,95 @@ namespace Macocci7\PhpPhotoGps;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
- * Created by: macocci7
- * Date: 2023/09/30
- * Description: The library only for getting GPS information from a jpeg file.
+ * Gets GPS data from a photo.
+ * The library only for getting GPS information from EXIF data of a jpeg file.
+ * @author  macocci7 <macocci7@yahoo.co.jp>
+ * @license MIT
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-
 class PhotoGps
 {
     /**
-     * path to the photo
+     * @var string path to the photo
      */
-    private $path;
+    private string $path;
 
     /**
-     * GPS data
+     * @var mixed[]|null $gpsData GPS data
      */
-    public $gpsData;
+    public array|null $gpsData;
 
     /**
-     * EXIF GPS tags to retrieve
+     * @var string[] EXIF GPS tags to retrieve
      */
-    private $keys = [
-        'GPSLatitudeRef',   // 緯度基準（北緯 or 南緯）
-        'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
-        'GPSLongitudeRef',  // 経度基準（東経 or 西経）
-        'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
-        'GPSAltitude',  // 高度数値（m）
-    ];
+    private array $keys;
 
     /**
-     * language: English as default
+     * @var string language: English as default
      */
-    private $lang = 'eng';
+    private string $lang;
 
     /**
-     * coord units in each language
+     * @var mixed[] coord units in each language
      */
-    private $coordUnits = [
-        // English
-        'eng' => [
-            'degrees' => '°',
-            'minutes' => "'",
-            'seconds' => '"',
-            'ref' => [
-                'N' => 'N',
-                'S' => 'S',
-                'E' => 'E',
-                'W' => 'W',
-            ],
-        ],
-        // Japanese
-        'ja' => [
-            'degrees' => '度',
-            'minutes' => '分',
-            'seconds' => '秒',
-            'ref' => [
-                'N' => '(北緯)',
-                'S' => '(南緯)',
-                'E' => '(東経)',
-                'W' => '(西経)',
-            ],
-        ],
-    ];
+    private array $coordUnits;
 
     /**
-     * constructor
-     * @param
-     * @return
+     * constructor.
+     * @param   string  $path   = null
+     * @return  self
      */
     public function __construct(string $path = null)
     {
-        Image::configure(['driver' => 'imagick']);
+        $this->loadConf();
+        //Image::configure(['driver' => 'imagick']);
         if (!is_null($path)) {
             $this->load($path);
         }
-        return $this;
     }
 
     /**
-     * loads photo
+     * loads config.
+     * @return  void
+     */
+    private function loadConf()
+    {
+        Config::load();
+        $props = ['keys', 'lang', 'coordUnits', ];
+        foreach ($props as $prop) {
+            $this->{$prop} = Config::get($prop);// @phpstan-ignore-line
+        }
+    }
+
+    /**
+     * returns config.
+     * @param   string  $key = null
+     * @return  mixed
+     */
+    public function getConf(?string $key = null)
+    {
+        return Config::get($key);
+    }
+
+    /**
+     * returns properties.
+     * @param   string  $key
+     * @return  mixed
+     */
+    public function getProp(string $key)
+    {
+        if (!$this->{$key}) {
+            throw new \Exception("prop $key note found.");
+        }
+        return $this->{$key};
+    }
+
+    /**
+     * loads GPS data from EXIF data of the photo.
      * @param   string  $path
      * @return  self
+     * @thrown  \Exception
      */
     public function load(string $path)
     {
@@ -98,9 +106,10 @@ class PhotoGps
     }
 
     /**
-     * sets specified language
-     * @param   string  $lang
-     * @return  self
+     * sets specified language, returns current lang with no param.
+     * @param   string  $lang = null
+     * @return  self|string
+     * @thrown  \Exception
      */
     public function lang(string $lang = null)
     {
@@ -108,16 +117,15 @@ class PhotoGps
             return $this->lang;
         }
         if (!isset($this->coordUnits[$lang])) {
-            return;
+            throw new \Exception("$lang is not available.");
         }
         $this->lang = $lang;
         return $this;
     }
 
     /**
-     * returns supported langages
-     * @param
-     * @return  array
+     * returns supported langages.
+     * @return  string[]
      */
     public function langs()
     {
@@ -125,32 +133,41 @@ class PhotoGps
     }
 
     /**
+     * sets format, or returns current format without param
+     * @param   string  $format = null
+     * @return  self|string
+     */
+    public function format(?string $format = null)
+    {
+        if (is_null($format)) {
+            return $this->coordUnits[$this->lang()]['format']; // @phpstan-ignore-line
+        }
+        $this->coordUnits[$this->lang()]['format'] = $format; // @phpstan-ignore-line
+        return $this;
+    }
+
+    /**
      * returns EXIF data of the file.
-     * @param
-     * @return  array
+     * @return  mixed[]
+     * @thrown  \Exception
      */
     public function exif()
     {
         if (!is_readable($this->path)) {
-            return;
+            throw new \Exception("The file is not readable.");
         }
-        return Image::make($this->path)->exif();
+        return Image::make($this->path)->exif(); // @phpstan-ignore-line
     }
 
     /**
      * returns GPS data in the EXIF data.
-     * @param
-     * @return array
+     * @return mixed[]
      */
     public function gps()
     {
-        $exif = $this->exif();
-        if (!$exif) {
-            return;
-        }
         $gps = [];
-        foreach ($exif as $key => $value) {
-            if (preg_match('/^GPS/', $key)) {
+        foreach ($this->exif() as $key => $value) {
+            if (str_starts_with($key, 'GPS')) {
                 $gps[$key] = $value;
             }
         }
@@ -158,9 +175,8 @@ class PhotoGps
     }
 
     /**
-     * judges if all GPS data necessary for this library exists or not
-     * @param
-     * @return  boolean
+     * judges if all GPS data necessary for this library exists or not.
+     * @return  bool
      */
     public function hasGps()
     {
@@ -177,17 +193,17 @@ class PhotoGps
 
     /**
      * converts GPS sexagesimal numbers into a decimal number
-     * @param array $s
-     * @return float
+     * @param   string[]   $s
+     * @return  float|null
      */
     public function s2d(array $s)
     {
         if (count($s) < 3) {
-            return;
+            return null;
         }
         foreach ($s as $v) {
             if (!preg_match('/^\d+\/\d+$/', $v)) {
-                return;
+                return null;
             }
         }
         /**
@@ -202,7 +218,7 @@ class PhotoGps
         if (
             count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2
         ) {
-            return;
+            return null;
         }
         return (float) (
               (int) $degrees[0] / (int) $degrees[1]
@@ -213,13 +229,13 @@ class PhotoGps
 
     /**
      * converts a GPS decimal number into sexagesimal numbers
-     * @param float $d
-     * @return array
+     * @param   float   $d
+     * @return  string[]|null
      */
     public function d2s(float $d)
     {
         if ($d < 0.0) {
-            return;
+            return null;
         }
         $degrees = (int) $d;
         $minutes = (int) (($d - $degrees) * 60);
@@ -233,9 +249,9 @@ class PhotoGps
 
     /**
      * returns (latitude or longitude) coord in sexagesimal format.
-     * @param   array   $coord
+     * @param   string[]   $coord
      * @param   string  $ref
-     * @return  string
+     * @return  string|null
      */
     public function sexagesimal(array $coord, string $ref)
     {
@@ -248,10 +264,10 @@ class PhotoGps
          * ]
          */
         if (count($coord) <> 3) {
-            return;
+            return null;
         }
         if (!preg_match('/^[ENSW]$/', $ref)) {
-            return;
+            return null;
         }
         $degrees = explode('/', $coord[0]);
         $minutes = explode('/', $coord[1]);
@@ -259,23 +275,30 @@ class PhotoGps
         if (
             count($degrees) <> 2 | count($minutes) <> 2 | count($seconds) <> 2
         ) {
-            return;
+            return null;
         }
         $units = $this->coordUnits[$this->lang];
-        return sprintf(
-            "%d" . $units['degrees'] . "%02d" . $units['minutes'] . "%0.1f" . $units['seconds'] . "%s",
-            (int) $degrees[0] / (int) $degrees[1],
-            (int) $minutes[0] / (int) $minutes[1],
-            (int) $seconds[0] / (int) $seconds[1],
-            $units['ref'][$ref]
-        );
+        $tags = [
+            '{degrees:v}' => (int) $degrees[0] / (int) $degrees[1],
+            '{minutes:v}' => (int) $minutes[0] / (int) $minutes[1],
+            '{seconds:v}' => sprintf("%.1f", (int) $seconds[0] / (int) $seconds[1]),
+            '{degrees:u}' => $units['degrees'], // @phpstan-ignore-line
+            '{minutes:u}' => $units['minutes'], // @phpstan-ignore-line
+            '{seconds:u}' => $units['seconds'], // @phpstan-ignore-line
+            '{ref:u}' => $units['ref'][$ref], // @phpstan-ignore-line
+        ];
+        $string = $units['format']; // @phpstan-ignore-line
+        foreach ($tags as $key => $value) {
+            $string = str_replace($key, $value, $string); // @phpstan-ignore-line
+        }
+        return $string;
     }
 
     /**
      * returns (latitude or longitude) coord in decimal format.
-     * @param   array   $coord
-     * @param   string  $ref
-     * @return  string
+     * @param   string[]    $coord
+     * @param   string      $ref
+     * @return  float|null
      */
     public function decimal(array $coord, string $ref)
     {
@@ -288,23 +311,22 @@ class PhotoGps
          * ]
          */
         if (count($coord) <> 3) {
-            return;
+            return null;
         }
         foreach ($coord as $v) {
             if (!preg_match('/^\d+\/\d+$/', $v)) {
-                return;
+                return null;
             }
         }
         if (!preg_match('/^[ENSW]$/', $ref)) {
-            return;
+            return null;
         }
         return (preg_match('/^[NE]$/', $ref) ? 1 : -1) * $this->s2d($coord);
     }
 
     /**
      * returns latitude in sexagesimal format.
-     * @param
-     * @return  string
+     * @return  string|null
      */
     public function latitudeS()
     {
@@ -313,10 +335,10 @@ class PhotoGps
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLatitude', $this->gpsData)
+               !array_key_exists('GPSLatitude', $this->gpsData) // @phpstan-ignore-line
             || !array_key_exists('GPSLatitudeRef', $this->gpsData)
         ) {
-            return;
+            return null;
         }
         return $this->sexagesimal(
             $this->gpsData['GPSLatitude'],
@@ -326,8 +348,7 @@ class PhotoGps
 
     /**
      * returns latitude in decimal format.
-     * @param
-     * @return  float
+     * @return  float|null
      */
     public function latitudeD()
     {
@@ -336,10 +357,10 @@ class PhotoGps
          * 'GPSLatitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLatitude', $this->gpsData)
+               !array_key_exists('GPSLatitude', $this->gpsData) // @phpstan-ignore-line
             || !array_key_exists('GPSLatitudeRef', $this->gpsData)
         ) {
-            return;
+            return null;
         }
         return $this->decimal(
             $this->gpsData['GPSLatitude'],
@@ -349,8 +370,7 @@ class PhotoGps
 
     /**
      * returns longitude in sexagesimal format.
-     * @param
-     * @return  string
+     * @return  string|null
      */
     public function longitudeS()
     {
@@ -359,10 +379,10 @@ class PhotoGps
          * 'GPSLongitude', // 経度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLongitude', $this->gpsData)
+               !array_key_exists('GPSLongitude', $this->gpsData) // @phpstan-ignore-line
             || !array_key_exists('GPSLongitudeRef', $this->gpsData)
         ) {
-            return;
+            return null;
         }
         return $this->sexagesimal(
             $this->gpsData['GPSLongitude'],
@@ -372,8 +392,7 @@ class PhotoGps
 
     /**
      * returns longitude in decimal format.
-     * @param
-     * @return  float
+     * @return  float|null
      */
     public function longitudeD()
     {
@@ -382,10 +401,10 @@ class PhotoGps
          * 'GPSLongitude',  // 緯度数値（配列; 0:度/ 1:分/ 2:秒）
          */
         if (
-               !array_key_exists('GPSLongitude', $this->gpsData)
+               !array_key_exists('GPSLongitude', $this->gpsData) // @phpstan-ignore-line
             || !array_key_exists('GPSLongitudeRef', $this->gpsData)
         ) {
-            return;
+            return null;
         }
         return $this->decimal(
             $this->gpsData['GPSLongitude'],
@@ -395,18 +414,17 @@ class PhotoGps
 
     /**
      * returns altitude
-     * @param
-     * @return  integer
+     * @return  int|null
      */
     public function altitude()
     {
-        if (!array_key_exists('GPSAltitude', $this->gpsData)) {
-            return;
+        if (!array_key_exists('GPSAltitude', $this->gpsData)) { // @phpstan-ignore-line
+            return null;
         }
-        if (!preg_match('/^\d+\/\d+$/', $this->gpsData['GPSAltitude'])) {
-            return;
+        if (!preg_match('/^\d+\/\d+$/', $this->gpsData['GPSAltitude'])) { // @phpstan-ignore-line
+            return null;
         }
-        $altitudes = explode('/', $this->gpsData['GPSAltitude']);
+        $altitudes = explode('/', $this->gpsData['GPSAltitude']); // @phpstan-ignore-line
         return (int) ( (int) $altitudes[0] / (int) $altitudes[1] );
     }
 }
