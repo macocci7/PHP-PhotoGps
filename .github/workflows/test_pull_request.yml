@@ -143,4 +143,4 @@ jobs:
       - name: Unit tests
         run: |
           mkdir -p build/logs
-          ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+          ./vendor/bin/phpunit ./tests/ --coverage-clover build/logs/clover.xml
