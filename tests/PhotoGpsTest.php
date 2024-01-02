@@ -20,6 +20,10 @@ final class PhotoGpsTest extends TestCase
     // phpcs:disable Generic.Files.LineLength.TooLong
     private $langs = [ 'eng', 'ja', ];
     private $defaultLang = 'eng';
+    private $defaultFormat = [
+        'eng' => '{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}',
+        'ja' => '{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}',
+    ];
 
     public static function provide_load_can_throw_exception_with_invalid_path(): array
     {
@@ -140,6 +144,21 @@ final class PhotoGpsTest extends TestCase
         $pg->format($format);
         $pg->lang($lang2);
         $this->assertSame($expect, $pg->format());
+    }
+
+    public function test_resetFormat_can_reset_format_correctly(): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang('eng')->format('foo');
+        $pg->lang('ja')->format('hoge');
+        $pg->lang('eng')->resetFormat();
+        $this->assertSame($this->defaultFormat['eng'], $pg->lang('eng')->format());
+        $this->assertSame('hoge', $pg->lang('ja')->format());
+        $pg->lang('eng')->format('foo');
+        $pg->lang('ja')->format('hoge');
+        $pg->lang('ja')->resetFormat();
+        $this->assertSame('foo', $pg->lang('eng')->format());
+        $this->assertSame($this->defaultFormat['ja'], $pg->lang('ja')->format());
     }
 
     public static function provide_hasGps_can_judge_correctly(): array

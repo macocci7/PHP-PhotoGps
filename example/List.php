@@ -35,8 +35,8 @@ foreach ($images as $file) {
         foreach ($pg->langs() as $lang) {
             echo sprintf(
                 "%s, %s<br />\n",
-                $hasGps ? $pg->lang($lang)->longitudeS() : '---',
-                $hasGps ? $pg->lang($lang)->latitudeS() : '---'
+                $hasGps ? $pg->lang($lang)->latitudeS() : '---',
+                $hasGps ? $pg->lang($lang)->longitudeS() : '---'
             );
         }
     } else {
