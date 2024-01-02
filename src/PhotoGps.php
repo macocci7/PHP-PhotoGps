@@ -47,7 +47,6 @@ class PhotoGps
     public function __construct(string $path = null)
     {
         $this->loadConf();
-        //Image::configure(['driver' => 'imagick']);
         if (!is_null($path)) {
             $this->load($path);
         }
@@ -143,6 +142,17 @@ class PhotoGps
             return $this->coordUnits[$this->lang()]['format']; // @phpstan-ignore-line
         }
         $this->coordUnits[$this->lang()]['format'] = $format; // @phpstan-ignore-line
+        return $this;
+    }
+
+    /**
+     * resets format as default
+     * @return  self
+     */
+    public function resetFormat()
+    {
+        $coordUnits = Config::get('coordUnits');
+        $this->format($coordUnits[$this->lang()]['format']); // @phpstan-ignore-line
         return $this;
     }
 
