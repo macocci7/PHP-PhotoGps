@@ -1,0 +1,8 @@
+# Configuration for Uri Class
+
+# Available Scheme
+availableScheme:
+- 'http:'
+- 'https:'
+# - 'file:'
+# - 'ftp:'

@@ -206,7 +206,7 @@ class PhotoGps
 
     /**
      * judges if any GPS Geo data exists or not.
-     * GPS Geo data means: longitude, latitude and altitude.
+     * GPS Geo data means: longitude and latitude.
      * Their tag names must be specified in 'conf/PhotoGps.neon'.
      * @return  bool
      */
