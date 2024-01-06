@@ -14,8 +14,10 @@ echo "version in composer.json: $VERSION"
 for tag in `git tag`
 do
     if [ $tag = $VERSION ]; then
-        echo "version $VERSION already exists in git tags."
+        # echo "version $VERSION already exists in git tags."
+        printf '\033[41mversion %s already exists in git tags.\033[m\n' $VERSION
         exit 1
     fi
 done
-echo "[OK.]"
+#echo "[OK.]"
+printf '\033[1;102m%s\033[m\n' ' [OK!] '

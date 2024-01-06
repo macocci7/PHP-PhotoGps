@@ -293,7 +293,7 @@ composer require macocci7/php-photo-gps
 ## Examples
 
 - [BasicUsage.php](example/BasicUsage.php) >> results in [BasicUsage.txt](example/BasicUsage.txt)
-- [GPStags.php](example/GPStags.php) >> results in [GPStags.txt](example/GPStags.txt)
+- [GPStags.php](example/GPStags.php) >> results in [GPStags.md](example/GPStags.md)
 - [List.php](example/List.md) >> results in [List.md](example/List.md)
 - [ConfigFormat.php](example/ConfigFormat.php) >> results in [ConfigFormat.txt](example/ConfigFormat.txt)
 
