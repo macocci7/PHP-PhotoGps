@@ -3,23 +3,25 @@
 require('../vendor/autoload.php');
 
 use Macocci7\PhpPhotoGps\PhotoGps;
-use Macocci7\PhpPhotoGps\Dir;
-use Macocci7\PhpPhotoGps\Arrow;
+use Macocci7\PhpPhotoGps\Helper\Dir;
+use Macocci7\PhpPhotoGps\Helper\Arrow;
 
 $pg = new PhotoGps();
 $images = [
-    'Remote File with GPS' => 'https://macocci7.net/photo/remote_fake_gps_001.jpg',
+    'File with Fake GPS via HTTP' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg',
+    'File with Fake GPS via HTTPS' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg',
     'Local File with GPS' => 'img/with_gps.jpg',
     'No GPS tags' => 'img/without_gps.jpg',
 ];
 $arrowSize = 30;
 
 Dir::clear('./download/');
-echo "# GPS Tags\n\n";
+echo "# Exif: GPS Tags\n\n";
 
 // Loop for images
 foreach ($images as $title => $image) {
     echo "## $title\n\n";
+    // Start Table
     echo "<table>\n";
     $style = 'display: flex; align-items: top;';
     echo sprintf("<tr style='%s'>\n<td>\n", $style);
@@ -99,20 +101,22 @@ foreach ($images as $title => $image) {
 
     echo "</td>\n<td>\n\n";
 
-    // Show GPS Data
-    if (!$pg->hasGps()) {
+    // Check If GPS Data Exists
+    if ($pg->hasGps()) {
+        // Show GPS Data
+        echo "|Tag|Value|\n";
+        echo "|:---|---:|\n";
+        foreach ($pg->gps() as $tag => $value) {
+            echo sprintf(
+                "|%s|%s|\n",
+                $tag,
+                is_array($value) ? implode('<br />', $value) : $value
+            );
+        }
+    } else {
         echo "No GPS data.\n\n";
-        continue;
-    }
-    echo "|Tag|Value|\n";
-    echo "|:---|---:|\n";
-    foreach ($pg->gps() as $tag => $value) {
-        echo sprintf(
-            "|%s|%s|\n",
-            $tag,
-            is_array($value) ? implode('<br />', $value) : $value
-        );
     }
 
+    // Close Table
     echo "</td>\n</tr>\n</table>\n\n";
 }

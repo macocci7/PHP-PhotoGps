@@ -1,6 +1,6 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
 use Nette\Neon\Neon;
 
@@ -14,7 +14,7 @@ class Config
     /**
      * @var mixed[] $conf
      */
-    private static array $conf = [];
+    private static mixed $conf = [];
 
     /**
      * loads config from a file
@@ -24,7 +24,7 @@ class Config
     {
         $class = debug_backtrace()[1]['class']; // @phpstan-ignore-line
         $cl = self::className($class);
-        $path = __DIR__ . '/../conf/' . $cl . '.neon';
+        $path = __DIR__ . '/../../conf/' . $cl . '.neon';
         self::$conf[$class] = Neon::decodeFile($path);
     }
 

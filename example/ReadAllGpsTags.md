@@ -1,11 +1,11 @@
-# GPS Tags
+# Exif: GPS Tags
 
-## Remote File with GPS
+## File with Fake GPS via HTTP
 
 <table>
 <tr style='display: flex; align-items: top;'>
 <td>
-<img src='https://macocci7.net/photo/remote_fake_gps_001.jpg' alt='Remote File with GPS' width='200'>
+<img src='http://macocci7.net/photo/gps/remote_fake_gps_001.jpg' alt='File with Fake GPS via HTTP' width='200'>
 
 |Attribute|Value|
 |:---|---:|
@@ -25,7 +25,7 @@
 |GPSLatitude|31/1<br />34/1<br />8083/1000|
 |GPSLongitudeRef|E|
 |GPSLongitude|35/1<br />30/1<br />5245/1000|
-|GPSAltitudeRef|1|
+|GPSAltitudeRef|3|
 |GPSAltitude|42200/100|
 |GPSTimeStamp|2/1<br />22/1<br />14/1|
 |GPSSpeedRef|N|
@@ -37,6 +37,47 @@
 |GPSDestBearingRef|M|
 |GPSDestBearing|83632/603|
 |GPSDateStamp|2018:03:31|
+</td>
+</tr>
+</table>
+
+## File with Fake GPS via HTTPS
+
+<table>
+<tr style='display: flex; align-items: top;'>
+<td>
+<img src='https://macocci7.net/photo/gps/remote_fake_gps_002.jpg' alt='File with Fake GPS via HTTPS' width='200'>
+
+|Attribute|Value|
+|:---|---:|
+|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
+|Speed|100.00mph|
+|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
+|Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow273.47.png' width=30 height=30 />T 273.47°</div>|
+|Datestamp|2015/06/07 (UTC)|
+|Timestamp|01:31:46 (UTC)|
+</td>
+<td>
+
+|Tag|Value|
+|:---|---:|
+|GPS_IFD_Pointer|148|
+|GPSLatitudeRef|S|
+|GPSLatitude|20/1<br />11/1<br />20898/1000|
+|GPSLongitudeRef|W|
+|GPSLongitude|67/1<br />35/1<br />15808/1000|
+|GPSAltitudeRef|0|
+|GPSAltitude|370000/100|
+|GPSTimeStamp|1/1<br />31/1<br />46/1|
+|GPSSpeedRef|M|
+|GPSSpeed|100/1|
+|GPSTrackRef|T|
+|GPSTrack|143885/536|
+|GPSImgDirectionRef|T|
+|GPSImgDirection|115074/413|
+|GPSDestBearingRef|T|
+|GPSDestBearing|188418/689|
+|GPSDateStamp|2015:06:07|
 </td>
 </tr>
 </table>
@@ -90,4 +131,8 @@
 <td>
 
 No GPS data.
+
+</td>
+</tr>
+</table>
 

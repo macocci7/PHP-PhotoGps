@@ -1,8 +1,8 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
-use Macocci7\PhpPhotoGps\Uri;
+use Macocci7\PhpPhotoGps\Helper\Uri;
 
 /**
  * Class for File Handling.
@@ -15,7 +15,9 @@ class File
      * downloads uri into a local file.
      * @param   string  $uri
      * @param   string  $savePath = ''
-     * @return  string  file path saved
+     * @return  string|null  file path saved
+     * @thrown  \Exception
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public static function download(string $uri, ?string $savePath = '')
     {
@@ -32,7 +34,7 @@ class File
         $path = sprintf("%s/%s.jpg", $dir, $date->format("YmdHisu"));
         $path = self::newPath($path);
         if (!file_put_contents($path, file_get_contents($uri))) {
-            return;
+            return null;
         }
         return $path;
     }
@@ -46,9 +48,9 @@ class File
     {
         $i = 0;
         $pathinfo = pathinfo($path);
-        $dir = $pathinfo['dirname'];
+        $dir  = $pathinfo['dirname']; // @phpstan-ignore-line
         $base = $pathinfo['filename'];
-        $ext = $pathinfo['extension'];
+        $ext  = $pathinfo['extension']; // @phpstan-ignore-line
         while (file_exists($path)) {
             $i++;
             $path = sprintf("%s/%s_%d.%s", $dir, $base, $i, $ext);

@@ -1,10 +1,10 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
 use Intervention\Image\ImageManagerStatic as Image;
-use Macocci7\PhpPhotoGps\Gps;
-use Macocci7\PhpPhotoGps\Exif;
+use Macocci7\PhpPhotoGps\Helper\Config;
+use Macocci7\PhpPhotoGps\Helper\Exif;
 
 /**
  * Class for Handling an Arrow Image
@@ -14,13 +14,17 @@ use Macocci7\PhpPhotoGps\Exif;
 class Arrow
 {
     /**
-     * @var string  $imageArrow
+     * @var \Intervention\Image\Image   $image
      */
-    private string $pathBaseArrow = __DIR__ . '/img/arrow_red_50x50.png';
     private $image;
 
+    /**
+     * constructor.
+     * @param   float   $degrees
+     */
     public function __construct(float $degrees)
     {
+        Config::load();
         // t = 360 - deg
         // | degree | direction |
         // |  ---   |    ---    |
@@ -30,7 +34,8 @@ class Arrow
         // |  270°  |   West    |
         // |  360°  |   North   |
         $degrees = Exif::simplifyDegrees($degrees);
-        $this->image = Image::make($this->pathBaseArrow);
+        $basePath = __DIR__ . '/' . Config::get('pathBaseArrow');
+        $this->image = Image::make($basePath);
         if ($degrees > 0) {
             $this->image->rotate(0 - $degrees);
         }
@@ -39,7 +44,7 @@ class Arrow
     /**
      * makes compass image rotated.
      * @param   float   $degree
-     * @return  Macocci7\PhpPhotoGps\Compass
+     * @return  \Macocci7\PhpPhotoGps\Helper\Arrow
      */
     public static function make(float $degree)
     {

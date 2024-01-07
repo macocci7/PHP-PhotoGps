@@ -3,22 +3,25 @@
 namespace Macocci7\PhpPhotoGps;
 
 use Intervention\Image\ImageManagerStatic as Image;
-use Macocci7\PhpPhotoGps\Uri;
-use Macocci7\PhpPhotoGps\Exif;
-use Macocci7\PhpPhotoGps\Gps;
+use Macocci7\PhpPhotoGps\Helper\Config;
+use Macocci7\PhpPhotoGps\Helper\Uri;
+use Macocci7\PhpPhotoGps\Helper\Exif;
+use Macocci7\PhpPhotoGps\Helper\Gps;
+use Macocci7\PhpPhotoGps\Helper\File;
 
 /**
  * Gets GPS data from a photo.
  * The library only for getting GPS information from EXIF data of a jpeg file.
  * @author  macocci7 <macocci7@yahoo.co.jp>
  * @license MIT
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class PhotoGps
 {
     /**
-     * @var string path to the photo
+     * @var string $path    path to the photo
      */
     private string $path;
 
@@ -28,22 +31,22 @@ class PhotoGps
     public array|null $gpsData;
 
     /**
-     * @var string[] GPS GEO tag names to retrieve
+     * @var string[] $geo   GPS GEO tag names to retrieve
      */
     private array $geo;
 
     /**
-     * @var string[] GPS Altitude tag names to retrieve
+     * @var string[] $altitude  GPS Altitude tag names to retrieve
      */
     private array $altitude;
 
     /**
-     * @var string language: English as default
+     * @var string $lang    language: English as default
      */
     private string $lang;
 
     /**
-     * @var mixed[] coord units in each language
+     * @var mixed[]    $units  coord units in each language
      */
     private array $units;
 
@@ -58,7 +61,6 @@ class PhotoGps
         if (!is_null($path)) {
             $this->load($path);
         }
-        Gps::init();
     }
 
     /**
@@ -70,7 +72,7 @@ class PhotoGps
         Config::load();
         $props = ['geo', 'altitude', 'lang', 'units', ];
         foreach ($props as $prop) {
-            $this->{$prop} = Config::get($prop);// @phpstan-ignore-line
+            $this->{$prop} = Config::get($prop); // @phpstan-ignore-line
         }
     }
 
@@ -168,7 +170,7 @@ class PhotoGps
 
     /**
      * returns EXIF data of the file.
-     * @return  mixed[]
+     * @return  mixed[]|null
      * @thrown  \Exception
      */
     public function exif()
@@ -183,7 +185,7 @@ class PhotoGps
             }
             $path = File::download($this->path);
             if (!$path) {
-                return;
+                return null;
             }
         }
         return Image::make($path)->exif(); // @phpstan-ignore-line
@@ -191,7 +193,7 @@ class PhotoGps
 
     /**
      * returns GPS data in the EXIF data.
-     * @return mixed[]
+     * @return mixed[]|null
      */
     public function gps()
     {
@@ -200,8 +202,7 @@ class PhotoGps
                 return $this->gpsData;
             }
         }
-        $gps = [];
-        return Gps::filter($this->exif());
+        return Gps::filter($this->exif());  // @phpstan-ignore-line
     }
 
     /**
@@ -319,7 +320,7 @@ class PhotoGps
         ) {
             return null;
         }
-        $units = $this->units[$this->lang()];
+        $units = $this->units[$this->lang()];   // @phpstan-ignore-line
         $tags = [
             '{degrees:v}' => (int) Exif::rational2Float($coord[0]),
             '{minutes:v}' => (int) Exif::rational2Float($coord[1]),
@@ -383,7 +384,7 @@ class PhotoGps
             return null;
         }
         return $this->sexagesimal(
-            $this->gpsData['GPSLatitude'],
+            $this->gpsData['GPSLatitude'], // @phpstan-ignore-line
             $this->gpsData['GPSLatitudeRef']
         );
     }
@@ -405,7 +406,7 @@ class PhotoGps
             return null;
         }
         return $this->decimal(
-            $this->gpsData['GPSLatitude'],
+            $this->gpsData['GPSLatitude'], // @phpstan-ignore-line
             $this->gpsData['GPSLatitudeRef']
         );
     }
@@ -427,7 +428,7 @@ class PhotoGps
             return null;
         }
         return $this->sexagesimal(
-            $this->gpsData['GPSLongitude'],
+            $this->gpsData['GPSLongitude'], // @phpstan-ignore-line
             $this->gpsData['GPSLongitudeRef']
         );
     }
@@ -449,14 +450,14 @@ class PhotoGps
             return null;
         }
         return $this->decimal(
-            $this->gpsData['GPSLongitude'],
+            $this->gpsData['GPSLongitude'], // @phpstan-ignore-line
             $this->gpsData['GPSLongitudeRef']
         );
     }
 
     /**
      * returns altitude
-     * @return  int|null
+     * @return  float|null
      */
     public function altitude()
     {
@@ -467,14 +468,17 @@ class PhotoGps
         }
         $ref = $this->gpsData[$keyR] ?? null;
         $val = $this->gpsData[$keyV];
-        if (!Exif::isRational($val)) {
+        if (!Exif::isRational($val)) { // @phpstan-ignore-line
             return null;
         }
         $ref = (int) $ref;
-        $sign = (0 === $ref || 2 === $ref) ? 1 : -1;
-        return $sign * Exif::rational2Float($val);
+        return Exif::rational2Float($val); // @phpstan-ignore-line
     }
 
+    /**
+     * returns formatted altitude.
+     * @return  string|null
+     */
     public function altitudeS()
     {
         $altitude = $this->altitude();
@@ -482,19 +486,21 @@ class PhotoGps
             return null;
         }
         $ref = $this->gpsData['GPSAltitudeRef'] ?? null;
+        // @phpstan-ignore-next-line
         $pre = $this->units[$this->lang()]['altitudeRef'][$ref ?? 'default'] ?? null;
+        // @phpstan-ignore-next-line
         $unit = $this->units[$this->lang()]['altitude'];
         return sprintf(
             "%s %.2f %s",
-            $pre,
+            $pre, // @phpstan-ignore-line
             $altitude,
-            $unit
+            $unit // @phpstan-ignore-line
         );
     }
 
     /**
      * returns direction as degree.
-     * @return  float|null
+     * @return  int|float|null
      */
     public function direction()
     {
@@ -502,8 +508,8 @@ class PhotoGps
         if (!isset($this->gpsData[$key])) {
             return null;
         }
-        $degrees = Exif::rational2Float($this->gpsData[$key]);
-        return Exif::simplifyDegrees($degrees);
+        $degrees = Exif::rational2Float($this->gpsData[$key]); // @phpstan-ignore-line
+        return Exif::simplifyDegrees($degrees); // @phpstan-ignore-line
     }
 
     /**
@@ -521,7 +527,7 @@ class PhotoGps
         if (isset($this->gpsData[$key])) {
             $ref = $this->gpsData[$key];
         }
-        return sprintf("%s %.2f°", $ref, $degrees);
+        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
     }
 
     /**
@@ -534,7 +540,7 @@ class PhotoGps
         if (!isset($this->gpsData[$key])) {
             return null;
         }
-        return Exif::rational2Float($this->gpsData[$key]);
+        return Exif::rational2Float($this->gpsData[$key]); // @phpstan-ignore-line
     }
 
     /**
@@ -549,13 +555,13 @@ class PhotoGps
         }
         $key = 'GPSSpeedRef';
         $ref = $this->gpsData[$key] ?? 'default';
-        $unit = $this->units[$this->lang()]['speed'][$ref];
-        return sprintf("%.2f%s", $speed, $unit);
+        $unit = $this->units[$this->lang()]['speed'][$ref]; // @phpstan-ignore-line
+        return sprintf("%.2f%s", $speed, $unit); // @phpstan-ignore-line
     }
 
     /**
      * returns destination bearing as degree.
-     * @return  float|null
+     * @return  int|float|null
      */
     public function destBearing()
     {
@@ -563,8 +569,8 @@ class PhotoGps
         if (!isset($this->gpsData[$key])) {
             return null;
         }
-        $degrees = Exif::rational2Float($this->gpsData[$key]);
-        return Exif::simplifyDegrees($degrees);
+        $degrees = Exif::rational2Float($this->gpsData[$key]); // @phpstan-ignore-line
+        return Exif::simplifyDegrees($degrees); // @phpstan-ignore-line
     }
 
     /**
@@ -579,12 +585,12 @@ class PhotoGps
         }
         $key = 'GPSDestBearingRef';
         $ref = $this->gpsData[$key] ?? null;
-        return sprintf("%s %.2f°", $ref, $degrees);
+        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
     }
 
     /**
      * returns track as degree.
-     * @return  float|null
+     * @return  int|float|null
      */
     public function track()
     {
@@ -592,8 +598,8 @@ class PhotoGps
         if (!isset($this->gpsData[$key])) {
             return null;
         }
-        $degrees = Exif::rational2Float($this->gpsData[$key]);
-        return Exif::simplifyDegrees($degrees);
+        $degrees = Exif::rational2Float($this->gpsData[$key]); // @phpstan-ignore-line
+        return Exif::simplifyDegrees($degrees); // @phpstan-ignore-line
     }
 
     /**
@@ -608,19 +614,27 @@ class PhotoGps
         }
         $key = 'GPSTrackRef';
         $ref = $this->gpsData[$key] ?? null;
-        return sprintf("%s %.2f°", $ref, $degrees);
+        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
     }
 
+    /**
+     * returns converted date stamp
+     * @return  string|null
+     */
     public function datestamp()
     {
         $key = 'GPSDateStamp';
         if (!isset($this->gpsData[$key])) {
             return null;
         }
-        $items = explode(':', $this->gpsData[$key]);
+        $items = explode(':', $this->gpsData[$key]); // @phpstan-ignore-line
         return implode('/', $items);
     }
 
+    /**
+     * returns converted time stamp
+     * @return  string|null
+     */
     public function timestamp()
     {
         $key = 'GPSTimeStamp';
@@ -631,8 +645,8 @@ class PhotoGps
         return implode(
             ':',
             array_map(
-                fn ($v) => sprintf("%02d", Exif::rational2Float($v)),
-                $timestamp
+                fn ($v) => sprintf("%02d", Exif::rational2Float($v)), // @phpstan-ignore-line
+                $timestamp // @phpstan-ignore-line
             )
         );
     }

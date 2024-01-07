@@ -1,6 +1,6 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
 /**
  * Class for Exif Data Handling
@@ -13,7 +13,7 @@ class Exif
      * converts BYTE data into human-readable array.
      * @param   string  $byte
      * @param   int     $count
-     * @return  string[]
+     * @return  string[]|false
      */
     public static function byte2array(string $byte, int $count)
     {
@@ -25,14 +25,15 @@ class Exif
      * @param   string  $byte
      * @param   int     $count
      * @param   string  $separator = ''
-     * @return  string
+     * @return  string|false
      */
     public static function byte2ascii(
         string $byte,
         int $count,
-        ?string $separator = ''
+        string $separator = ''
     ) {
-        return implode($separator, self::byte2array($byte, $count));
+        $a = self::byte2array($byte, $count);
+        return false === $a ? $a : implode($separator, $a);
     }
 
     /**
@@ -49,7 +50,7 @@ class Exif
         if (0 === (int) $values[1]) {
             return null;
         }
-        return (int) $values[0] / (int) $values[1];
+        return (float) ((int) $values[0] / (int) $values[1]);
     }
 
     /**
@@ -59,7 +60,7 @@ class Exif
      */
     public static function isRational(string $string)
     {
-        return preg_match("/^\d+\/\d+$/", $string);
+        return preg_match("/^\d+\/\d+$/", $string) > 0;
     }
 
     /**

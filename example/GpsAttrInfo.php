@@ -2,9 +2,8 @@
 
 require_once('../vendor/autoload.php');
 
-use Macocci7\PhpPhotoGps\Gps;
+use Macocci7\PhpPhotoGps\Helper\Gps;
 
-Gps::init();
 echo "# Exif: GPS Attribute Information\n\n";
 echo "|Field Name|Type|Count|Values|Default|Separator|\n";
 echo "|:---|:---|---:|:---|:---:|:---:|\n";

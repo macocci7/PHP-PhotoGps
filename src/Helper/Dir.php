@@ -1,8 +1,8 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
-use Macocci7\PhpPhotoGps\File;
+use Macocci7\PhpPhotoGps\Helper\File;
 
 /**
  * class for dir operation
@@ -14,7 +14,7 @@ class Dir
     /**
      * returns dir entries.
      * @param   string  $dir
-     * @return  string[];
+     * @return  array<int, string>|false
      */
     public static function glob(string $dir)
     {
@@ -24,10 +24,15 @@ class Dir
     /**
      * clears dir entries.
      * @param   string  $dir
+     * @return  void
      */
     public static function clear(string $dir)
     {
-        foreach (self::glob($dir) as $file) {
+        $files = self::glob($dir);
+        if (!$files) {
+            return;
+        }
+        foreach ($files as $file) {
             File::remove($file);
         }
     }

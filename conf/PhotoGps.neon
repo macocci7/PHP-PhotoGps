@@ -18,7 +18,7 @@ lang: eng
 # Units for each language
 units:
 
-    # English
+    # Language: English
     eng:
         degrees: '°'
         minutes: "'"
@@ -31,10 +31,10 @@ units:
         format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
         altitude: m
         altitudeRef:
-            0: 'Altitude (above Ellipsoidal Surface)'
-            1: 'Altitude (above Ellipsoidal Surface)'
-            2: 'Altitude (above Sea Level)'
-            3: 'Altitude (above Sea Level)'
+            0: 'Altitude (Above Ellipsoidal Surface)'
+            1: 'Altitude (Below Ellipsoidal Surface)'
+            2: 'Altitude (Above Sea Level)'
+            3: 'Altitude (Below Sea Level)'
             default: 'Altitude'
         speed:
             K: km/h
@@ -42,7 +42,7 @@ units:
             N: kt
             default: km/h
 
-    # Japanese
+    # Language: Japanese
     ja:
         degrees: '度'
         minutes: '分'
@@ -55,10 +55,10 @@ units:
         format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
         altitude: 'メートル'
         altitudeRef:
-            0: '高度（楕円体高）'
-            1: '高度（楕円体高）'
-            2: '高度（海抜）'
-            3: '高度（海抜）'
+            0: '高度（正値楕円体高）'
+            1: '高度（負値楕円体高）'
+            2: '高度（正値海抜）'
+            3: '高度（負値海抜）'
             default: '高度'
         speed:
             K: 'キロメートル／時'
