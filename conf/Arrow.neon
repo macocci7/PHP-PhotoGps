@@ -1,0 +1,5 @@
+# Configuration for Arrow Class
+
+# Path of arrow base image file
+# Relative Path from 'src/Helper/'
+pathBaseArrow: '../../img/arrow_red_50x50.png'

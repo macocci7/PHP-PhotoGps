@@ -1,6 +1,6 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps;
+namespace Macocci7\PhpPhotoGps\Helper;
 
 use Nette\Neon\Neon;
 
@@ -14,7 +14,7 @@ class Config
     /**
      * @var mixed[] $conf
      */
-    private static array $conf = [];
+    private static mixed $conf = [];
 
     /**
      * loads config from a file
@@ -22,10 +22,19 @@ class Config
      */
     public static function load()
     {
-        $class = debug_backtrace()[1]['class']; // @phpstan-ignore-line
+        $class = self::class();
         $cl = self::className($class);
-        $path = __DIR__ . '/../conf/' . $cl . '.neon';
+        $path = __DIR__ . '/../../conf/' . $cl . '.neon';
         self::$conf[$class] = Neon::decodeFile($path);
+    }
+
+    /**
+     * returns the fully qualified class name of the caller
+     * @return  string
+     */
+    public static function class()
+    {
+        return debug_backtrace()[2]['class']; // @phpstan-ignore-line
     }
 
     /**
@@ -46,19 +55,19 @@ class Config
      * returns config data
      * @param   string  $key = null
      * @return  mixed
-     * @thrown  \Exception
      */
     public static function get(?string $key = null)
     {
-        $class = debug_backtrace()[1]['class']; // @phpstan-ignore-line
+        // get fully qualified class name of the caller
+        $class = self::class();
         if (!self::$conf[$class]) {
-            throw new \Exception("Config of $class not found.");
+            return null;
         }
         if (is_null($key)) {
             return self::$conf[$class];
         }
         if (!self::$conf[$class][$key]) { // @phpstan-ignore-line
-            throw new \Exception("$key not found.");
+            return null;
         }
         return self::$conf[$class][$key];
     }

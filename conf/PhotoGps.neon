@@ -1,13 +1,27 @@
-keys:
+# Configuration for PhotoGps Class
+
+# Geo Tags
+geo:
 - GPSLatitudeRef    # 緯度基準（北緯 or 南緯）
 - GPSLatitude       # 緯度数値（配列; 0:度/ 1:分/ 2:秒）
 - GPSLongitudeRef   # 経度基準（東経 or 西経）
 - GPSLongitude      # 経度数値（配列; 0:度/ 1:分/ 2:秒）
+
+# Attribute Tags
+altitude:
+# - GPSAltitudeRef    # 高度基準（BYTE; 0:+楕円体高/ 1:-楕円体高/ 2:+海抜/ 3:-海抜）
 - GPSAltitude       # 高度数値（m）
 
+# Default Language
+defaultLang: eng
+
+# Initial Language
 lang: eng
 
-coordUnits:
+# Units for each language
+units:
+
+    # Language: English
     eng:
         degrees: '°'
         minutes: "'"
@@ -18,6 +32,20 @@ coordUnits:
             E: E
             W: W
         format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
+        altitude: m
+        altitudeRef:
+            0: '(Above Ellipsoidal Surface)'
+            1: '(Below Ellipsoidal Surface)'
+            2: '(Above Sea Level)'
+            3: '(Below Sea Level)'
+            default: 'Altitude'
+        speed:
+            K: km/h
+            M: mph
+            N: kt
+            default: km/h
+
+    # Language: Japanese
     ja:
         degrees: '度'
         minutes: '分'
@@ -28,3 +56,15 @@ coordUnits:
             E: '東経'
             W: '西経'
         format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
+        altitude: 'メートル'
+        altitudeRef:
+            0: '（正値楕円体高）'
+            1: '（負値楕円体高）'
+            2: '（正値海抜）'
+            3: '（負値海抜）'
+            default: '高度'
+        speed:
+            K: 'キロメートル／時'
+            M: 'マイル／時'
+            N: 'ノット'
+            default: 'キロメートル／時'

@@ -9,17 +9,19 @@ $pg = new PhotoGps();
 $images = glob('img/*.{jp*g,JP*G}', GLOB_BRACE);
 sort($images);
 
-echo "# Photo GPS: List\n\n";
+echo "# Photo List: Geo Data\n\n";
 echo "<table>\n";
-echo "<tr><th>Image</th><th>GPS</th><th>Coordinate</th></tr>\n";
+echo "<tr><th>Image</th><th>Geo</th><th>Coordinate</th></tr>\n";
 foreach ($images as $file) {
     $link = sprintf("<a href='%s'><img src='%s' width=100 /></a>", $file, $file);
     $pg->load($file);
     $hasGps = $pg->hasGps();
+    $hasGeo = $pg->hasGeo();
+    $hasAltitude = $pg->hasAltitude();
     echo sprintf("<td>%s</td>", $link);
     echo sprintf("<td>%s</td>", $hasGps ? 'o' : 'x');
     echo "<td>\n";
-    if ($hasGps) {
+    if ($hasGeo) {
         echo sprintf(
             "<a href='%s'>%s, %s</a><br />\n",
             sprintf(
@@ -35,12 +37,19 @@ foreach ($images as $file) {
         foreach ($pg->langs() as $lang) {
             echo sprintf(
                 "%s, %s<br />\n",
-                $hasGps ? $pg->lang($lang)->latitudeS() : '---',
-                $hasGps ? $pg->lang($lang)->longitudeS() : '---'
+                $pg->lang($lang)->latitudeS(),
+                $pg->lang($lang)->longitudeS()
             );
         }
     } else {
-        echo "---\n";
+        echo "No Geo Data\n\n";
+    }
+    if ($hasAltitude) {
+        foreach ($pg->langs() as $lang) {
+            echo sprintf("%s\n\n", $pg->lang($lang)->altitudeS());
+        }
+    } else {
+        echo "No Altitude Data\n\n";
     }
     echo "</td></tr>\n";
 }
