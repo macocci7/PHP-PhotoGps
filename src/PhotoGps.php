@@ -31,22 +31,12 @@ class PhotoGps
     public array|null $gpsData;
 
     /**
-     * @var string[] $geo   GPS GEO tag names to retrieve
-     */
-    private array $geo;
-
-    /**
-     * @var string[] $altitude  GPS Altitude tag names to retrieve
-     */
-    private array $altitude;
-
-    /**
-     * @var string $lang    language: English as default
+     * @var string  $lang
      */
     private string $lang;
 
     /**
-     * @var mixed[]    $units  coord units in each language
+     * @var mixed[]     $units
      */
     private array $units;
 
@@ -70,33 +60,10 @@ class PhotoGps
     private function loadConf()
     {
         Config::load();
-        $props = ['geo', 'altitude', 'lang', 'units', ];
+        $props = ['lang', 'units', ];
         foreach ($props as $prop) {
             $this->{$prop} = Config::get($prop); // @phpstan-ignore-line
         }
-    }
-
-    /**
-     * returns config.
-     * @param   string  $key = null
-     * @return  mixed
-     */
-    public function getConf(?string $key = null)
-    {
-        return Config::get($key);
-    }
-
-    /**
-     * returns properties.
-     * @param   string  $key
-     * @return  mixed
-     */
-    public function getProp(string $key)
-    {
-        if (!$this->{$key}) {
-            throw new \Exception("prop $key note found.");
-        }
-        return $this->{$key};
     }
 
     /**
@@ -163,8 +130,8 @@ class PhotoGps
      */
     public function resetFormat()
     {
-        $units = Config::get('units');
-        $this->format($units[$this->lang()]['format']); // @phpstan-ignore-line
+        // @phpstan-ignore-next-line
+        $this->format(Config::get('units')[$this->lang()]['format']);
         return $this;
     }
 
@@ -213,7 +180,7 @@ class PhotoGps
      */
     public function hasGeo()
     {
-        foreach ($this->geo as $key) {
+        foreach (Config::get('geo') as $key) { // @phpstan-ignore-line
             if (isset($this->gpsData[$key])) {
                 return true;
             }
@@ -239,7 +206,7 @@ class PhotoGps
      */
     public function hasAltitude()
     {
-        foreach ($this->altitude as $key) {
+        foreach (Config::get('altitude') as $key) { // @phpstan-ignore-line
             if (!isset($this->gpsData[$key])) {
                 return false;
             }
@@ -487,9 +454,9 @@ class PhotoGps
         }
         $ref = $this->gpsData['GPSAltitudeRef'] ?? null;
         // @phpstan-ignore-next-line
-        $pre = $this->units[$this->lang()]['altitudeRef'][$ref ?? 'default'] ?? null;
+        $pre = Config::get('units')[$this->lang()]['altitudeRef'][$ref ?? 'default'] ?? null;
         // @phpstan-ignore-next-line
-        $unit = $this->units[$this->lang()]['altitude'];
+        $unit = Config::get('units')[$this->lang()]['altitude'];
         return sprintf(
             "%s %.2f %s",
             $pre, // @phpstan-ignore-line
@@ -555,7 +522,7 @@ class PhotoGps
         }
         $key = 'GPSSpeedRef';
         $ref = $this->gpsData[$key] ?? 'default';
-        $unit = $this->units[$this->lang()]['speed'][$ref]; // @phpstan-ignore-line
+        $unit = Config::get('units')[$this->lang()]['speed'][$ref]; // @phpstan-ignore-line
         return sprintf("%.2f%s", $speed, $unit); // @phpstan-ignore-line
     }
 

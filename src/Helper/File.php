@@ -19,7 +19,7 @@ class File
      * @thrown  \Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public static function download(string $uri, ?string $savePath = '')
+    public static function download(string $uri, string $savePath = '')
     {
         $dir = 'download';
         if (!file_exists($dir)) {
@@ -31,12 +31,15 @@ class File
             throw new \Exception("$dir is not a directory.");
         }
         $date = new \DateTimeImmutable();
-        $path = sprintf("%s/%s.jpg", $dir, $date->format("YmdHisu"));
-        $path = self::newPath($path);
-        if (!file_put_contents($path, file_get_contents($uri))) {
+        if (0 === strlen($savePath)) {
+            $savePath = sprintf("%s/%s.jpg", $dir, $date->format("YmdHisu"));
+            $savePath = self::newPath($savePath);
+        }
+        // @phpstan-ignore-next-line
+        if (!self::save($savePath, file_get_contents($uri))) {
             return null;
         }
-        return $path;
+        return $savePath;
     }
 
     /**

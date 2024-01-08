@@ -1,6 +1,6 @@
 # PHP-PhotoGps
 
-## Features
+## 1. Features
 
 `PHP-PhotoGps` is a simple library to get GPS data from a photo.
 
@@ -15,23 +15,25 @@ converts speeds, date stamps and time stamps into human-readable strings.
 
 Remote files (via http: or https:) are supported.
 
-## Contents
+## 2. Contents
 
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Usage: Basic](#usage-basic)
-  - [Usage: Format Configuration](#usage-format-configuration)
-  - [Usage: Photo List with Checking Geo Data](#usage-photo-list-with-checking-geo-data)
-  - [Usage: Read All GPS Tags](#usage-read-all-gps-tags)
-  - [Usage: GPS Attribute Information](#usage-gps-attribute-information)
-- [Examples](#examples)
-- [LICENSE](#license)
+- [1. Features](#1-features)
+- 2\. Contents
+- [3. Requirements](#3-requirements)
+- [4. Installation](#4-installation)
+- [5. Usage](#5-usage)
+  - [5.1. Usage: Basic](#51-usage-basic)
+  - [5.2. Usage: Format Configuration](#52-usage-format-configuration)
+  - [5.3. Usage: Photo List with Checking Geo Data](#53-usage-photo-list-with-checking-geo-data)
+  - [5.4. Usage: Read All GPS Tags](#54-usage-read-all-gps-tags)
+  - [5.5. Usage: GPS Attribute Information](#55-usage-gps-attribute-information)
+- [6. Examples](#6-examples)
+- [7. LICENSE](#7-license)
+- [8. Changelog](#8-changelog)
 
-## Requirements
+## 3. Requirements
 
-- PHP 8.0.0 or later
+- PHP 8.0.30 or later
 - GD library enabled
 
   check with commands:
@@ -43,17 +45,23 @@ Remote files (via http: or https:) are supported.
 
 - Composer
 
-## Installation
+## 4. Installation
 
 ```bash
 composer require macocci7/php-photo-gps
 ```
 
-## Usage
+## 5. Usage
 
-### Usage: Basic
+### 5.1. Usage: Basic
 
-- PHP
+- [5.1.1. PHP](#511-php)
+- [5.1.2. Output](#512-output)
+- [5.1.3. Details](#513-details)
+
+#### 5.1.1. PHP
+
+- [BasicUsage.php](example/BasicUsage.php)
 
     ```php
     <?php
@@ -75,14 +83,17 @@ composer require macocci7/php-photo-gps
     echo "Longitude: " . $pg->lang('eng')->longitudeS() . "\n";
     echo "経度: " . $pg->lang('ja')->longitudeS() . "\n";
 
-    // Altitude
-    echo "Altitude: " . $pg->altitude() . "\n";
+    // Altitude as strings
+    echo "Altitude: " . $pg->lang('eng')->altitudeS() . "\n";
+    echo "高度: " . $pg->lang('ja')->altitudeS() . "\n";
 
     // Coord in decimal format ('S' and 'W' results in negative value.)
     echo "Coord: " . $pg->latitudeD() . ", " . $pg->longitudeD() . "\n";
     ```
 
-- OUTPUT
+#### 5.1.2. Output
+
+- [BasicUsage.txt](example/BasicUsage.txt)
 
     ```
     [img/with_gps.jpg]--------------------
@@ -90,37 +101,45 @@ composer require macocci7/php-photo-gps
     緯度: 北緯37度3分26.2秒
     Longitude: 140°53'32.8"E
     経度: 東経140度53分32.8秒
-    Altitude: 13
+    Altitude: (Above Ellipsoidal Surface) 13.00 m
+    高度: （正値楕円体高） 13.00 メートル
     Coord: 37.057274166667, 140.89244166667
     ```
 
-- Details:
+#### 5.1.3. Details
 
-    - Import autoloader: `require_once('../vendor/autoload.php')`
-    - `use` declaration: `use Macocci7\PhpPhotoGps\PhotoGps;`
-    - Instantiation: `new PhotoGps()` or `new PhotoGps($path)`
-    - Language: `eng` as default.
-        - Get Current: `lang()`
-        - Set as English: `lang('eng')`
-        - Set as Japanese: `lang('ja')`
+- Import autoloader: `require_once('../vendor/autoload.php')`
+- `use` declaration: `use Macocci7\PhpPhotoGps\PhotoGps;`
+- Instantiation: `new PhotoGps()` or `new PhotoGps($path)`
+    - **Note**: If HTTP or HTTPS url is specified as `$path`, `download` directory will be created in current directory, and the image will be downloaded in it.
+- Language: `eng` as default.
+    - Get Current: `lang()`
+    - Set as English: `lang('eng')`
+    - Set as Japanese: `lang('ja')`
 
-        Language Names are defined in `config/PhotoGps.neon`.
+    Language Names are defined in `config/PhotoGps.neon`.
 
-    - Latitude:
-        - Decimal: `latitudeD()`
-        - Sexagesimal: `latitudeS()`
-    - Longitude:
-        - Decimal: `longitudeD()`
-        - Sesagesimal: `longitudeS()`
-    - Altitude:
-        - Decimal: `altitude()`
-        - Strings with prefix & unit: `altitudeS()`
+- Latitude:
+    - Decimal: `latitudeD()`
+    - Sexagesimal: `latitudeS()`
+- Longitude:
+    - Decimal: `longitudeD()`
+    - Sesagesimal: `longitudeS()`
+- Altitude:
+    - Decimal: `altitude()`
+    - Strings with prefix & unit: `altitudeS()`
     
-### Usage: Format Configuration
+### 5.2. Usage: Format Configuration
 
 only for `latitudeS()` and `longitudeS()`.
 
-- PHP:
+- [5.2.1. PHP](#521-php)
+- [5.2.2. Output](#522-output)
+- [5.2.3. Details](#523-details)
+
+#### 5.2.1. PHP
+
+- [ConfigFormat.php](example/ConfigFormat.php)
 
     ```php
     <?php
@@ -198,7 +217,9 @@ only for `latitudeS()` and `longitudeS()`.
     echo "経度: " . $pg->lang('ja')->longitudeS() . "\n\n";
     ```
 
-- Result:
+#### 5.2.2. Output
+
+- [ConfigFormat.txt](example/ConfigFormat.txt)
 
     ```
     [img/with_gps.jpg]--------------------
@@ -238,30 +259,36 @@ only for `latitudeS()` and `longitudeS()`.
     経度: 東経140度53分32.8秒
     ```
 
-- Details:
+#### 5.2.3. Details
 
-    Default format is defined in `conf/PhotoGps.neon` in each language.
-    - Get Current: `format()`
-    - Set Format: `format($format)`
-    - Format-Tags:
+Default format is defined in `conf/PhotoGps.neon` in each language.
+- Get Current: `format()`
+- Set Format: `format($format)`
+- Format-Tags:
 
-        |Item|Tag|`eng`|`ja`|
-        |:---|:---|---|---|
-        |Ref|{ref:u}|N|北緯|
-        |Degrees Value|{degrees:v}|12|12|
-        |Degrees Unit|{degrees:u}|°|度|
-        |Minutes Value|{minutes:v}|34|34|
-        |Minutes Unit|{minutes:u}|'|分|
-        |Seconds Value|{seconds:v}|56|56|
-        |Seconds Unit|{seconds:u}|"|秒|
+    |Item|Tag|`eng`|`ja`|
+    |:---|:---|---|---|
+    |Ref|{ref:u}|N|北緯|
+    |Degrees Value|{degrees:v}|12|12|
+    |Degrees Unit|{degrees:u}|°|度|
+    |Minutes Value|{minutes:v}|34|34|
+    |Minutes Unit|{minutes:u}|'|分|
+    |Seconds Value|{seconds:v}|56|56|
+    |Seconds Unit|{seconds:u}|"|秒|
 
-### Usage: Photo List with Checking Geo Data
+### 5.3. Usage: Photo List with Checking Geo Data
 
 Geo Data means latitude and longitude here.
 
 The code below creates a list of photos in the dir `img/`.
 
-- PHP:
+- [5.3.1. PHP](#531-php)
+- [5.3.2. Result](#532-result)
+- [5.3.3. Details](#533-details)
+
+#### 5.3.1. PHP
+
+- [CheckGeoData.php](example/CheckGeoData.php)
 
     ```php
     <?php
@@ -322,7 +349,9 @@ The code below creates a list of photos in the dir `img/`.
     echo "</table>\n";
     ```
 
-- Result:
+#### 5.3.2. Result
+
+- [CheckGeoData.md](example/CheckGeoData.md)
 
     # Photo List: Geo Data
 
@@ -332,45 +361,45 @@ The code below creates a list of photos in the dir `img/`.
     <a href='https://www.google.com/maps/place/31%C2%B031%2759.7%22N+35%C2%B028%2745.3%22E/@31.5332455,35.4792375,17z/?authuser=0&entry=ttu'>31.53324552730697, 35.47923749904281</a><br />
     31°31'59.7"N, 35°28'45.3"E<br />
     北緯31度31分59.7秒, 東経35度28分45.3秒<br />
-    Altitude (Below Sea Level) 422.00 m
+    (Below Sea Level) 422.00 m
 
-    高度（負値海抜） 422.00 メートル
+    （負値海抜） 422.00 メートル
 
     </td></tr>
     <td><a href='example/img/fake_gps_004.jpg'><img src='example/img/fake_gps_004.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/20%C2%B011%2720.9%22S+67%C2%B035%2715.8%22W/@-20.1891385,-67.5877247,17z/?authuser=0&entry=ttu'>-20.18913849132269, -67.58772465286874</a><br />
     20°11'20.9"S, 67°35'15.8"W<br />
     南緯20度11分20.9秒, 西経67度35分15.8秒<br />
-    Altitude (Above Sea Level) 3700.00 m
+    (Above Sea Level) 3700.00 m
 
-    高度（正値海抜） 3700.00 メートル
+    （正値海抜） 3700.00 メートル
 
     </td></tr>
     <td><a href='example/img/miracle_north_intersection.jpg'><img src='example/img/miracle_north_intersection.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/35%C2%B052%2720.5%22N+139%C2%B047%270.8%22E/@35.8723586,139.7835639,17z/?authuser=0&entry=ttu'>35.87235861111111, 139.78356388888889</a><br />
     35°52'20.5"N, 139°47'0.8"E<br />
     北緯35度52分20.5秒, 東経139度47分0.8秒<br />
-    Altitude (Above Ellipsoidal Surface) 3.70 m
+    (Above Ellipsoidal Surface) 3.70 m
 
-    高度（正値楕円体高） 3.70 メートル
+    （正値楕円体高） 3.70 メートル
 
     </td></tr>
     <td><a href='example/img/sendai_snowman01.JPEG'><img src='example/img/sendai_snowman01.JPEG' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/38%C2%B015%2749.9%22N+140%C2%B052%2715.1%22E/@38.2638617,140.8708508,17z/?authuser=0&entry=ttu'>38.26386166666666, 140.87085083333335</a><br />
     38°15'49.9"N, 140°52'15.1"E<br />
     北緯38度15分49.9秒, 東経140度52分15.1秒<br />
-    Altitude (Above Ellipsoidal Surface) 42.00 m
+    (Above Ellipsoidal Surface) 42.00 m
 
-    高度（正値楕円体高） 42.00 メートル
+    （正値楕円体高） 42.00 メートル
 
     </td></tr>
     <td><a href='example/img/with_gps.jpg'><img src='example/img/with_gps.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/37%C2%B03%2726.2%22N+140%C2%B053%2732.8%22E/@37.0572742,140.8924417,17z/?authuser=0&entry=ttu'>37.05727416666667, 140.89244166666666</a><br />
     37°3'26.2"N, 140°53'32.8"E<br />
     北緯37度3分26.2秒, 東経140度53分32.8秒<br />
-    Altitude (Above Ellipsoidal Surface) 13.00 m
+    (Above Ellipsoidal Surface) 13.00 m
 
-    高度（正値楕円体高） 13.00 メートル
+    （正値楕円体高） 13.00 メートル
 
     </td></tr>
     <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
@@ -381,17 +410,24 @@ The code below creates a list of photos in the dir `img/`.
     </td></tr>
     </table>
 
-- Details:
-    - Load GPS Data from a photo: `load($path)`
-    - Check If GPS Data Exists: `hasGps()`
-    - Check If Geo Data Exists: `hasGeo()`
-    - Check If Altitude Exists: `hasAltitude()`
+#### 5.3.3. Details
 
-### Usage: Read All GPS Tags
+- Load GPS Data from a photo: `load($path)`
+- Check If GPS Data Exists: `hasGps()`
+- Check If Geo Data Exists: `hasGeo()`
+- Check If Altitude Exists: `hasAltitude()`
+
+### 5.4. Usage: Read All GPS Tags
 
 `gps()` method returns all Exif tags which has `GPS` prefix.
 
-- PHP:
+- [5.4.1. PHP](#541-php)
+- [5.4.2. Result](#542-result)
+- [5.4.3. Details](#543-details)
+
+#### 5.4.1. PHP
+
+- [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
 
     ```php
     <?php
@@ -517,7 +553,9 @@ The code below creates a list of photos in the dir `img/`.
     }
     ```
 
-- Result:
+#### 5.4.2. Result
+
+- [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
 
     # Exif: GPS Tags
 
@@ -657,39 +695,49 @@ The code below creates a list of photos in the dir `img/`.
     </tr>
     </table>
 
-- Details:
-    - `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Dir;`
+#### 5.4.3. Details
 
-        to clear entries in `download` directory.
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Dir;`
 
-    - `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Arrow;`
+    to clear entries in `download` directory.
 
-        to create arrow images.
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Arrow;`
 
-    - Clear entries in a directory: `Dir::clear($dir)`
-    - Get Image Direction:
-        - As Float: `direction()` returns `null` if not found.
-        - As String: `directionS()` return `null` if not found.
-    - Get Speed:
-        - As Float: `speed()` returns `null` if not found.
-        - As String: `speedS()` returns `null` if not found.
-    - Get Track (Direction of Movement):
-        - As Float: `track()` returns `null` if not found.
-        - As String: `trackS()` returns `null` if not found.
-    - Get Destination Bearing:
-        - As Float: `destBearing()` returns `null` if not found.
-        - As String: `destBearingS()` returns `null` if not found.
-    - Get Date Stamp: `datestamp()` returns `null` if not found.
-    - Get Time Stamp: `timestamp()` returns `null` if not found.
-    - Create Arrow Image: `Arrow::make($degree)->save($pathArrow)`
-        - `$degree`: must be in clockwise degrees. (0° ～ 360°)
-        - `Arrow:make()`: returns the instance of `Intervention\Image\ImageManagerStatic` (v2.7)
-        - Returning HTTP Response with it is available.
-        - See more: [Intervention/image Official Document](https://image.intervention.io/v2/usage/http-response)
+    to create arrow images.
 
-### Usage: GPS Attribute Information
+- Clear entries in a directory: `Dir::clear($dir)`
+- Get Image Direction:
+    - As Float: `direction()` returns `null` if not found.
+    - As String: `directionS()` return `null` if not found.
+- Get Speed:
+    - As Float: `speed()` returns `null` if not found.
+    - As String: `speedS()` returns `null` if not found.
+- Get Track (Direction of Movement):
+    - As Float: `track()` returns `null` if not found.
+    - As String: `trackS()` returns `null` if not found.
+- Get Destination Bearing:
+    - As Float: `destBearing()` returns `null` if not found.
+    - As String: `destBearingS()` returns `null` if not found.
+- Get Date Stamp: `datestamp()` returns `null` if not found.
+- Get Time Stamp: `timestamp()` returns `null` if not found.
+- Create Arrow Image: `Arrow::make($degree)->save($pathArrow)`
+    - `$degree`: must be in clockwise degrees. (0° ～ 360°)
+    - `Arrow:make()`: returns the instance of `Intervention\Image\ImageManagerStatic` (v2.7)
+    - Returning HTTP Response with it is available.
+    - See more: [Intervention/image Official Document](https://image.intervention.io/v2/usage/http-response)
+    - **Note**:
+        - If the reference is 'M' (**Magnetic North**), the arrow image shows the relative direction from **Magnetic North**(Magnetic North upward).
+        - **Magnetic North** pole moves over time. [See more.](https://en.wikipedia.org/wiki/North_magnetic_pole)
 
-- PHP:
+### 5.5. Usage: GPS Attribute Information
+
+- [5.5.1. PHP](#551-php)
+- [5.5.2. Result](#552-result)
+- [5.5.3. Details](#553-details)
+
+#### 5.5.1. PHP
+
+- [GpsAttrInfo.php](example/GpsAttrInfo.php)
 
     ```php
     <?php
@@ -723,7 +771,9 @@ The code below creates a list of photos in the dir `img/`.
     }
     ```
 
-- Result:
+#### 5.5.2. Result
+
+- [GpsAttrInfo.md](example/GpsAttrInfo.md)
 
     # Exif: GPS Attribute Information
 
@@ -763,25 +813,26 @@ The code below creates a list of photos in the dir `img/`.
     |GPSDifferential|SHORT|1|* 0: Stand Alone Positioning<br />* 1: Differential GPS|None|---|
     |GPSHPositioningError|RATIONAL|1|---|None|---|
 
-- Details:
-    - `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Gps;`
+#### 5.5.3. Details
 
-        to use GPS Data Interface.
-    - Get GPS Tag Attributes: `Gps::def()` or `Gps::def($tagName)`
-    
-        it returns `null` if not found.
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Gps;`
 
-        GPS Tag Attributes are defined in `config/Gps.neon`.
+    to use GPS Data Interface.
+- Get GPS Tag Attributes: `Gps::def()` or `Gps::def($tagName)`
 
-        Hash keys in returned array by `Gps::def()` are Attribute Names:
+    it returns `null` if not found.
 
-        - `type`: based on Exif Standard
-        - `count`: based on Exif Standard
-        - `default`: based on Exif Standard
-        - `values`: based on Exif Standard
-        - `separator`: originaly added
+    GPS Tag Attributes are defined in `config/Gps.neon`.
 
-## Examples
+    Hash keys in returned array by `Gps::def()` are Attribute Names:
+
+    - `type`: based on Exif Standard
+    - `count`: based on Exif Standard
+    - `default`: based on Exif Standard
+    - `values`: based on Exif Standard
+    - `separator`: originaly added
+
+## 6. Examples
 
 - [BasicUsage.php](example/BasicUsage.php) >> results in [BasicUsage.txt](example/BasicUsage.txt)
 - [CheckGeoData.php](example/CheckGeoData.md) >> results in [CheckGeoData.md](example/CheckGeoData.md)
@@ -789,13 +840,13 @@ The code below creates a list of photos in the dir `img/`.
 - [ReadAllGpsTags.php](example/ReadAllGpsTags.php) >> results in [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
 - [GpsAttrInfo.php](example/GpsAttrInfo.php) >> results in [GpsAttrInfo.md](example/GpsAttrInfo.md)
 
-## LICENSE
+## 7. LICENSE
 
 [MIT](LICENSE)
 
 ***
 
-## Changelog
+## 8. Changelog
 
 ### 2024/01/07: version updated 1.3.1 => 1.4.0
 
@@ -840,6 +891,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/01/07*
+*Document updated: 2024/01/08*
 
 Copyright 2023 - 2024 macocci7

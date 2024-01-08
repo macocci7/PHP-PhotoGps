@@ -3,5 +3,6 @@ Latitude: 37°3'26.2"N
 緯度: 北緯37度3分26.2秒
 Longitude: 140°53'32.8"E
 経度: 東経140度53分32.8秒
-Altitude: 13
+Altitude: (Above Ellipsoidal Surface) 13.00 m
+高度: （正値楕円体高） 13.00 メートル
 Coord: 37.057274166667, 140.89244166667

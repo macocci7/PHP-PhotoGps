@@ -17,8 +17,9 @@ echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 echo "Longitude: " . $pg->lang('eng')->longitudeS() . "\n";
 echo "経度: " . $pg->lang('ja')->longitudeS() . "\n";
 
-// Altitude
-echo "Altitude: " . $pg->altitude() . "\n";
+// Altitude as strings
+echo "Altitude: " . $pg->lang('eng')->altitudeS() . "\n";
+echo "高度: " . $pg->lang('ja')->altitudeS() . "\n";
 
 // Coord in decimal format ('S' and 'W' results in negative value.)
 echo "Coord: " . $pg->latitudeD() . ", " . $pg->longitudeD() . "\n";

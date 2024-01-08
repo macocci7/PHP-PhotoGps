@@ -1,3 +1,4 @@
 /vendor/
-/example/download/*
+/download/
+*/download/
 /tool/

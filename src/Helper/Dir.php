@@ -36,4 +36,14 @@ class Dir
             File::remove($file);
         }
     }
+
+    /**
+     * remove directory
+     * @param   string  $dir
+     * @return  bool
+     */
+    public static function remove(string $dir)
+    {
+        return rmdir($dir);
+    }
 }

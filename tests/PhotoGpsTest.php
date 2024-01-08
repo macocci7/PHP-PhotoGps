@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Macocci7\Sitemap;
+namespace Macocci7\PhpPhotoGps;
 
 require('vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\PhotoGps;
+use Macocci7\PhpPhotoGps\Helper\Dir;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 final class PhotoGpsTest extends TestCase
 {
@@ -161,12 +164,69 @@ final class PhotoGpsTest extends TestCase
         $this->assertSame($this->defaultFormat['ja'], $pg->lang('ja')->format());
     }
 
+    public static function provide_exif_can_return_exif_data_correctly(): array
+    {
+        return [
+            "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
+            "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
+            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_exif_can_return_exif_data_correctly
+     */
+    public function test_exif_can_return_exif_data_correctly(string $path, array $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $tag = array_keys($expect)[0];
+        $value = $expect[$tag];
+        $this->assertSame($value, $pg->exif()[$tag]);
+    }
+
+    public static function provide_gps_can_return_gps_data_correctly(): array
+    {
+        return [
+            "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
+            "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
+            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_gps_can_return_gps_data_correctly
+     */
+    public function test_gps_can_return_gps_data_correctly(string $path, array $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $tag = array_keys($expect)[0];
+        $value = $expect[$tag];
+        $this->assertSame($value, $pg->gps()[$tag]);
+    }
+
+    public static function provide_hasGeo_can_judge_correctly(): array
+    {
+        return [
+            "without geo" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => false, ],
+            "with geo" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => true, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_hasGeo_can_judge_correctly
+     */
+    public function test_hasGeo_can_judge_correctly(string $path, bool $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->hasGeo());
+    }
+
     public static function provide_hasGps_can_judge_correctly(): array
     {
         return [
             "gps: null" => ['gps' => null, 'expect' => false, ],
             "gps: empty" => ['gps' => [], 'expect' => false, ],
-            "gps: non-coord data" => ['gps' => ['GPS' => 'gps', ], 'expect' => false, ],
+            "gps: non-coord data" => ['gps' => ['GPS' => 'gps', ], 'expect' => true, ],
             "gps: without Altitude" => [
                 'gps' => [
                     'GPSLatitudeRef' => 'N',
@@ -174,7 +234,7 @@ final class PhotoGpsTest extends TestCase
                     'GPSLongitudeRef' => 'E',
                     'GPSLongitude' => ['140/1', '53/1', '22398/1000'],
                 ],
-                'expect' => false,
+                'expect' => true,
             ],
             "gps: correct data" => [
                 'gps' => [
@@ -197,6 +257,23 @@ final class PhotoGpsTest extends TestCase
         $pg = new PhotoGps();
         $pg->gpsData = $gps;
         $this->assertSame($expect, $pg->hasGps());
+    }
+
+    public static function provide_hasAltitude_can_judge_correctly(): array
+    {
+        return [
+            "without altitude" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => false, ],
+            "with altitude" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => true, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_hasAltitude_can_judge_correctly
+     */
+    public function test_hasAltitude_can_judge_correctly(string $path, bool $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->hasAltitude());
     }
 
     public static function provide_s2d_can_return_correct_value(): array
@@ -440,7 +517,7 @@ final class PhotoGpsTest extends TestCase
                     'GPSLongitude' => ["136/1", "16/1", "32000/1000", ],
                     'GPSAltitude' => "1700/100",
                 ],
-                "expect" => 17,
+                "expect" => 17.0,
             ],
         ];
     }
@@ -448,10 +525,225 @@ final class PhotoGpsTest extends TestCase
     /**
      * @dataProvider provide_altitude_can_return_value_correctly
      */
-    public function test_altitude_can_return_value_correctly(array $gps, int|null $expect): void
+    public function test_altitude_can_return_value_correctly(array $gps, float|null $expect): void
     {
         $pg = new PhotoGps();
         $pg->gpsData = $gps;
         $this->assertSame($expect, $pg->altitude());
+    }
+
+    public static function provide_altitudeS_can_return_value_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '(Above Ellipsoidal Surface) 13.00 m', ],
+            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '（正値楕円体高） 13.00 メートル', ],
+            "image 2, lang:eng" => [ 'path' => 'example/img/fake_gps_003.jpg', 'lang' => 'eng', 'expect' => '(Below Sea Level) 422.00 m', ],
+            "image 2, lang:ja" => [ 'path' => 'example/img/fake_gps_003.jpg', 'lang' => 'ja', 'expect' => '（負値海抜） 422.00 メートル', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_altitudeS_can_return_value_correctly
+     */
+    public function test_altitudeS_can_return_value_correctly(string $path, string $lang, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->lang($lang)->altitudeS());
+    }
+
+    public static function provide_direction_can_return_direction_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => 306.25440000000003, ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 352.3981981981982, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_direction_can_return_direction_correctly
+     */
+    public function test_direction_can_return_direction_correctly(string $path, float|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->direction());
+    }
+
+    public static function provide_directionS_can_return_direction_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => 'T 306.25°', ],
+            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => 'T 306.25°', ],
+            "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 352.40°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 352.40°', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_directionS_can_return_direction_correctly
+     */
+    public function test_directionS_can_return_direction_correctly(string $path, string $lang, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->lang($lang)->directionS());
+    }
+
+    public static function provide_speed_can_return_speed_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => 1.60, ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 12.453799890650629, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_speed_can_return_speed_correctly
+     */
+    public function test_spped_can_return_speed_correctly(string $path, float|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->speed());
+    }
+
+    public static function provide_speedS_can_return_speed_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '1.60mph', ],
+            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '1.60マイル／時', ],
+            "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => '12.45kt', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '12.45ノット', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_speedS_can_return_speed_correctly
+     */
+    public function test_speedS_can_return_speed_correctly(string $path, string $lang, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->lang($lang)->speedS());
+    }
+
+    public static function provide_destBearing_can_return_dest_bearing_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 138.6932006633499, ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => 273.46589259796815, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_destBearing_can_return_dest_bearing_correctly
+     */
+    public function test_destBearing_can_return_dest_bearing_correctly(string $path, float|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->destBearing());
+    }
+
+    public static function provide_destBearingS_can_return_dest_bearing_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 138.69°', ],
+            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 138.69°', ],
+            "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 273.47°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => 'T 273.47°', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_destBearingS_can_return_dest_bearing_correctly
+     */
+    public function test_destBearingS_can_return_dest_bearing_correctly(string $path, string $lang, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->lang($lang)->destBearingS());
+    }
+
+    public static function provide_track_can_return_track_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 62.8972, ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => 268.44216417910445, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_track_can_return_track_correctly
+     */
+    public function test_track_can_return_track_correctly(string $path, float|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->track());
+    }
+
+    public static function provide_trackS_can_return_track_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 62.90°', ],
+            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 62.90°', ],
+            "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 268.44°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => 'T 268.44°', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_trackS_can_return_track_correctly
+     */
+    public function test_trackS_can_return_track_correctly(string $path, string $lang, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->lang($lang)->trackS());
+    }
+
+    public static function provide_datestamp_can_return_datestamp_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => '2018/03/31', ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => '2015/06/07', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_datestamp_can_return_datestamp_correctly
+     */
+    public function test_datestamp_can_return_datestamp_correctly(string $path, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->datestamp());
+    }
+
+    public static function provide_timestamp_can_return_timestamp_correctly(): array
+    {
+        return [
+            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => '02:22:14', ],
+            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => '01:31:46', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_timestamp_can_return_timestamp_correctly
+     */
+    public function test_timestamp_can_return_timestamp_correctly(string $path, string|null $expect): void
+    {
+        $pg = new PhotoGps($path);
+        $this->assertSame($expect, $pg->timestamp());
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        $dir = './download/';
+        Dir::clear($dir);
+        Dir::remove($dir);
     }
 }

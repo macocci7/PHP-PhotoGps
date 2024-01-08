@@ -25,7 +25,6 @@ show_latest_tags() {
 for tag in `git tag`
 do
     if [ $tag = $VERSION ]; then
-        # echo "version $VERSION already exists in git tags."
         printf '\033[41m Error! version %s already exists in git tags. \033[m\n' $VERSION
         show_latest_tags 3
         exit 1

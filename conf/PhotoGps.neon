@@ -13,6 +13,9 @@ altitude:
 - GPSAltitude       # 高度数値（m）
 
 # Default Language
+defaultLang: eng
+
+# Initial Language
 lang: eng
 
 # Units for each language
@@ -31,10 +34,10 @@ units:
         format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
         altitude: m
         altitudeRef:
-            0: 'Altitude (Above Ellipsoidal Surface)'
-            1: 'Altitude (Below Ellipsoidal Surface)'
-            2: 'Altitude (Above Sea Level)'
-            3: 'Altitude (Below Sea Level)'
+            0: '(Above Ellipsoidal Surface)'
+            1: '(Below Ellipsoidal Surface)'
+            2: '(Above Sea Level)'
+            3: '(Below Sea Level)'
             default: 'Altitude'
         speed:
             K: km/h
@@ -55,10 +58,10 @@ units:
         format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
         altitude: 'メートル'
         altitudeRef:
-            0: '高度（正値楕円体高）'
-            1: '高度（負値楕円体高）'
-            2: '高度（正値海抜）'
-            3: '高度（負値海抜）'
+            0: '（正値楕円体高）'
+            1: '（負値楕円体高）'
+            2: '（正値海抜）'
+            3: '（負値海抜）'
             default: '高度'
         speed:
             K: 'キロメートル／時'
