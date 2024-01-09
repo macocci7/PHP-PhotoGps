@@ -32,3 +32,4 @@ do
 done
 printf '\033[1;102m%s\033[m\n' " OK! versoin $VERSION is not in git tags. "
 show_latest_tags 3
+printf '\033[93m%s\033[m\n' "Don't forget to run \`composer update\` before commit."

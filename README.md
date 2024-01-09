@@ -15,6 +15,8 @@ converts speeds, date stamps and time stamps into human-readable strings.
 
 Remote files (via http: or https:) are supported.
 
+Currently Exif Version 3.0 is supported. (Wait for other versions...)
+
 ## 2. Contents
 
 - [1. Features](#1-features)
@@ -124,7 +126,7 @@ composer require macocci7/php-photo-gps
     - Sexagesimal: `latitudeS()`
 - Longitude:
     - Decimal: `longitudeD()`
-    - Sesagesimal: `longitudeS()`
+    - Sexagesimal: `longitudeS()`
 - Altitude:
     - Decimal: `altitude()`
     - Strings with prefix & unit: `altitudeS()`
@@ -158,7 +160,7 @@ only for `latitudeS()` and `longitudeS()`.
     echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
     // Latitude in sexagesimal format
-    echo "Latitude: " . $pg->latitudeS() . "\n";
+    echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
     echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
     // Longitude in sexagesimal format
@@ -175,7 +177,7 @@ only for `latitudeS()` and `longitudeS()`.
     echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
     // Latitude in sexagesimal format
-    echo "Latitude: " . $pg->latitudeS() . "\n";
+    echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
     echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
     // Longitude in sexagesimal format
@@ -192,7 +194,7 @@ only for `latitudeS()` and `longitudeS()`.
     echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
     // Latitude in sexagesimal format
-    echo "Latitude: " . $pg->latitudeS() . "\n";
+    echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
     echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
     // Longitude in sexagesimal format
@@ -209,7 +211,7 @@ only for `latitudeS()` and `longitudeS()`.
     echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
     // Latitude in sexagesimal format
-    echo "Latitude: " . $pg->latitudeS() . "\n";
+    echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
     echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
     // Longitude in sexagesimal format
@@ -226,7 +228,7 @@ only for `latitudeS()` and `longitudeS()`.
     Current format [eng]: {degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}
     Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-    Latitude: 北緯37度3分26.2秒
+    Latitude: 37°3'26.2"N
     緯度: 北緯37度3分26.2秒
     Longitude: 140°53'32.8"E
     経度: 東経140度53分32.8秒
@@ -235,7 +237,7 @@ only for `latitudeS()` and `longitudeS()`.
     Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
     Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-    Latitude: 北緯37度3分26.2秒
+    Latitude: N: 26.2", 3', 37°
     緯度: 北緯37度3分26.2秒
     Longitude: E: 32.8", 53', 140°
     経度: 東経140度53分32.8秒
@@ -244,7 +246,7 @@ only for `latitudeS()` and `longitudeS()`.
     Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
     Current format [ja]: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u} ({ref:u})
 
-    Latitude: 26.2秒, 3分, 37度 (北緯)
+    Latitude: N: 26.2", 3', 37°
     緯度: 26.2秒, 3分, 37度 (北緯)
     Longitude: E: 32.8", 53', 140°
     経度: 32.8秒, 53分, 140度 (東経)
@@ -253,7 +255,7 @@ only for `latitudeS()` and `longitudeS()`.
     Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
     Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-    Latitude: 北緯37度3分26.2秒
+    Latitude: N: 26.2", 3', 37°
     緯度: 北緯37度3分26.2秒
     Longitude: E: 32.8", 53', 140°
     経度: 東経140度53分32.8秒
@@ -722,12 +724,31 @@ The code below creates a list of photos in the dir `img/`.
 - Get Time Stamp: `timestamp()` returns `null` if not found.
 - Create Arrow Image: `Arrow::make($degree)->save($pathArrow)`
     - `$degree`: must be in clockwise degrees. (0° ～ 360°)
-    - `Arrow:make()`: returns the instance of `Intervention\Image\ImageManagerStatic` (v2.7)
+    - `Arrow:make()`: returns the instance of `Intervention\Image\Image` (v2.7)
     - Returning HTTP Response with it is available.
     - See more: [Intervention/image Official Document](https://image.intervention.io/v2/usage/http-response)
     - **Note**:
         - If the reference is 'M' (**Magnetic North**), the arrow image shows the relative direction from **Magnetic North**(Magnetic North upward).
         - **Magnetic North** pole moves over time. [See more.](https://en.wikipedia.org/wiki/North_magnetic_pole)
+- Note:
+    - All photos in this repository were taken by macocci7 with mobile phone, and free to use.
+    - Some of GPS data was manually injected with some tools.
+        - [GIMP v2.10.34](https://www.gimp.org/) used for:
+            - `GPSLatitudeRef`
+            - `GPSLatitude`
+            - `GPSLongitudeRef`
+            - `GPSLongitude`
+            - `GPSAltitudeRef`
+            - `GPSAltitude`
+            
+            GIMP can edit only geo tags.
+
+        - [Exif Tool by Phil Harvey v12.72](https://exiftool.org/) used for:
+            - All other GPS tags
+            
+            Exif Tool can edit all [writable GPS tags](https://exiftool.org/TagNames/GPS.html).
+            
+            However, Exif Tool currently cannot set `GPSSpeedRef` as `K` (may be a bug).
 
 ### 5.5. Usage: GPS Attribute Information
 
@@ -848,7 +869,15 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 8. Changelog
 
-### 2024/01/07: version updated 1.3.1 => 1.4.0
+### 2024/01/09: version updated 1.4.0 => 1.4.1
+
+#### Improvement
+
+- Fixed: `Macocci7\PhpPhotoGps\Helper\Arrow` retunrs `Intervention\Image\Image`
+- Fixed: `example/ConfigFormat.php`
+- Updated: wrong statements in README corrected.
+
+### 2024/01/08: version updated 1.3.1 => 1.4.0
 
 #### Added
 
@@ -891,6 +920,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/01/08*
+*Document updated: 2024/01/09*
 
 Copyright 2023 - 2024 macocci7
