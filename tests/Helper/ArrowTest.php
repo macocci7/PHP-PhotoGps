@@ -24,7 +24,7 @@ final class ArrowTest extends TestCase
     public function test_make_can_return_instance_correctly(): void
     {
         $this->assertSame(
-            Arrow::class,
+            \Intervention\Image\Image::class,
             Arrow::make(45.0)::class
         );
     }

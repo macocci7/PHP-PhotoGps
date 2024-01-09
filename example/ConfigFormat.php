@@ -14,7 +14,7 @@ echo "Current format [eng]: " . $pg->lang('eng')->format() . "\n";
 echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
 // Latitude in sexagesimal format
-echo "Latitude: " . $pg->latitudeS() . "\n";
+echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
 echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
 // Longitude in sexagesimal format
@@ -31,7 +31,7 @@ echo "Current format [eng]: " . $pg->lang('eng')->format() . "\n";
 echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
 // Latitude in sexagesimal format
-echo "Latitude: " . $pg->latitudeS() . "\n";
+echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
 echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
 // Longitude in sexagesimal format
@@ -48,7 +48,7 @@ echo "Current format [eng]: " . $pg->lang('eng')->format() . "\n";
 echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
 // Latitude in sexagesimal format
-echo "Latitude: " . $pg->latitudeS() . "\n";
+echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
 echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
 // Longitude in sexagesimal format
@@ -65,7 +65,7 @@ echo "Current format [eng]: " . $pg->lang('eng')->format() . "\n";
 echo "Current format [ja]: " . $pg->lang('ja')->format() . "\n\n";
 
 // Latitude in sexagesimal format
-echo "Latitude: " . $pg->latitudeS() . "\n";
+echo "Latitude: " . $pg->lang('eng')->latitudeS() . "\n";
 echo "緯度: " . $pg->lang('ja')->latitudeS() . "\n";
 
 // Longitude in sexagesimal format

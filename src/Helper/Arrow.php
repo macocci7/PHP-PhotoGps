@@ -14,15 +14,18 @@ use Macocci7\PhpPhotoGps\Helper\Exif;
 class Arrow
 {
     /**
-     * @var \Intervention\Image\Image   $image
+     * constructor.
      */
-    private $image;
+    private function __construct()
+    {
+    }
 
     /**
-     * constructor.
+     * makes compass image rotated.
      * @param   float   $degrees
+     * @return  \Intervention\Image\Image
      */
-    public function __construct(float $degrees)
+    public static function make(float $degrees)
     {
         Config::load();
         // t = 360 - deg
@@ -35,31 +38,10 @@ class Arrow
         // |  360°  |   North   |
         $degrees = Exif::simplifyDegrees($degrees);
         $basePath = __DIR__ . '/' . Config::get('pathBaseArrow');
-        $this->image = Image::make($basePath);
+        $image = Image::make($basePath);
         if ($degrees > 0) {
-            $this->image->rotate(0 - $degrees);
+            $image->rotate(0 - $degrees);
         }
-    }
-
-    /**
-     * makes compass image rotated.
-     * @param   float   $degree
-     * @return  \Macocci7\PhpPhotoGps\Helper\Arrow
-     */
-    public static function make(float $degree)
-    {
-        return new Arrow($degree);
-    }
-
-    /**
-     * saves image into a file.
-     * @param   string  $path
-     * @return  self
-     * @thrown  \Exception
-     */
-    public function save(string $path)
-    {
-        $this->image->save($path);
-        return $this;
+        return $image;
     }
 }

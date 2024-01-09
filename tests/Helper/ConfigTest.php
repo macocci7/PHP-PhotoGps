@@ -20,20 +20,26 @@ final class ConfigTest extends TestCase
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     // phpcs:disable Generic.Files.LineLength.TooLong
 
+    public string $basConf = __DIR__ . '/../../conf/PhotoGps.neon';
+    public string $testConf = __DIR__ . '/../../conf/ConfigTest.neon';
+
+    public static function setUpBeforeClass(): void
+    {
+        $baseConf = __DIR__ . '/../../conf/PhotoGps.neon';
+        $testConf = __DIR__ . '/../../conf/ConfigTest.neon';
+        copy($baseConf, $testConf);
+    }
+
     public function test_load_can_load_config_file_correctly(): void
     {
-        $from = __DIR__ . '/../../conf/PhotoGps.neon';
-        $to = __DIR__ . '/../../conf/ConfigTest.neon';
-        copy($from, $to);
         Config::load();
         $r = new \ReflectionClass(Config::class);
         $p = $r->getProperty('conf');
         $p->setAccessible(true);
         $this->assertSame(
-            Neon::decodeFile($to),
+            Neon::decodeFile($this->testConf),
             $p->getValue()[$this::class]
         );
-        unlink($to);
     }
 
     public function return_class_name_from_config(): string|null
@@ -65,16 +71,41 @@ final class ConfigTest extends TestCase
 
     public function test_get_can_return_value_correctly(): void
     {
-        $from = __DIR__ . '/../../conf/PhotoGps.neon';
-        $to = __DIR__ . '/../../conf/ConfigTest.neon';
-        copy($from, $to);
         Config::load();
-        foreach (Neon::decodeFile($to) as $key => $value) {
+        foreach (Neon::decodeFile($this->testConf) as $key => $value) {
             $this->assertSame(
                 $value,
                 Config::get($key)
             );
         }
-        unlink($to);
+    }
+
+    public static function provide_support_object_like_keys_correctly(): array
+    {
+        $testConf = __DIR__ . '/../../conf/ConfigTest.neon';
+        return [
+            "null" => [ 'key' => null, 'expect' => null, ],
+            "empty string" => [ 'key' => '', 'expect' => null, ],
+            "dot" => [ 'key' => '.', 'expect' => null, ],
+            "units" => [ 'key' => 'units', 'expect' => Neon::decodeFile($testConf)['units']],
+            "units.eng" => [ 'key' => 'units.eng', 'expect' => Neon::decodeFile($testConf)['units']['eng'], ],
+            "units.ja.speed" => [ 'key' => 'units.ja.speed', 'expect' => Neon::decodeFile($testConf)['units']['ja']['speed'], ],
+            "units.eng.speed.K" => [ 'key' => 'units.eng.speed.K', 'expect' => Neon::decodeFile($testConf)['units']['eng']['speed']['K'], ],
+            "units.ja.speed.K.M" => [ 'key' => 'units.ja.speed.K.M', 'expect' => null, ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_support_object_like_keys_correctly
+     */
+    public function get_can_support_object_like_keys_correctly(string $key, array|null $expect): void
+    {
+        $this->assertSame($expect, Config::get($key));
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        $testConf = __DIR__ . '/../../conf/ConfigTest.neon';
+        unlink($testConf);
     }
 }

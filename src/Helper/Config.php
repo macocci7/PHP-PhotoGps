@@ -66,9 +66,14 @@ class Config
         if (is_null($key)) {
             return self::$conf[$class];
         }
-        if (!self::$conf[$class][$key]) { // @phpstan-ignore-line
-            return null;
+        $keys = explode('.', $key);
+        $conf = self::$conf[$class];
+        foreach ($keys as $k) {
+            if (!isset($conf[$k])) { // @phpstan-ignore-line
+                return null;
+            }
+            $conf = $conf[$k];
         }
-        return self::$conf[$class][$key];
+        return $conf;
     }
 }

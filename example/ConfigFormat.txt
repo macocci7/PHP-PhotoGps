@@ -2,7 +2,7 @@
 Current format [eng]: {degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}
 Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-Latitude: 北緯37度3分26.2秒
+Latitude: 37°3'26.2"N
 緯度: 北緯37度3分26.2秒
 Longitude: 140°53'32.8"E
 経度: 東経140度53分32.8秒
@@ -11,7 +11,7 @@ Longitude: 140°53'32.8"E
 Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
 Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-Latitude: 北緯37度3分26.2秒
+Latitude: N: 26.2", 3', 37°
 緯度: 北緯37度3分26.2秒
 Longitude: E: 32.8", 53', 140°
 経度: 東経140度53分32.8秒
@@ -20,7 +20,7 @@ Longitude: E: 32.8", 53', 140°
 Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
 Current format [ja]: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u} ({ref:u})
 
-Latitude: 26.2秒, 3分, 37度 (北緯)
+Latitude: N: 26.2", 3', 37°
 緯度: 26.2秒, 3分, 37度 (北緯)
 Longitude: E: 32.8", 53', 140°
 経度: 32.8秒, 53分, 140度 (東経)
@@ -29,7 +29,7 @@ Longitude: E: 32.8", 53', 140°
 Current format [eng]: {ref:u}: {seconds:v}{seconds:u}, {minutes:v}{minutes:u}, {degrees:v}{degrees:u}
 Current format [ja]: {ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}
 
-Latitude: 北緯37度3分26.2秒
+Latitude: N: 26.2", 3', 37°
 緯度: 北緯37度3分26.2秒
 Longitude: E: 32.8", 53', 140°
 経度: 東経140度53分32.8秒

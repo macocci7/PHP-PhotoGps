@@ -2,7 +2,7 @@
 
 # Exif: GPS Attribute Information
 fields:
-    # Version Found:
+    # GPSVersion Found:
     # - 2.2.0.0
     # - 2.3.0.0
     GPSVersion:
@@ -10,7 +10,7 @@ fields:
         count: 4
         separator: '.'
 
-    # Exif Version 3.0.0.0
+    # Exif Version 0300
     # https://www.cipa.jp/std/documents/download_e.html?DC-008-Translation-2023-E
     GPSVersionID:
         type: BYTE
