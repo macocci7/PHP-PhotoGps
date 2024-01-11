@@ -2,6 +2,11 @@
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
+use Intervention\Image\ImageManagerStatic as Image;
+use Macocci7\PhpPhotoGps\Helper\Uri;
+use Macocci7\PhpPhotoGps\Helper\Exif;
+use Macocci7\PhpPhotoGps\Helper\File;
+
 /**
  * Class for Exif Data Handling
  * @author  macocci7 <macocci7@yahoo.co.jp>
@@ -9,6 +14,47 @@ namespace Macocci7\PhpPhotoGps\Helper;
  */
 class Exif
 {
+    /**
+     * @var array<int, float, string, array<string>>    $data
+     */
+    private static array|null $data;
+
+    /**
+     * @var string|null $path
+     */
+    private static string|null $path;
+
+    private function __construct()
+    {
+    }
+
+    private function load()
+    {
+    }
+
+    /**
+     * returns EXIF data of the file.
+     * @param   string  $path
+     * @return  mixed[]|null
+     * @thrown  \Exception
+     */
+    public function get(string $path)
+    {
+        if (!is_readable($path) && !Uri::isAvailable($path)) {
+            throw new \Exception("The file is not readable.");
+        }
+        if (Uri::isAvailable($path)) {
+            if (!ini_get('allow_url_fopen')) {
+                ini_set('allow_url_fopen', '1');
+            }
+            $path = File::download($this->path);
+            if (!$path) {
+                return null;
+            }
+        }
+        return Image::make($path)->exif(); // @phpstan-ignore-line
+    }
+
     /**
      * converts BYTE data into human-readable array.
      * @param   string  $byte

@@ -9,220 +9,1234 @@ fields:
         type: BYTE
         count: 4
         separator: '.'
+# Exif Version 2.1
+ExifVersion0210
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.0.0.0'
+            separator: '.'
 
-    # Exif Version 0300
-    # https://www.cipa.jp/std/documents/download_e.html?DC-008-Translation-2023-E
-    GPSVersionID:
-        type: BYTE
-        count: 4
-        default: '2.4.0.0'
-        separator: '.'
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
 
-    GPSLatitudeRef:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            N: 'North latitude'
-            S: 'South latitude'
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSLatitude:
-        type: RATIONAL
-        count: 3
-        default: None
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
 
-    GPSLongitudeRef:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            E: 'East longitude'
-            W: 'West longitude'
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSLongitude:
-        type: ASCII
-        count: 3
-        default: None
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
 
-    GPSAltitudeRef:
-        type: BYTE
-        count: 1
-        separator: ''
-        default: 0
-        values:
-            0: 'Positive ellipsoidal height (at or above ellipsoidal surface)'
-            1: 'Negative ellipsoid height (below ellipsoidal surface)'
-            2: 'Positive sea level value (at or above sea level reference)'
-            3: 'Negative sea level value (below sea level reference)'
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSAltitude:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPStimeStamp:
-        type: RATIONAL
-        count: 3
-        default: None
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
 
-    GPSSatellites:
-        type: ASCII
-        count: Any
-        default: None
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement Interoperability'
 
-    GPSStatus:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            A: 'Measurement in progress'
-            V: 'Measurement interrupted'
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
 
-    GPSMeasureMode:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            2: '2-dimensional measurement'
-            3: '3-dimensional measurement'
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSDOP:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
 
-    GPSSpeedRef:
-        type: ASCII
-        count: 2
-        default: K
-        values:
-            K: 'k/m'
-            M: 'mph'
-            n: 'knots'
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSSpeed:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
 
-    GPSTrackRef:
-        type: ASCII
-        count: 2
-        default: T
-        values:
-            T: 'true bearing'
-            M: 'magnetic bearing'
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSTrack:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
 
-    GPSImgDirectionRef:
-        type: ASCII
-        count: 2
-        default: T
-        values:
-            T: 'true bearing'
-            M: 'magnetic bearing'
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSImgDirection:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
 
-    GPSMapDatum:
-        type: ASCII
-        count: Any
-        default: None
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
 
-    GPSDestLatitudeRef:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            N: 'North'
-            S: 'South'
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSDestLatitude:
-        type: RATIONAL
-        count: 3
-        default: None
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
 
-    GPSDestLongitudeRef:
-        type: ASCII
-        count: 2
-        default: None
-        values:
-            E: 'East'
-            W: 'West'
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSDestLongitude:
-        type: RATIONAL
-        count: 3
-        default: None
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
 
-    GPSDestBearingRef:
-        type: ASCII
-        count: 2
-        default: T
-        values:
-            T: 'true bearing'
-            M: 'magnetic bearing'
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSDestBearing:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Niles'
+                N: 'Knots'
 
-    GPSDestDistanceRef:
-        type: ASCII
-        count: 2
-        default: K
-        values:
-            K: 'kilometers'
-            M: 'miles'
-            N: 'nautical miles'
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
 
-    GPSDestDistance:
-        type: RATIONAL
-        count: 1
-        default: None
+# Exif Version 2.2
+ExifVersion0220
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.2.0.0'
+            separator: '.'
 
-    GPSProcessingMethod:
-        type: UNDEFINED
-        count: Any
-        default: None
-        values:
-            GPS: 'GPS [GPSMeaMeasureMode: 2 or 3]'
-            QZSS: 'Quasi-Zenith Satellite System [GPSMeaMeasureMode: 2 or 3]'
-            GALILEO: 'Galileo System [GPSMeaMeasureMode: 2 or 3]'
-            GLONASS: 'Global Navigation Satellite System [GPSMeaMeasureMode: 2 or 3]'
-            BEIDOU: 'Beidou Satellite Positioning System [GPSMeaMeasureMode: 2 or 3]'
-            NAVID: 'Navigation Indian Constellation System [GPSMeaMeasureMode: 2 or 3]'
-            CELLID: 'Mobile Phone Base Stations [GPSMeaMeasureMode: 2 (generally)]'
-            WLAN: 'Wireless LAN [GPSMeaMeasureMode: 2 (generally)]'
-            MANUAL: 'Manual input [GPSMeaMeasureMode: (not recorded)]'
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
 
-    GPSAreaInformation:
-        type: UNDEFINED
-        count: Any
-        default: None
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSDateStamp:
-        type: ASCII
-        count: 11
-        default: None
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
 
-    GPSDifferential:
-        type: SHORT
-        count: 1
-        default: None
-        values:
-            0: 'Stand Alone Positioning'
-            1: 'Differential GPS'
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
 
-    GPSHPositioningError:
-        type: RATIONAL
-        count: 1
-        default: None
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
+                1: 'Sea level reference (negative value)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement Interoperability'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Niles'
+                N: 'Knots'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+# Exif Version 2.3
+ExifVersion0230
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
+                1: 'Sea level reference (negative value)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement interrupted'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direciton'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Miles'
+                N: 'Nautical miles'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+            values:
+                CELLID: 'Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]'
+                WLAN: 'Wireless LAN [GPSMeasureMode: 2 (generally)]'
+                GPS: 'GPS [GPSMeasureMode: 2 or 3]'
+                MANUAL: 'Manual input [GPSMeasureMode: (not recorded)]'
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+        GPSHPositioningError:
+            type: RATIONAL
+            count: 1
+            default: None
+
+# Exif Version 2.31
+ExifVersion0231
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
+                1: 'Sea level reference (negative value)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement interrupted'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direciton'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Miles'
+                N: 'Nautical miles'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+            values:
+                CELLID: 'Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]'
+                WLAN: 'Wireless LAN [GPSMeasureMode: 2 (generally)]'
+                GPS: 'GPS [GPSMeasureMode: 2 or 3]'
+                MANUAL: 'Manual input [GPSMeasureMode: (not recorded)]'
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+        GPSHPositioningError:
+            type: RATIONAL
+            count: 1
+            default: None
+
+# Exif Version 2.32
+ExifVersion0232
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
+                1: 'Sea level reference (negative value)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement interrupted'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direciton'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Miles'
+                N: 'Nautical miles'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+            values:
+                CELLID: 'Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]'
+                WLAN: 'Wireless LAN [GPSMeasureMode: 2 (generally)]'
+                GPS: 'GPS [GPSMeasureMode: 2 or 3]'
+                MANUAL: 'Manual input [GPSMeasureMode: (not recorded)]'
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+        GPSHPositioningError:
+            type: RATIONAL
+            count: 1
+            default: None
+
+# Exif Version 3.0
+# https://www.cipa.jp/std/documents/download_e.html?DC-008-Translation-2023-E
+ExifVersion0300
+    fields:
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.4.0.0'
+            separator: '.'
+
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSLatitude:
+
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Positive ellipsoidal height (at or above ellipsoidal surface)'
+                1: 'Negative ellipsoid height (below ellipsoidal surface)'
+                2: 'Positive sea level value (at or above sea level reference)'
+                3: 'Negative sea level value (below sea level reference)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement interrupted'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Miles'
+                N: 'Nautical miles'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+            values:
+                GPS: 'GPS [GPSMeaMeasureMode: 2 or 3]'
+                QZSS: 'Quasi-Zenith Satellite System [GPSMeasureMode: 2 or 3]'
+                GALILEO: 'Galileo System [GPSMeasureMode: 2 or 3]'
+                GLONASS: 'Global Navigation Satellite System [GPSMeasureMode: 2 or 3]'
+                BEIDOU: 'Beidou Satellite Positioning System [GPSMeasureMode: 2 or 3]'
+                NAVID: 'Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]'
+                CELLID: 'Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]'
+                WLAN: 'Wireless LAN [GPSMeasureMode: 2 (generally)]'
+                MANUAL: 'Manual input [GPSMeasureMode: (not recorded)]'
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+        GPSHPositioningError:
+            type: RATIONAL
+            count: 1
+            default: None
