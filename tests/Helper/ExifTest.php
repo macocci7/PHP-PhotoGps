@@ -19,6 +19,51 @@ final class ExifTest extends TestCase
     // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     // phpcs:disable Generic.Files.LineLength.TooLong
 
+    public static function provide_version_can_set_version_correctly(): array
+    {
+        return [
+            "exif0210" => [ 'ExifVersion' => '0210', ],
+            "exif0220" => [ 'ExifVersion' => '0220', ],
+            "exif0221" => [ 'ExifVersion' => '0221', ],
+            "exif0230" => [ 'ExifVersion' => '0230', ],
+            "exif0231" => [ 'ExifVersion' => '0231', ],
+            "exif0232" => [ 'ExifVersion' => '0232', ],
+            "exif0300" => [ 'ExifVersion' => '0300', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_version_can_set_version_correctly
+     */
+    public function test_version_can_set_version_correctly(string $version): void
+    {
+        Exif::version($version);
+        $r = new \ReflectionClass(Exif::class);
+        $p = $r->getProperty('version');
+        $p->setAccessible(true);
+        $this->assertSame($version, $p->getValue());
+        $this->assertSame($version, Exif::version());
+    }
+
+    public static function provide_get_can_return_exif_data_correctly(): array
+    {
+        return [
+            "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
+            "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
+            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_get_can_return_exif_data_correctly
+     */
+    public function test_get_can_return_exif_data_correctly(string $path, array $expect): void
+    {
+        $tag = array_keys($expect)[0];
+        $value = $expect[$tag];
+        $this->assertSame($value, Exif::get($path)[$tag]);
+    }
+
     public function provide_byte2array_can_convert_value_correctly(): array
     {
         return [

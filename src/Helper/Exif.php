@@ -2,6 +2,10 @@
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
+use Intervention\Image\ImageManagerStatic as Image;
+use Macocci7\PhpPhotoGps\Helper\Uri;
+use Macocci7\PhpPhotoGps\Helper\File;
+
 /**
  * Class for Exif Data Handling
  * @author  macocci7 <macocci7@yahoo.co.jp>
@@ -9,6 +13,55 @@ namespace Macocci7\PhpPhotoGps\Helper;
  */
 class Exif
 {
+    /**
+     * @var string|null $version
+     */
+    private static string|null $version = null;
+
+    /**
+     * constructor
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * returns ExifVersion
+     * @return  string|null
+     */
+    public static function version(?string $version = null)
+    {
+        if (!is_null($version)) {
+            self::$version = $version;
+        }
+        return self::$version;
+    }
+
+    /**
+     * returns EXIF data from a file.
+     * @param   string  $path
+     * @return  mixed[]|null
+     * @thrown  \Exception
+     */
+    public static function get(string $path)
+    {
+        if (!is_readable($path) && !Uri::isAvailable($path)) {
+            throw new \Exception("The file is not readable.");
+        }
+        if (Uri::isAvailable($path)) {
+            if (!ini_get('allow_url_fopen')) {
+                ini_set('allow_url_fopen', '1');
+            }
+            $path = File::download($path);
+            if (!$path) {
+                return null;
+            }
+        }
+        $exif = Image::make($path)->exif();
+        self::$version = $exif['ExifVersion'] ?? null; // @phpstan-ignore-line
+        return $exif; // @phpstan-ignore-line
+    }
+
     /**
      * converts BYTE data into human-readable array.
      * @param   string  $byte

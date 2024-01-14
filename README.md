@@ -404,7 +404,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値楕円体高） 13.00 メートル
 
     </td></tr>
-    <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
+    <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>o</td><td>
     No Geo Data
 
     No Altitude Data
@@ -439,6 +439,7 @@ The code below creates a list of photos in the dir `img/`.
     use Macocci7\PhpPhotoGps\PhotoGps;
     use Macocci7\PhpPhotoGps\Helper\Dir;
     use Macocci7\PhpPhotoGps\Helper\Arrow;
+    use Macocci7\PhpPhotoGps\Helper\Exif;
 
     $pg = new PhotoGps();
     $images = [
@@ -455,6 +456,7 @@ The code below creates a list of photos in the dir `img/`.
     // Loop for images
     foreach ($images as $title => $image) {
         echo "## $title\n\n";
+        // Start Table
         echo "<table>\n";
         $style = 'display: flex; align-items: top;';
         echo sprintf("<tr style='%s'>\n<td>\n", $style);
@@ -473,11 +475,10 @@ The code below creates a list of photos in the dir `img/`.
         $destBearing = $pg->destBearing();
         $datestamp = $pg->datestamp();
         $timestamp = $pg->timestamp();
-        $judge = $direction . $speedS . $track . $destBearing . $datestamp . $timestamp;
-        if (strlen($judge) > 0) {
-            echo "|Attribute|Value|\n";
-            echo "|:---|---:|\n";
-        }
+
+        echo "|Attribute|Value|\n";
+        echo "|:---|---:|\n";
+        echo sprintf("|ExifVersion|%s|\n", Exif::version());
 
         // Image Direction
         if (!is_null($direction)) {
@@ -535,22 +536,22 @@ The code below creates a list of photos in the dir `img/`.
         echo "</td>\n<td>\n\n";
 
         // Check If GPS Data Exists
-        if (!$pg->hasGps()) {
+        if ($pg->hasGps()) {
+            // Show GPS Data
+            echo "|Tag|Value|\n";
+            echo "|:---|---:|\n";
+            foreach ($pg->gps() as $tag => $value) {
+                echo sprintf(
+                    "|%s|%s|\n",
+                    $tag,
+                    is_array($value) ? implode('<br />', $value) : $value
+                );
+            }
+        } else {
             echo "No GPS data.\n\n";
-            continue;
         }
 
-        // Show GPS Data
-        echo "|Tag|Value|\n";
-        echo "|:---|---:|\n";
-        foreach ($pg->gps() as $tag => $value) {
-            echo sprintf(
-                "|%s|%s|\n",
-                $tag,
-                is_array($value) ? implode('<br />', $value) : $value
-            );
-        }
-
+        // Close Table
         echo "</td>\n</tr>\n</table>\n\n";
     }
     ```
@@ -570,6 +571,7 @@ The code below creates a list of photos in the dir `img/`.
 
     |Attribute|Value|
     |:---|---:|
+    |ExifVersion|0300|
     |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow352.40.png' width=30 height=30 />M 352.40°</div>|
     |Speed|12.45kt|
     |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow62.90.png' width=30 height=30 />M 62.90°</div>|
@@ -611,6 +613,7 @@ The code below creates a list of photos in the dir `img/`.
 
     |Attribute|Value|
     |:---|---:|
+    |ExifVersion|0300|
     |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
     |Speed|100.00mph|
     |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
@@ -622,7 +625,7 @@ The code below creates a list of photos in the dir `img/`.
 
     |Tag|Value|
     |:---|---:|
-    |GPS_IFD_Pointer|148|
+    |GPS_IFD_Pointer|214|
     |GPSLatitudeRef|S|
     |GPSLatitude|20/1<br />11/1<br />20898/1000|
     |GPSLongitudeRef|W|
@@ -652,6 +655,7 @@ The code below creates a list of photos in the dir `img/`.
 
     |Attribute|Value|
     |:---|---:|
+    |ExifVersion|0300|
     |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow306.25.png' width=30 height=30 />T 306.25°</div>|
     |Speed|1.60mph|
     |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow359.90.png' width=30 height=30 />M 359.90°</div>|
@@ -688,6 +692,9 @@ The code below creates a list of photos in the dir `img/`.
     <td>
     <img src='example/img/without_gps.jpg' alt='No GPS tags' width='200'>
 
+    |Attribute|Value|
+    |:---|---:|
+    |ExifVersion|0220|
     </td>
     <td>
 
@@ -748,7 +755,7 @@ The code below creates a list of photos in the dir `img/`.
             
             Exif Tool can edit all [writable GPS tags](https://exiftool.org/TagNames/GPS.html).
             
-            However, Exif Tool currently cannot set `GPSSpeedRef` as `K` (may be a bug).
+            However, Exif Tool currently cannot set `GPSSpeedRef` as `K` (maybe a bug).
 
 ### 5.5. Usage: GPS Attribute Information
 
@@ -767,10 +774,17 @@ The code below creates a list of photos in the dir `img/`.
 
     use Macocci7\PhpPhotoGps\Helper\Gps;
 
-    echo "# Exif: GPS Attribute Information\n\n";
+    //$exifVersion = "0210";
+    //$exifVersion = "0220";
+    //$exifVersion = "0221";
+    //$exifVersion = "0230";
+    //$exifVersion = "0231";
+    //$exifVersion = "0232";
+    $exifVersion = "0300";
+    echo "# Exif" . $exifVersion . ": GPS Attribute Information\n\n";
     echo "|Field Name|Type|Count|Values|Default|Separator|\n";
     echo "|:---|:---|---:|:---|:---:|:---:|\n";
-    foreach (Gps::def() as $key => $value) {
+    foreach (Gps::def('exif' . $exifVersion . '.fields') as $key => $value) {
         echo sprintf(
             "|%s|%s|%d|%s|%s|%s|\n",
             $key,
@@ -796,16 +810,16 @@ The code below creates a list of photos in the dir `img/`.
 
 - [GpsAttrInfo.md](example/GpsAttrInfo.md)
 
-    # Exif: GPS Attribute Information
+    # Exif0300: GPS Attribute Information
 
     |Field Name|Type|Count|Values|Default|Separator|
     |:---|:---|---:|:---|:---:|:---:|
-    |GPSVersion|BYTE|4|---|---|.|
+    |GPSVersion|BYTE|4|---|2.4.0.0|.|
     |GPSVersionID|BYTE|4|---|2.4.0.0|.|
     |GPSLatitudeRef|ASCII|2|* N: North latitude<br />* S: South latitude|None|---|
     |GPSLatitude|RATIONAL|3|---|None|---|
     |GPSLongitudeRef|ASCII|2|* E: East longitude<br />* W: West longitude|None|---|
-    |GPSLongitude|ASCII|3|---|None|---|
+    |GPSLongitude|RATIONAL|3|---|None|---|
     |GPSAltitudeRef|BYTE|1|* 0: Positive ellipsoidal height (at or above ellipsoidal surface)<br />* 1: Negative ellipsoid height (below ellipsoidal surface)<br />* 2: Positive sea level value (at or above sea level reference)<br />* 3: Negative sea level value (below sea level reference)|0||
     |GPSAltitude|RATIONAL|1|---|None|---|
     |GPStimeStamp|RATIONAL|3|---|None|---|
@@ -813,25 +827,25 @@ The code below creates a list of photos in the dir `img/`.
     |GPSStatus|ASCII|2|* A: Measurement in progress<br />* V: Measurement interrupted|None|---|
     |GPSMeasureMode|ASCII|2|* 2: 2-dimensional measurement<br />* 3: 3-dimensional measurement|None|---|
     |GPSDOP|RATIONAL|1|---|None|---|
-    |GPSSpeedRef|ASCII|2|* K: k/m<br />* M: mph<br />* n: knots|K|---|
+    |GPSSpeedRef|ASCII|2|* K: Kilometers per hour<br />* M: Miles per hour<br />* N: Knots|K|---|
     |GPSSpeed|RATIONAL|1|---|None|---|
-    |GPSTrackRef|ASCII|2|* T: true bearing<br />* M: magnetic bearing|T|---|
+    |GPSTrackRef|ASCII|2|* T: True direction<br />* M: Magnetic direction|T|---|
     |GPSTrack|RATIONAL|1|---|None|---|
-    |GPSImgDirectionRef|ASCII|2|* T: true bearing<br />* M: magnetic bearing|T|---|
+    |GPSImgDirectionRef|ASCII|2|* T: True direction<br />* M: Magnetic direction|T|---|
     |GPSImgDirection|RATIONAL|1|---|None|---|
     |GPSMapDatum|ASCII|0|---|None|---|
-    |GPSDestLatitudeRef|ASCII|2|* N: North<br />* S: South|None|---|
+    |GPSDestLatitudeRef|ASCII|2|* N: North latitude<br />* S: South latitude|None|---|
     |GPSDestLatitude|RATIONAL|3|---|None|---|
-    |GPSDestLongitudeRef|ASCII|2|* E: East<br />* W: West|None|---|
+    |GPSDestLongitudeRef|ASCII|2|* E: East longitude<br />* W: West longitude|None|---|
     |GPSDestLongitude|RATIONAL|3|---|None|---|
-    |GPSDestBearingRef|ASCII|2|* T: true bearing<br />* M: magnetic bearing|T|---|
+    |GPSDestBearingRef|ASCII|2|* T: True direction<br />* M: Magnetic direction|T|---|
     |GPSDestBearing|RATIONAL|1|---|None|---|
-    |GPSDestDistanceRef|ASCII|2|* K: kilometers<br />* M: miles<br />* N: nautical miles|K|---|
+    |GPSDestDistanceRef|ASCII|2|* K: Kilometers<br />* M: Miles<br />* N: Nautical miles|K|---|
     |GPSDestDistance|RATIONAL|1|---|None|---|
-    |GPSProcessingMethod|UNDEFINED|0|* GPS: GPS [GPSMeaMeasureMode: 2 or 3]<br />* QZSS: Quasi-Zenith Satellite System [GPSMeaMeasureMode: 2 or 3]<br />* GALILEO: Galileo System [GPSMeaMeasureMode: 2 or 3]<br />* GLONASS: Global Navigation Satellite System [GPSMeaMeasureMode: 2 or 3]<br />* BEIDOU: Beidou Satellite Positioning System [GPSMeaMeasureMode: 2 or 3]<br />* NAVID: Navigation Indian Constellation System [GPSMeaMeasureMode: 2 or 3]<br />* CELLID: Mobile Phone Base Stations [GPSMeaMeasureMode: 2 (generally)]<br />* WLAN: Wireless LAN [GPSMeaMeasureMode: 2 (generally)]<br />* MANUAL: Manual input [GPSMeaMeasureMode: (not recorded)]|None|---|
+    |GPSProcessingMethod|UNDEFINED|0|* GPS: GPS [GPSMeaMeasureMode: 2 or 3]<br />* QZSS: Quasi-Zenith Satellite System [GPSMeasureMode: 2 or 3]<br />* GALILEO: Galileo System [GPSMeasureMode: 2 or 3]<br />* GLONASS: Global Navigation Satellite System [GPSMeasureMode: 2 or 3]<br />* BEIDOU: Beidou Satellite Positioning System [GPSMeasureMode: 2 or 3]<br />* NAVID: Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]<br />* CELLID: Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]<br />* WLAN: Wireless LAN [GPSMeasureMode: 2 (generally)]<br />* MANUAL: Manual input [GPSMeasureMode: (not recorded)]|None|---|
     |GPSAreaInformation|UNDEFINED|0|---|None|---|
     |GPSDateStamp|ASCII|11|---|None|---|
-    |GPSDifferential|SHORT|1|* 0: Stand Alone Positioning<br />* 1: Differential GPS|None|---|
+    |GPSDifferential|SHORT|1|* 0: Measurement without differential correction<br />* 1: Differential correction applied|None|---|
     |GPSHPositioningError|RATIONAL|1|---|None|---|
 
 #### 5.5.3. Details
@@ -845,13 +859,32 @@ The code below creates a list of photos in the dir `img/`.
 
     GPS Tag Attributes are defined in `config/Gps.neon`.
 
-    Hash keys in returned array by `Gps::def()` are Attribute Names:
+    The structure of Hash array returned by `Gps::def()` is as below:
 
-    - `type`: based on Exif Standard
-    - `count`: based on Exif Standard
-    - `default`: based on Exif Standard
-    - `values`: based on Exif Standard
-    - `separator`: originaly added
+    - `exifXXXX`: `XXXX` is replaced with Exif Version number.
+        - `fields`:
+            - TagName: like `GPSVersionID` or `GPSAltitude`
+                - `type`: based on Exif Standard
+                - `count`: based on Exif Standard
+                - `default`: based on Exif Standard
+                - `values`: based on Exif Standard
+                - `separator`: originaly added
+
+    Object-like dot-separated specifiers are available for `$tagName`.
+
+    For example, `Gps::def('exif0300.fields.GPSLatitudeRef')` returns:
+
+    ```php
+    [
+        'type' => 'ASCII',
+        'count' => 2,
+        'default' => 'None'
+        'values' => [
+            'N' => 'North latitude',
+            'S' => 'South latitude',
+        ],
+    ];
+    ```
 
 ## 6. Examples
 
@@ -868,6 +901,22 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/01/14: version updated 1.4.1 => 1.5.0
+
+#### Improvement
+
+- Updated: Exif versions prior to Version 3.0 are now supported.
+    - Exif Version 2.32 (Released: May 2019)
+    - Exif Version 2.31 (Released: July 2016)
+    - Exif Version 2.3 (Released: April 2010)
+    - Exif Version 2.21 (Released: September 2003)
+    - Exif Version 2.2 (Released: April 2002)
+    - Exif Version 2.1 (Released: December 1998)
+
+    GPS Tag Definitions are based on PDF files on Websites of [CIPA](https://cipa.jp/e/std/std-sec.html) and [Wikipedia](https://en.wikipedia.org/wiki/Exif).
+- Updated: examples.
+- Updated: README
 
 ### 2024/01/09: version updated 1.4.0 => 1.4.1
 
@@ -920,6 +969,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/01/09*
+*Document updated: 2024/01/14*
 
 Copyright 2023 - 2024 macocci7

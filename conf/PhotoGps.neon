@@ -34,11 +34,47 @@ units:
         format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
         altitude: m
         altitudeRef:
-            0: '(Above Ellipsoidal Surface)'
-            1: '(Below Ellipsoidal Surface)'
-            2: '(Above Sea Level)'
-            3: '(Below Sea Level)'
-            default: 'Altitude'
+            # Default:
+            exif:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.1
+            exif0210:
+                0: '(Above Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.2
+            exif0220:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.21
+            exif0221:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.3
+            exif0230:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.31
+            exif0231:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 2.32
+            exif0232:
+                0: '(Above Sea Level)'
+                1: '(Below Sea Level)'
+                default: '(Above Sea Level)'
+            # Exif Version 3.0
+            exif0300:
+                0: '(Above Ellipsoidal Surface)'
+                1: '(Below Ellipsoidal Surface)'
+                2: '(Above Sea Level)'
+                3: '(Below Sea Level)'
+                default: '(Above Ellipsoidal Surface)'
         speed:
             K: km/h
             M: mph
@@ -58,11 +94,42 @@ units:
         format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
         altitude: 'メートル'
         altitudeRef:
-            0: '（正値楕円体高）'
-            1: '（負値楕円体高）'
-            2: '（正値海抜）'
-            3: '（負値海抜）'
-            default: '高度'
+            # Exif Version 2.1
+            exif0210:
+                0: '（正値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 2.2
+            exif0220:
+                0: '（正値海抜）'
+                1: '（負値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 2.21
+            exif0221:
+                0: '（正値海抜）'
+                1: '（負値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 2.3
+            exif0230:
+                0: '（正値海抜）'
+                1: '（負値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 2.31
+            exif0231:
+                0: '（正値海抜）'
+                1: '（負値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 2.32
+            exif0232:
+                0: '（正値海抜）'
+                1: '（負値海抜）'
+                default: '（正値海抜）'
+            # Exif Version 3.0
+            exif0300:
+                0: '（正値楕円体高）'
+                1: '（負値楕円体高）'
+                2: '（正値海抜）'
+                3: '（負値海抜）'
+                default: '（正値楕円体高）'
         speed:
             K: 'キロメートル／時'
             M: 'マイル／時'

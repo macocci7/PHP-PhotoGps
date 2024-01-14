@@ -13,9 +13,9 @@ use Macocci7\PhpPhotoGps\Helper\Exif;
 class Gps
 {
     /**
-     * @var mixed[]|null  $def
+     * @var bool    $configLoaded
      */
-    private static array|null $def;
+    private static bool $configLoaded = false;
 
     /**
      * init
@@ -24,26 +24,20 @@ class Gps
     public static function init()
     {
         Config::load();
-        self::$def = Config::get('fields'); // @phpstan-ignore-line
+        self::$configLoaded = true;
     }
 
     /**
-     * returns definitino of GPS Tags
+     * returns definition of GPS Tags
      * @param   string|null  $key = null
      * @return  mixed[]|null
      */
     public static function def(?string $key = null)
     {
-        if (!isset(self::$def)) {
+        if (!self::$configLoaded) {
             self::init();
         }
-        if (is_null($key)) {
-            return self::$def;
-        }
-        if (!isset(self::$def[$key])) {
-            return null;
-        }
-        return self::$def[$key];    // @phpstan-ignore-line
+        return Config::get($key); // @phpstan-ignore-line
     }
 
     /**
@@ -73,10 +67,7 @@ class Gps
      */
     public static function values(string $key)
     {
-        if (!isset(self::$def[$key]['values'])) {   // @phpstan-ignore-line
-            return null;
-        }
-        return self::$def[$key]['values'];  // @phpstan-ignore-line
+        return self::def($key)['values'] ?? null;  // @phpstan-ignore-line
     }
 
     /**
@@ -92,9 +83,6 @@ class Gps
                 unset($exif[$key]);
                 continue;
             }
-            if (!isset(self::$def[$key])) {
-                continue;
-            }
         }
         return self::convert($exif);
     }
@@ -107,11 +95,12 @@ class Gps
      */
     public static function convert(array $gps)
     {
+        $prefix = sprintf("exif%s.fields.", Exif::version());
         foreach ($gps as $key => $value) {
-            $type = self::type($key);
-            $count = self::count($key);
-            if (self::isDefByte($key)) {
-                $separator = self::def($key)['separator']; // @phpstan-ignore-line
+            $type = self::type($prefix . $key);
+            $count = self::count($prefix . $key);
+            if (self::isDefByte($prefix . $key)) {
+                $separator = self::def($prefix . $key)['separator']; // @phpstan-ignore-line
                 $gps[$key] = Exif::byte2ascii($value, $count, $separator); // @phpstan-ignore-line
                 continue;
             }

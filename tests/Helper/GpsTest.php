@@ -8,6 +8,7 @@ require('vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\Gps;
+use Macocci7\PhpPhotoGps\Helper\Exif;
 use Macocci7\PhpPhotoGps\Helper\Config;
 use Nette\Neon\Neon;
 
@@ -26,18 +27,22 @@ final class GpsTest extends TestCase
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
         Gps::init();
         $r = new \ReflectionClass(Gps::class);
-        $p = $r->getProperty('def');
+        $p = $r->getProperty('configLoaded');
+        $p->setAccessible(true);
+        $this->assertTrue($p->getValue());
+        $r = new \ReflectionClass(Config::class);
+        $p = $r->getProperty('conf');
         $p->setAccessible(true);
         $this->assertSame(
-            Neon::decodeFile($pathConf)['fields'],
-            $p->getValue()
+            Neon::decodeFile($pathConf),
+            $p->getValue()[Gps::class]
         );
     }
 
     public function test_def_can_return_value_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
+        $def = Neon::decodeFile($pathConf);
         // all
         $this->assertSame(
             $def,
@@ -57,11 +62,14 @@ final class GpsTest extends TestCase
     public function test_type_can_return_value_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
+        $defs = Neon::decodeFile($pathConf);
         // keys
-        foreach ($def as $key => $tag) {
-            $type = $tag['type'];
-            $this->assertSame($type, Gps::type($key));
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $tag) {
+                $type = $tag['type'];
+                $this->assertSame($type, Gps::type($prefix . $key));
+            }
         }
         // null
         $this->assertNull(Gps::type('hoge'));
@@ -70,11 +78,14 @@ final class GpsTest extends TestCase
     public function test_count_can_return_value_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
+        $defs = Neon::decodeFile($pathConf);
         // keys
-        foreach ($def as $key => $tag) {
-            $count = $tag['count'];
-            $this->assertSame($count, Gps::count($key));
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $tag) {
+                $count = $tag['count'];
+                $this->assertSame($count, Gps::count($prefix . $key));
+            }
         }
         // null
         $this->assertNull(Gps::count('hoge'));
@@ -83,12 +94,15 @@ final class GpsTest extends TestCase
     public function test_values_can_return_value_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
+        $defs = Neon::decodeFile($pathConf);
         // keys
-        foreach ($def as $key => $tag) {
-            if (isset($tag['values'])) {
-                $values = $tag['values'];
-                $this->assertSame($values, Gps::values($key));
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $tag) {
+                if (isset($tag['values'])) {
+                    $values = $tag['values'];
+                    $this->assertSame($values, Gps::values($prefix . $key));
+                }
             }
         }
         // null
@@ -100,6 +114,7 @@ final class GpsTest extends TestCase
         return [
             "exif" => [
                 'exif' => [
+                    'ExifVersion' => '0300',
                     'gpshoge' => 'hoge',
                     'GPSHoge' => 'Hoge',
                     'GPsHogE' => 'HogE',
@@ -122,6 +137,7 @@ final class GpsTest extends TestCase
      */
     public function test_filter_can_filter_correctly(array $exif, array $expect): void
     {
+        Exif::version($exif['ExifVersion']);
         $this->assertSame($expect, Gps::filter($exif));
     }
 
@@ -130,6 +146,7 @@ final class GpsTest extends TestCase
         return [
             "gps" => [
                 'exif' => [
+                    'ExifVersion' => '0300',
                     'gpshoge' => 'hoge',
                     'GPSHoge' => 'Hoge',
                     'GPsHogE' => 'HogE',
@@ -138,6 +155,7 @@ final class GpsTest extends TestCase
                     'GPSProcessingMethod' => "\0\0\0\0GPS",
                 ],
                 'expect' => [
+                    'ExifVersion' => '0300',
                     'gpshoge' => 'hoge',
                     'GPSHoge' => 'Hoge',
                     'GPsHogE' => 'HogE',
@@ -154,66 +172,82 @@ final class GpsTest extends TestCase
      */
     public function test_convert_can_convert_correctly(array $gps, array $expect): void
     {
+        Exif::version($gps['ExifVersion']);
         $this->assertSame($expect, Gps::convert($gps));
     }
 
     public function test_isDefByte_can_judge_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
-        foreach ($def as $key => $element) {
-            $this->assertSame(
-                0 === strcmp('BYTE', $element['type']),
-                Gps::isDefByte($key)
-            );
+        $defs = Neon::decodeFile($pathConf);
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $element) {
+                $this->assertSame(
+                    0 === strcmp('BYTE', $element['type']),
+                    Gps::isDefByte($prefix . $key)
+                );
+            }
         }
     }
 
     public function test_isDefShort_can_judge_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
-        foreach ($def as $key => $element) {
-            $this->assertSame(
-                0 === strcmp('SHORT', $element['type']),
-                Gps::isDefShort($key)
-            );
+        $defs = Neon::decodeFile($pathConf);
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $element) {
+                $this->assertSame(
+                    0 === strcmp('SHORT', $element['type']),
+                    Gps::isDefShort($prefix . $key)
+                );
+            }
         }
     }
 
     public function test_isDefAscii_can_judge_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
-        foreach ($def as $key => $element) {
-            $this->assertSame(
-                0 === strcmp('ASCII', $element['type']),
-                Gps::isDefAscii($key)
-            );
+        $defs = Neon::decodeFile($pathConf);
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $element) {
+                $this->assertSame(
+                    0 === strcmp('ASCII', $element['type']),
+                    Gps::isDefAscii($prefix . $key)
+                );
+            }
         }
     }
 
     public function test_isDefRational_can_judge_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
-        foreach ($def as $key => $element) {
-            $this->assertSame(
-                0 === strcmp('RATIONAL', $element['type']),
-                Gps::isDefRational($key)
-            );
+        $defs = Neon::decodeFile($pathConf);
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $element) {
+                $this->assertSame(
+                    0 === strcmp('RATIONAL', $element['type']),
+                    Gps::isDefRational($prefix . $key)
+                );
+            }
         }
     }
 
     public function test_isDefUndefined_can_judge_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
-        $def = Neon::decodeFile($pathConf)['fields'];
-        foreach ($def as $key => $element) {
-            $this->assertSame(
-                0 === strcmp('UNDEFINED', $element['type']),
-                Gps::isDefUndefined($key)
-            );
+        $defs = Neon::decodeFile($pathConf);
+        foreach ($defs as $exifVersion => $def) {
+            $prefix = sprintf("%s.fields.", $exifVersion);
+            foreach ($def['fields'] as $key => $element) {
+                $this->assertSame(
+                    0 === strcmp('UNDEFINED', $element['type']),
+                    Gps::isDefUndefined($prefix . $key)
+                );
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ require('../vendor/autoload.php');
 use Macocci7\PhpPhotoGps\PhotoGps;
 use Macocci7\PhpPhotoGps\Helper\Dir;
 use Macocci7\PhpPhotoGps\Helper\Arrow;
+use Macocci7\PhpPhotoGps\Helper\Exif;
 
 $pg = new PhotoGps();
 $images = [
@@ -40,11 +41,10 @@ foreach ($images as $title => $image) {
     $destBearing = $pg->destBearing();
     $datestamp = $pg->datestamp();
     $timestamp = $pg->timestamp();
-    $judge = $direction . $speedS . $track . $destBearing . $datestamp . $timestamp;
-    if (strlen($judge) > 0) {
-        echo "|Attribute|Value|\n";
-        echo "|:---|---:|\n";
-    }
+
+    echo "|Attribute|Value|\n";
+    echo "|:---|---:|\n";
+    echo sprintf("|ExifVersion|%s|\n", Exif::version());
 
     // Image Direction
     if (!is_null($direction)) {
