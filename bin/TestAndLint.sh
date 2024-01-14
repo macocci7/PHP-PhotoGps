@@ -28,6 +28,9 @@ test_and_lint() {
     echo "[PHP $1][parallel-lint]"
     ./vendor/bin/parallel-lint src tests example
     echo "-----------------------------------------------------------"
+    echo "[PHP $1][neon-lint]"
+    ./vendor/nette/neon/bin/neon-lint conf
+    echo "-----------------------------------------------------------"
     echo "[PHP $1][phpcs]"
     ./vendor/bin/phpcs --ignore=vendor \
                        --standard=phpcs.xml \

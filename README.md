@@ -15,7 +15,14 @@ converts speeds, date stamps and time stamps into human-readable strings.
 
 Remote files (via http: or https:) are supported.
 
-Currently Exif Version 3.0 is supported. (Wait for other versions...)
+Supported Exif Versions:
+- 3.0
+- 2.32
+- 2.31
+- 2.3
+- 2.21
+- 2.2
+- 2.1
 
 ## 2. Contents
 
@@ -901,6 +908,12 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/01/14: version updated 1.5.0 => 1.5.1
+
+#### Improvement
+
+- Updated: README
 
 ### 2024/01/14: version updated 1.4.1 => 1.5.0
 
