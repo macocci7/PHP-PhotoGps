@@ -47,7 +47,7 @@
 （正値楕円体高） 13.00 メートル
 
 </td></tr>
-<td><a href='img/without_gps.jpg'><img src='img/without_gps.jpg' width=100 /></a></td><td>o</td><td>
+<td><a href='img/without_gps.jpg'><img src='img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
 No Geo Data
 
 No Altitude Data

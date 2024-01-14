@@ -411,7 +411,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値楕円体高） 13.00 メートル
 
     </td></tr>
-    <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>o</td><td>
+    <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
     No Geo Data
 
     No Altitude Data
@@ -908,6 +908,13 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/01/14: version updated 1.5.1 => 1.5.2
+
+#### Improvement
+
+- Updated: example
+- Updated: README
 
 ### 2024/01/14: version updated 1.5.0 => 1.5.1
 
