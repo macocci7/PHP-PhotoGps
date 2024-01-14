@@ -136,40 +136,15 @@ class PhotoGps
     }
 
     /**
-     * returns EXIF data of the file.
-     * @return  mixed[]|null
-     * @thrown  \Exception
-     */
-    public function exif()
-    {
-        $path = $this->path;
-        if (!is_readable($path) && !Uri::isAvailable($path)) {
-            throw new \Exception("The file is not readable.");
-        }
-        if (Uri::isAvailable($path)) {
-            if (!ini_get('allow_url_fopen')) {
-                ini_set('allow_url_fopen', '1');
-            }
-            $path = File::download($this->path);
-            if (!$path) {
-                return null;
-            }
-        }
-        return Image::make($path)->exif(); // @phpstan-ignore-line
-    }
-
-    /**
      * returns GPS data in the EXIF data.
      * @return mixed[]|null
      */
     public function gps()
     {
-        if (is_array($this->gpsData)) {
-            if (!empty($this->gpsData)) {
-                return $this->gpsData;
-            }
+        if (!empty($this->gpsData)) {
+            return $this->gpsData;
         }
-        return Gps::filter($this->exif());  // @phpstan-ignore-line
+        return Gps::filter(Exif::get($this->path) ?? []);
     }
 
     /**
@@ -428,17 +403,14 @@ class PhotoGps
      */
     public function altitude()
     {
-        $keyR = 'GPSAltitudeRef';
         $keyV = 'GPSAltitude';
         if (!isset($this->gpsData[$keyV])) {
             return null;
         }
-        $ref = $this->gpsData[$keyR] ?? null;
         $val = $this->gpsData[$keyV];
         if (!Exif::isRational($val)) { // @phpstan-ignore-line
             return null;
         }
-        $ref = (int) $ref;
         return Exif::rational2Float($val); // @phpstan-ignore-line
     }
 
@@ -453,8 +425,13 @@ class PhotoGps
             return null;
         }
         $ref = $this->gpsData['GPSAltitudeRef'] ?? null;
-        // @phpstan-ignore-next-line
-        $pre = Config::get('units')[$this->lang()]['altitudeRef'][$ref ?? 'default'] ?? null;
+        $preKey = sprintf(
+            "units.%s.altitudeRef.exif%s.%s",
+            $this->lang(), // @phpstan-ignore-line
+            Exif::version(),
+            $ref ?? 'default' // @phpstan-ignore-line
+        );
+        $pre = Config::get($preKey);
         // @phpstan-ignore-next-line
         $unit = Config::get('units')[$this->lang()]['altitude'];
         return sprintf(

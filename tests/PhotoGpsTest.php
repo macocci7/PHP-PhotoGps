@@ -164,26 +164,6 @@ final class PhotoGpsTest extends TestCase
         $this->assertSame($this->defaultFormat['ja'], $pg->lang('ja')->format());
     }
 
-    public static function provide_exif_can_return_exif_data_correctly(): array
-    {
-        return [
-            "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
-            "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
-            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
-        ];
-    }
-
-    /**
-     * @dataProvider provide_exif_can_return_exif_data_correctly
-     */
-    public function test_exif_can_return_exif_data_correctly(string $path, array $expect): void
-    {
-        $pg = new PhotoGps($path);
-        $tag = array_keys($expect)[0];
-        $value = $expect[$tag];
-        $this->assertSame($value, $pg->exif()[$tag]);
-    }
-
     public static function provide_gps_can_return_gps_data_correctly(): array
     {
         return [

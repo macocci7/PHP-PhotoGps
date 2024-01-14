@@ -1,17 +1,15 @@
 # Configuration for Gps class
 
 # Exif: GPS Attribute Information
-fields:
-    # GPSVersion Found:
-    # - 2.2.0.0
-    # - 2.3.0.0
-    GPSVersion:
-        type: BYTE
-        count: 4
-        separator: '.'
 # Exif Version 2.1
-ExifVersion0210
+exif0210:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.0.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4
@@ -187,8 +185,221 @@ ExifVersion0210
             default: None
 
 # Exif Version 2.2
-ExifVersion0220
+exif0220:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.2.0.0'
+            separator: '.'
+
+        GPSVersionID:
+            type: BYTE
+            count: 4
+            default: '2.2.0.0'
+            separator: '.'
+
+        GPSLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSAltitudeRef:
+            type: BYTE
+            count: 1
+            separator: ''
+            default: 0
+            values:
+                0: 'Sea level'
+                1: 'Sea level reference (negative value)'
+
+        GPSAltitude:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPStimeStamp:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSSatellites:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSStatus:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                A: 'Measurement in progress'
+                V: 'Measurement Interoperability'
+
+        GPSMeasureMode:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                2: '2-dimensional measurement'
+                3: '3-dimensional measurement'
+
+        GPSDOP:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSSpeedRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers per hour'
+                M: 'Miles per hour'
+                N: 'Knots'
+
+        GPSSpeed:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSTrackRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSTrack:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSImgDirectionRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSImgDirection:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSMapDatum:
+            type: ASCII
+            count: Any
+            default: None
+
+        GPSDestLatitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                N: 'North latitude'
+                S: 'South latitude'
+
+        GPSDestLatitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestLongitudeRef:
+            type: ASCII
+            count: 2
+            default: None
+            values:
+                E: 'East longitude'
+                W: 'West longitude'
+
+        GPSDestLongitude:
+            type: RATIONAL
+            count: 3
+            default: None
+
+        GPSDestBearingRef:
+            type: ASCII
+            count: 2
+            default: T
+            values:
+                T: 'True direction'
+                M: 'Magnetic direction'
+
+        GPSDestBearing:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSDestDistanceRef:
+            type: ASCII
+            count: 2
+            default: K
+            values:
+                K: 'Kilometers'
+                M: 'Niles'
+                N: 'Knots'
+
+        GPSDestDistance:
+            type: RATIONAL
+            count: 1
+            default: None
+
+        GPSProcessingMethod:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSAreaInformation:
+            type: UNDEFINED
+            count: Any
+            default: None
+
+        GPSDateStamp:
+            type: ASCII
+            count: 11
+            default: None
+
+        GPSDifferential:
+            type: SHORT
+            count: 1
+            default: None
+            values:
+                0: 'Measurement without differential correction'
+                1: 'Differential correction applied'
+
+# Exif Version 2.21
+exif0221:
+    fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.2.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4
@@ -388,8 +599,14 @@ ExifVersion0220
                 1: 'Differential correction applied'
 
 # Exif Version 2.3
-ExifVersion0230
+exif0230:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4
@@ -599,8 +816,14 @@ ExifVersion0230
             default: None
 
 # Exif Version 2.31
-ExifVersion0231
+exif0231:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4
@@ -810,8 +1033,14 @@ ExifVersion0231
             default: None
 
 # Exif Version 2.32
-ExifVersion0232
+exif0232:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.3.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4
@@ -1022,8 +1251,14 @@ ExifVersion0232
 
 # Exif Version 3.0
 # https://www.cipa.jp/std/documents/download_e.html?DC-008-Translation-2023-E
-ExifVersion0300
+exif0300:
     fields:
+        GPSVersion:
+            type: BYTE
+            count: 4
+            default: '2.4.0.0'
+            separator: '.'
+
         GPSVersionID:
             type: BYTE
             count: 4

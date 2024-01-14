@@ -4,10 +4,17 @@ require_once('../vendor/autoload.php');
 
 use Macocci7\PhpPhotoGps\Helper\Gps;
 
-echo "# Exif: GPS Attribute Information\n\n";
+//$exifVersion = "0210";
+//$exifVersion = "0220";
+//$exifVersion = "0221";
+//$exifVersion = "0230";
+//$exifVersion = "0231";
+//$exifVersion = "0232";
+$exifVersion = "0300";
+echo "# Exif" . $exifVersion . ": GPS Attribute Information\n\n";
 echo "|Field Name|Type|Count|Values|Default|Separator|\n";
 echo "|:---|:---|---:|:---|:---:|:---:|\n";
-foreach (Gps::def() as $key => $value) {
+foreach (Gps::def('exif' . $exifVersion . '.fields') as $key => $value) {
     echo sprintf(
         "|%s|%s|%d|%s|%s|%s|\n",
         $key,

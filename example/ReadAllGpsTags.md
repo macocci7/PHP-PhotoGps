@@ -9,6 +9,7 @@
 
 |Attribute|Value|
 |:---|---:|
+|ExifVersion|0300|
 |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow352.40.png' width=30 height=30 />M 352.40°</div>|
 |Speed|12.45kt|
 |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow62.90.png' width=30 height=30 />M 62.90°</div>|
@@ -50,6 +51,7 @@
 
 |Attribute|Value|
 |:---|---:|
+|ExifVersion|0300|
 |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
 |Speed|100.00mph|
 |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
@@ -61,7 +63,7 @@
 
 |Tag|Value|
 |:---|---:|
-|GPS_IFD_Pointer|148|
+|GPS_IFD_Pointer|214|
 |GPSLatitudeRef|S|
 |GPSLatitude|20/1<br />11/1<br />20898/1000|
 |GPSLongitudeRef|W|
@@ -91,6 +93,7 @@
 
 |Attribute|Value|
 |:---|---:|
+|ExifVersion|0300|
 |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow306.25.png' width=30 height=30 />T 306.25°</div>|
 |Speed|1.60mph|
 |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow359.90.png' width=30 height=30 />M 359.90°</div>|
@@ -127,6 +130,9 @@
 <td>
 <img src='img/without_gps.jpg' alt='No GPS tags' width='200'>
 
+|Attribute|Value|
+|:---|---:|
+|ExifVersion|0220|
 </td>
 <td>
 

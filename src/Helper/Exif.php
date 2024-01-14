@@ -4,7 +4,6 @@ namespace Macocci7\PhpPhotoGps\Helper;
 
 use Intervention\Image\ImageManagerStatic as Image;
 use Macocci7\PhpPhotoGps\Helper\Uri;
-use Macocci7\PhpPhotoGps\Helper\Exif;
 use Macocci7\PhpPhotoGps\Helper\File;
 
 /**
@@ -15,30 +14,36 @@ use Macocci7\PhpPhotoGps\Helper\File;
 class Exif
 {
     /**
-     * @var array<int, float, string, array<string>>    $data
+     * @var string|null $version
      */
-    private static array|null $data;
+    private static string|null $version = null;
 
     /**
-     * @var string|null $path
+     * constructor
      */
-    private static string|null $path;
-
     private function __construct()
     {
     }
 
-    private function load()
+    /**
+     * returns ExifVersion
+     * @return  string|null
+     */
+    public static function version(?string $version = null)
     {
+        if (!is_null($version)) {
+            self::$version = $version;
+        }
+        return self::$version;
     }
 
     /**
-     * returns EXIF data of the file.
+     * returns EXIF data from a file.
      * @param   string  $path
      * @return  mixed[]|null
      * @thrown  \Exception
      */
-    public function get(string $path)
+    public static function get(string $path)
     {
         if (!is_readable($path) && !Uri::isAvailable($path)) {
             throw new \Exception("The file is not readable.");
@@ -47,12 +52,14 @@ class Exif
             if (!ini_get('allow_url_fopen')) {
                 ini_set('allow_url_fopen', '1');
             }
-            $path = File::download($this->path);
+            $path = File::download($path);
             if (!$path) {
                 return null;
             }
         }
-        return Image::make($path)->exif(); // @phpstan-ignore-line
+        $exif = Image::make($path)->exif();
+        self::$version = $exif['ExifVersion'] ?? null; // @phpstan-ignore-line
+        return $exif; // @phpstan-ignore-line
     }
 
     /**
