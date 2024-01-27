@@ -118,9 +118,9 @@ class PhotoGps
     public function format(?string $format = null)
     {
         if (is_null($format)) {
-            return $this->units[$this->lang()]['format']; // @phpstan-ignore-line
+            return $this->units[$this->lang()]['geo']['format']; // @phpstan-ignore-line
         }
-        $this->units[$this->lang()]['format'] = $format; // @phpstan-ignore-line
+        $this->units[$this->lang()]['geo']['format'] = $format; // @phpstan-ignore-line
         return $this;
     }
 
@@ -131,7 +131,7 @@ class PhotoGps
     public function resetFormat()
     {
         // @phpstan-ignore-next-line
-        $this->format(Config::get('units')[$this->lang()]['format']);
+        $this->format(Config::get('units')[$this->lang()]['geo']['format']);
         return $this;
     }
 
@@ -262,7 +262,7 @@ class PhotoGps
         ) {
             return null;
         }
-        $units = $this->units[$this->lang()];   // @phpstan-ignore-line
+        $units = $this->units[$this->lang()]['geo'];   // @phpstan-ignore-line
         $tags = [
             '{degrees:v}' => (int) Exif::rational2Float($coord[0]),
             '{minutes:v}' => (int) Exif::rational2Float($coord[1]),
@@ -466,12 +466,50 @@ class PhotoGps
         if (is_null($degrees)) {
             return null;
         }
-        $ref = '';
         $key = 'GPSImgDirectionRef';
+        return $this->formattedDirection($key, $degrees);
+        /*
+        $ref = '';
+        $units = $this->units[$this->lang()]['direction'];
         if (isset($this->gpsData[$key])) {
-            $ref = $this->gpsData[$key];
+            $ref = $units['ref'][$this->gpsData[$key]];
         }
-        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
+        $tags = [
+            '{ref}' => $ref,
+            '{degrees:v}' => sprintf("%.2f", $degrees),
+            '{degrees:u}' => $units['degrees'],
+        ];
+        $string = $units['format'];
+        foreach ($tags as $key => $value) {
+            $string = str_replace($key, $value, $string);
+        }
+        return $string;
+        */
+    }
+
+    /**
+     * returns formatted direction
+     * @param   string  $key
+     * @param   float   $degrees
+     * @return  string
+     */
+    private function formattedDirection(string $key, float $degrees)
+    {
+        $ref = '';
+        $units = $this->units[$this->lang()]['direction']; // @phpstan-ignore-line
+        if (isset($this->gpsData[$key])) {
+            $ref = $units['ref'][$this->gpsData[$key]]; // @phpstan-ignore-line
+        }
+        $tags = [
+            '{ref}' => $ref,
+            '{degrees:v}' => sprintf("%.2f", $degrees),
+            '{degrees:u}' => $units['degrees'], // @phpstan-ignore-line
+        ];
+        $string = $units['format']; // @phpstan-ignore-line
+        foreach ($tags as $key => $value) {
+            $string = str_replace($key, $value, $string); // @phpstan-ignore-line
+        }
+        return $string;
     }
 
     /**
@@ -499,8 +537,16 @@ class PhotoGps
         }
         $key = 'GPSSpeedRef';
         $ref = $this->gpsData[$key] ?? 'default';
-        $unit = Config::get('units')[$this->lang()]['speed'][$ref]; // @phpstan-ignore-line
-        return sprintf("%.2f%s", $speed, $unit); // @phpstan-ignore-line
+        $units = Config::get('units')[$this->lang()]['speed']; // @phpstan-ignore-line
+        $tags = [
+            '{speed:v}' => sprintf("%.2f", $speed),
+            '{speed:u}' => $units['ref'][$ref], // @phpstan-ignore-line
+        ];
+        $string = $units['format']; // @phpstan-ignore-line
+        foreach ($tags as $key => $value) {
+            $string = str_replace($key, $value, $string); // @phpstan-ignore-line
+        }
+        return $string;
     }
 
     /**
@@ -528,8 +574,7 @@ class PhotoGps
             return null;
         }
         $key = 'GPSDestBearingRef';
-        $ref = $this->gpsData[$key] ?? null;
-        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
+        return $this->formattedDirection($key, $degrees);
     }
 
     /**
@@ -557,8 +602,7 @@ class PhotoGps
             return null;
         }
         $key = 'GPSTrackRef';
-        $ref = $this->gpsData[$key] ?? null;
-        return sprintf("%s %.2f°", $ref, $degrees); // @phpstan-ignore-line
+        return $this->formattedDirection($key, $degrees);
     }
 
     /**

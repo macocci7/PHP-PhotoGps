@@ -555,9 +555,9 @@ final class PhotoGpsTest extends TestCase
         return [
             "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
             "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => 'T 306.25°', ],
-            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => 'T 306.25°', ],
+            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '真北 306.25度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 352.40°', ],
-            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 352.40°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 352.40度', ],
         ];
     }
 
@@ -631,9 +631,9 @@ final class PhotoGpsTest extends TestCase
         return [
             "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
             "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 138.69°', ],
-            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 138.69°', ],
+            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 138.69度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 273.47°', ],
-            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => 'T 273.47°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => '真北 273.47度', ],
         ];
     }
 
@@ -669,9 +669,9 @@ final class PhotoGpsTest extends TestCase
         return [
             "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
             "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 62.90°', ],
-            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => 'M 62.90°', ],
+            "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 62.90度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 268.44°', ],
-            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => 'T 268.44°', ],
+            "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'ja', 'expect' => '真北 268.44度', ],
         ];
     }
 

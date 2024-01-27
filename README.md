@@ -909,20 +909,28 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 8. Changelog
 
-### 2024/01/14: version updated 1.5.1 => 1.5.2
+### 2024/01/27: version updated => 1.5.3
+
+#### Improvement
+
+- Updated: `directionS()` supports `lang('ja')`
+- Updated: `TrackS()` supports `lang('ja')`
+- Updated: `destBearingS()` supports `lang('ja')`
+
+### 2024/01/14: version updated => 1.5.2
 
 #### Improvement
 
 - Updated: example
 - Updated: README
 
-### 2024/01/14: version updated 1.5.0 => 1.5.1
+### 2024/01/14: version updated => 1.5.1
 
 #### Improvement
 
 - Updated: README
 
-### 2024/01/14: version updated 1.4.1 => 1.5.0
+### 2024/01/14: version updated => 1.5.0
 
 #### Improvement
 
@@ -938,7 +946,7 @@ The code below creates a list of photos in the dir `img/`.
 - Updated: examples.
 - Updated: README
 
-### 2024/01/09: version updated 1.4.0 => 1.4.1
+### 2024/01/09: version updated => 1.4.1
 
 #### Improvement
 
@@ -946,7 +954,7 @@ The code below creates a list of photos in the dir `img/`.
 - Fixed: `example/ConfigFormat.php`
 - Updated: wrong statements in README corrected.
 
-### 2024/01/08: version updated 1.3.1 => 1.4.0
+### 2024/01/08: version updated => 1.4.0
 
 #### Added
 
@@ -973,15 +981,15 @@ The code below creates a list of photos in the dir `img/`.
 
 - Update: `hasGps()` judges if any GPS tag exists.
 
-### 2024/01/02: version updated 1.3.0 => 1.3.1
+### 2024/01/02: version updated => 1.3.1
 
 - resetting format enabled, documents updated
 
-### 2024/01/01: version updated 1.2.0 => 1.3.0
+### 2024/01/01: version updated => 1.3.0
 
 - format configuration enabled
 
-### 2023/11/11: version updated 1.1.1 => 1.2.0
+### 2023/11/11: version updated => 1.2.0
 
 - usages of some methods have been changed
 
@@ -989,6 +997,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/01/14*
+*Document updated: 2024/01/27*
 
 Copyright 2023 - 2024 macocci7

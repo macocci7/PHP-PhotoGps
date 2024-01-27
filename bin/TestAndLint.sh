@@ -12,6 +12,13 @@ if [ $? -ne 0 ]; then
     echo "command [${CMD}] not found!"
     exit 1
 fi
+echo "-----------------------------------------------------------"
+echo "[composer validate]"
+composer validate
+if [ $? -ne 0 ]; then
+    echo "Operation aborted."
+    exit 1
+fi
 
 test_and_lint() {
     echo "==========================================================="
