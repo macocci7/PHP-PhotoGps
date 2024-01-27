@@ -23,15 +23,16 @@ units:
 
     # Language: English
     eng:
-        degrees: '°'
-        minutes: "'"
-        seconds: '"'
-        ref:
-            N: N
-            S: S
-            E: E
-            W: W
-        format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
+        geo:
+            degrees: '°'
+            minutes: "'"
+            seconds: '"'
+            ref:
+                N: N
+                S: S
+                E: E
+                W: W
+            format: "{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}"
         altitude: m
         altitudeRef:
             # Default:
@@ -76,22 +77,31 @@ units:
                 3: '(Below Sea Level)'
                 default: '(Above Ellipsoidal Surface)'
         speed:
-            K: km/h
-            M: mph
-            N: kt
-            default: km/h
+            ref:
+                K: km/h
+                M: mph
+                N: kt
+                default: km/h
+            format: '{speed:v}{speed:u}'
+        direction:
+            degrees: '°'
+            ref:
+                T: 'T'
+                M: 'M'
+            format: '{ref} {degrees:v}{degrees:u}'
 
     # Language: Japanese
     ja:
-        degrees: '度'
-        minutes: '分'
-        seconds: '秒'
-        ref:
-            N: '北緯'
-            S: '南緯'
-            E: '東経'
-            W: '西経'
-        format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
+        geo:
+            degrees: '度'
+            minutes: '分'
+            seconds: '秒'
+            ref:
+                N: '北緯'
+                S: '南緯'
+                E: '東経'
+                W: '西経'
+            format: "{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}"
         altitude: 'メートル'
         altitudeRef:
             # Exif Version 2.1
@@ -131,7 +141,15 @@ units:
                 3: '（負値海抜）'
                 default: '（正値楕円体高）'
         speed:
-            K: 'キロメートル／時'
-            M: 'マイル／時'
-            N: 'ノット'
-            default: 'キロメートル／時'
+            ref:
+                K: 'キロメートル／時'
+                M: 'マイル／時'
+                N: 'ノット'
+                default: 'キロメートル／時'
+            format: '{speed:v}{speed:u}'
+        direction:
+            degrees: '度'
+            ref:
+                T: '真北'
+                M: '磁北'
+            format: '{ref} {degrees:v}{degrees:u}'

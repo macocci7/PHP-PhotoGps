@@ -1,6 +1,6 @@
 {
     "name": "macocci7/php-photo-gps",
-    "version": "1.5.2",
+    "version": "1.5.3",
     "description": "Retrieves EXIF GPS data from a photo.",
     "type": "library",
     "license": "MIT",
