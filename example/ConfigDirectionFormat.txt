@@ -1,0 +1,19 @@
+[img/with_gps.jpg]--------------------
+Current format [eng]: {ref} {degrees:v}{degrees:u}
+Current format [ja]: {ref} {degrees:v}{degrees:u}
+
+Image Direction [eng]: T 306.25°
+Image Direction [ja]: 真北 306.25度
+
+Current format [eng]: {degrees:v}{degrees:u}({ref})
+Current format [ja]: {ref} {degrees:v}{degrees:u}
+
+Image Direction [eng]: 306.25°(T)
+Image Direction [ja]: 真北 306.25度
+
+Current format [eng]: {ref} {degrees:v}{degrees:u}
+Current format [ja]: {degrees:v}{degrees:u}
+
+Image Direction [eng]: T 306.25°
+Image Direction [ja]: 306.25度
+

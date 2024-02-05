@@ -1,0 +1,19 @@
+[img/with_gps.jpg]--------------------
+Current format [eng]: {speed:v}{speed:u}
+Current format [ja]: {speed:v}{speed:u}
+
+Speed [eng]: 1.60mph
+Speed [ja]: 1.60マイル／時
+
+Current format [eng]: {speed:v}({speed:u})
+Current format [ja]: {speed:v}{speed:u}
+
+Speed [eng]: 1.60(mph)
+Speed [ja]: 1.60マイル／時
+
+Current format [eng]: {speed:v}{speed:u}
+Current format [ja]: 時速{speed:v}マイル
+
+Speed [eng]: 1.60mph
+Speed [ja]: 時速1.60マイル
+
