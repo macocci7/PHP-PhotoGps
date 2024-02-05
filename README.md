@@ -143,6 +143,10 @@ composer require macocci7/php-photo-gps
     
 ### 5.2. Usage: Format Configuration
 
+- [5.2.1 Geo Data Format](#521-geo-data-format)
+- [5.2.2 Direction Data Format](#522-direction-data-format)
+- [5.2.3 Speed Data Format](#523-speed-data-format)
+
 #### 5.2.1 Geo Data Format
 
 for `latitudeS()` and `longitudeS()`.
@@ -486,8 +490,8 @@ for `speedS()`
 
     |Item|Tag|`eng`|`ja`|
     |:---|:---|---|---|
-    |Degrees Value|{speed:v}|12.34|12.34|
-    |Degrees Unit|{speed:u}|km/h|キロメートル／時|
+    |Speed Value|{speed:v}|12.34|12.34|
+    |Speed Unit|{speed:u}|km/h|キロメートル／時|
 
 ### 5.3. Usage: Photo List with Checking Geo Data
 
@@ -1115,6 +1119,12 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 8. Changelog
 
+### 2024/02/06: version updated => 1.5.5
+
+#### Improvement
+
+- Updated: README
+
 ### 2024/02/05: version updated => 1.5.4
 
 #### Improvement
@@ -1212,6 +1222,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/02/05*
+*Document updated: 2024/02/06*
 
 Copyright 2023 - 2024 macocci7
