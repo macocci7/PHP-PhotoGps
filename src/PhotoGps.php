@@ -468,23 +468,6 @@ class PhotoGps
         }
         $key = 'GPSImgDirectionRef';
         return $this->formattedDirection($key, $degrees);
-        /*
-        $ref = '';
-        $units = $this->units[$this->lang()]['direction'];
-        if (isset($this->gpsData[$key])) {
-            $ref = $units['ref'][$this->gpsData[$key]];
-        }
-        $tags = [
-            '{ref}' => $ref,
-            '{degrees:v}' => sprintf("%.2f", $degrees),
-            '{degrees:u}' => $units['degrees'],
-        ];
-        $string = $units['format'];
-        foreach ($tags as $key => $value) {
-            $string = str_replace($key, $value, $string);
-        }
-        return $string;
-        */
     }
 
     /**
@@ -512,6 +495,34 @@ class PhotoGps
         return $string;
     }
 
+
+    /**
+     * sets format of direction, or returns current format of direction without param
+     * @param   string  $format = null
+     * @return  self|string
+     */
+    public function directionFormat(?string $format = null)
+    {
+        if (is_null($format)) {
+            return $this->units[$this->lang()]['direction']['format']; // @phpstan-ignore-line
+        }
+        $this->units[$this->lang()]['direction']['format'] = $format; // @phpstan-ignore-line
+        return $this;
+    }
+
+    /**
+     * resets format of direction as default
+     * @return  self
+     */
+    public function resetDirectionFormat()
+    {
+        $this->directionFormat(
+            // @phpstan-ignore-next-line
+            Config::get('units')[$this->lang()]['direction']['format']
+        );
+        return $this;
+    }
+
     /**
      * returns speed as float
      * @return  float|null
@@ -537,7 +548,7 @@ class PhotoGps
         }
         $key = 'GPSSpeedRef';
         $ref = $this->gpsData[$key] ?? 'default';
-        $units = Config::get('units')[$this->lang()]['speed']; // @phpstan-ignore-line
+        $units = $this->units[$this->lang()]['speed']; // @phpstan-ignore-line
         $tags = [
             '{speed:v}' => sprintf("%.2f", $speed),
             '{speed:u}' => $units['ref'][$ref], // @phpstan-ignore-line
@@ -547,6 +558,34 @@ class PhotoGps
             $string = str_replace($key, $value, $string); // @phpstan-ignore-line
         }
         return $string;
+    }
+
+
+    /**
+     * sets format of speed, or returns current format of speed without param
+     * @param   string  $format = null
+     * @return  self|string
+     */
+    public function speedFormat(?string $format = null)
+    {
+        if (is_null($format)) {
+            return $this->units[$this->lang()]['speed']['format']; // @phpstan-ignore-line
+        }
+        $this->units[$this->lang()]['speed']['format'] = $format; // @phpstan-ignore-line
+        return $this;
+    }
+
+    /**
+     * resets format of speed as default
+     * @return  self
+     */
+    public function resetSpeedFormat()
+    {
+        $this->speedFormat(
+            // @phpstan-ignore-next-line
+            Config::get('units')[$this->lang()]['speed']['format']
+        );
+        return $this;
     }
 
     /**

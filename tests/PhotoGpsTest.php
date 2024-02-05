@@ -27,6 +27,14 @@ final class PhotoGpsTest extends TestCase
         'eng' => '{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}{ref:u}',
         'ja' => '{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}',
     ];
+    private $defaultDirectionFormat = [
+        'eng' => '{ref} {degrees:v}{degrees:u}',
+        'ja' => '{ref} {degrees:v}{degrees:u}',
+    ];
+    private $defaultSpeedFormat = [
+        'eng' => '{speed:v}{speed:u}',
+        'ja' => '{speed:v}{speed:u}',
+    ];
 
     public static function provide_load_can_throw_exception_with_invalid_path(): array
     {
@@ -570,6 +578,61 @@ final class PhotoGpsTest extends TestCase
         $this->assertSame($expect, $pg->lang($lang)->directionS());
     }
 
+    public static function provide_directionFormat_can_return_current_format_with_no_param(): array
+    {
+        return [
+            "lang:eng" => [ 'lang' => 'eng', 'expect' => '{ref} {degrees:v}{degrees:u}', ],
+            "lang:ja" => [ 'lang' => 'ja', 'expect' => '{ref} {degrees:v}{degrees:u}', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_directionFormat_can_return_current_format_with_no_param
+     */
+    public function test_directionFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang);
+        $this->assertSame($expect, $pg->directionFormat());
+    }
+
+    public static function provide_directionFormat_can_set_format_correctly(): array
+    {
+        return [
+            "l1:eng, l2:eng" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'hoge', ],
+            "l1:eng, l2:ja" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => '{ref} {degrees:v}{degrees:u}', ],
+            "l1:ja, l2:eng" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => '{ref} {degrees:v}{degrees:u}', ],
+            "l1:ja, l2:ja" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'hoge', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_directionFormat_can_set_format_correctly
+     */
+    public function test_directionFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang1);
+        $pg->directionFormat($format);
+        $pg->lang($lang2);
+        $this->assertSame($expect, $pg->directionFormat());
+    }
+
+    public function test_resetDirectionFormat_can_reset_format_correctly(): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang('eng')->directionFormat('foo');
+        $pg->lang('ja')->directionFormat('hoge');
+        $pg->lang('eng')->resetDirectionFormat();
+        $this->assertSame($this->defaultDirectionFormat['eng'], $pg->lang('eng')->directionFormat());
+        $this->assertSame('hoge', $pg->lang('ja')->directionFormat());
+        $pg->lang('eng')->directionFormat('foo');
+        $pg->lang('ja')->directionFormat('hoge');
+        $pg->lang('ja')->resetDirectionFormat();
+        $this->assertSame('foo', $pg->lang('eng')->directionFormat());
+        $this->assertSame($this->defaultDirectionFormat['ja'], $pg->lang('ja')->directionFormat());
+    }
+
     public static function provide_speed_can_return_speed_correctly(): array
     {
         return [
@@ -606,6 +669,61 @@ final class PhotoGpsTest extends TestCase
     {
         $pg = new PhotoGps($path);
         $this->assertSame($expect, $pg->lang($lang)->speedS());
+    }
+
+    public static function provide_speedFormat_can_return_current_format_with_no_param(): array
+    {
+        return [
+            "lang:eng" => [ 'lang' => 'eng', 'expect' => '{speed:v}{speed:u}', ],
+            "lang:ja" => [ 'lang' => 'ja', 'expect' => '{speed:v}{speed:u}', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_speedFormat_can_return_current_format_with_no_param
+     */
+    public function test_speedFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang);
+        $this->assertSame($expect, $pg->speedFormat());
+    }
+
+    public static function provide_speedFormat_can_set_format_correctly(): array
+    {
+        return [
+            "l1:eng, l2:eng" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'hoge', ],
+            "l1:eng, l2:ja" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => '{speed:v}{speed:u}', ],
+            "l1:ja, l2:eng" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => '{speed:v}{speed:u}', ],
+            "l1:ja, l2:ja" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'hoge', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_speedFormat_can_set_format_correctly
+     */
+    public function test_speedFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang1);
+        $pg->speedFormat($format);
+        $pg->lang($lang2);
+        $this->assertSame($expect, $pg->speedFormat());
+    }
+
+    public function test_resetSpeedFormat_can_reset_format_correctly(): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang('eng')->speedFormat('foo');
+        $pg->lang('ja')->speedFormat('hoge');
+        $pg->lang('eng')->resetSpeedFormat();
+        $this->assertSame($this->defaultSpeedFormat['eng'], $pg->lang('eng')->speedFormat());
+        $this->assertSame('hoge', $pg->lang('ja')->speedFormat());
+        $pg->lang('eng')->speedFormat('foo');
+        $pg->lang('ja')->speedFormat('hoge');
+        $pg->lang('ja')->resetSpeedFormat();
+        $this->assertSame('foo', $pg->lang('eng')->speedFormat());
+        $this->assertSame($this->defaultSpeedFormat['ja'], $pg->lang('ja')->speedFormat());
     }
 
     public static function provide_destBearing_can_return_dest_bearing_correctly(): array

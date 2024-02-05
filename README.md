@@ -33,6 +33,9 @@ Supported Exif Versions:
 - [5. Usage](#5-usage)
   - [5.1. Usage: Basic](#51-usage-basic)
   - [5.2. Usage: Format Configuration](#52-usage-format-configuration)
+    - [5.2.1 Geo Data Format](#521-geo-data-format)
+    - [5.2.2 Direction Data Format](#522-direction-data-format)
+    - [5.2.3 Speed Data Format](#523-speed-data-format)
   - [5.3. Usage: Photo List with Checking Geo Data](#53-usage-photo-list-with-checking-geo-data)
   - [5.4. Usage: Read All GPS Tags](#54-usage-read-all-gps-tags)
   - [5.5. Usage: GPS Attribute Information](#55-usage-gps-attribute-information)
@@ -140,13 +143,15 @@ composer require macocci7/php-photo-gps
     
 ### 5.2. Usage: Format Configuration
 
-only for `latitudeS()` and `longitudeS()`.
+#### 5.2.1 Geo Data Format
 
-- [5.2.1. PHP](#521-php)
-- [5.2.2. Output](#522-output)
-- [5.2.3. Details](#523-details)
+for `latitudeS()` and `longitudeS()`.
 
-#### 5.2.1. PHP
+- [5.2.1.1. PHP](#5211-php)
+- [5.2.1.2. Output](#5212-output)
+- [5.2.1.3. Details](#5213-details)
+
+##### 5.2.1.1. PHP
 
 - [ConfigFormat.php](example/ConfigFormat.php)
 
@@ -226,7 +231,7 @@ only for `latitudeS()` and `longitudeS()`.
     echo "経度: " . $pg->lang('ja')->longitudeS() . "\n\n";
     ```
 
-#### 5.2.2. Output
+##### 5.2.1.2. Output
 
 - [ConfigFormat.txt](example/ConfigFormat.txt)
 
@@ -268,11 +273,12 @@ only for `latitudeS()` and `longitudeS()`.
     経度: 東経140度53分32.8秒
     ```
 
-#### 5.2.3. Details
+#### 5.2.1.3. Details
 
-Default format is defined in `conf/PhotoGps.neon` in each language.
-- Get Current: `format()`
+- Get Format: `format()`
 - Set Format: `format($format)`
+- Reset Format: `resetFormat()`
+- Default Format: `{ref:u}{degrees:v}{degrees:u}{minutes:v}{minutes:u}{seconds:v}{seconds:u}`
 - Format-Tags:
 
     |Item|Tag|`eng`|`ja`|
@@ -284,6 +290,204 @@ Default format is defined in `conf/PhotoGps.neon` in each language.
     |Minutes Unit|{minutes:u}|'|分|
     |Seconds Value|{seconds:v}|56|56|
     |Seconds Unit|{seconds:u}|"|秒|
+- `latitudeS()` and `longitudeS()` use common format.
+
+#### 5.2.2 Direction Data Format
+
+for `directionS()`, `destBearingS()` and `TrackS()`.
+
+- [5.2.2.1. PHP](#5221-php)
+- [5.2.2.2. Output](#5222-output)
+- [5.2.2.3. Details](#5223-details)
+
+##### 5.2.2.1. PHP
+
+- [ConfigDirectionFormat.php](example/ConfigDirectionFormat.php)
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpPhotoGps\PhotoGps;
+
+    $filename = 'img/with_gps.jpg';
+    $pg = new PhotoGps($filename);
+
+    echo "[" . $filename . "]--------------------\n";
+
+    // Format: default
+    echo "Current format [eng]: " . $pg->lang('eng')->directionFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->directionFormat() . "\n\n";
+
+    // Image Direction: default format
+    echo "Image Direction [eng]: " . $pg->lang('eng')->directionS() . "\n";
+    echo "Image Direction [ja]: " . $pg->lang('ja')->directionS() . "\n\n";
+
+    // Configure Format: eng
+    $pg->lang('eng')->directionFormat('{degrees:v}{degrees:u}({ref})');
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->directionFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->directionFormat() . "\n\n";
+
+    // Image Direction: Current Format
+    echo "Image Direction [eng]: " . $pg->lang('eng')->directionS() . "\n";
+    echo "Image Direction [ja]: " . $pg->lang('ja')->directionS() . "\n\n";
+
+    // Configure Format: ja
+    $pg->lang('ja')->directionFormat('{degrees:v}{degrees:u}');
+
+    // Reset Format: eng
+    $pg->lang('eng')->resetDirectionFormat();
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->directionFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->directionFormat() . "\n\n";
+
+    // Image Direction: Current Format
+    echo "Image Direction [eng]: " . $pg->lang('eng')->directionS() . "\n";
+    echo "Image Direction [ja]: " . $pg->lang('ja')->directionS() . "\n\n";
+    ```
+
+##### 5.2.2.2. Output
+
+- [ConfigDirectionFormat.txt](example/ConfigDirectionFormat.txt)
+
+    ```bash
+    [img/with_gps.jpg]--------------------
+    Current format [eng]: {ref} {degrees:v}{degrees:u}
+    Current format [ja]: {ref} {degrees:v}{degrees:u}
+
+    Image Direction [eng]: T 306.25°
+    Image Direction [ja]: 真北 306.25度
+
+    Current format [eng]: {degrees:v}{degrees:u}({ref})
+    Current format [ja]: {ref} {degrees:v}{degrees:u}
+
+    Image Direction [eng]: 306.25°(T)
+    Image Direction [ja]: 真北 306.25度
+
+    Current format [eng]: {ref} {degrees:v}{degrees:u}
+    Current format [ja]: {degrees:v}{degrees:u}
+
+    Image Direction [eng]: T 306.25°
+    Image Direction [ja]: 306.25度
+
+    ```
+
+##### 5.2.2.3. Details
+
+- Get Format: `directionFormat()`
+- Set Format: `directionFormat($format)`
+- Reset Format: `resetDirectionFormat()`
+- Default Format: `{ref} {degrees:v}{degrees:u}`
+- Format-Tags:
+
+    |Item|Tag|`eng`|`ja`|
+    |:---|:---|---|---|
+    |Ref|{ref:u}|T|真北|
+    |Degrees Value|{degrees:v}|12.34|12.34|
+    |Degrees Unit|{degrees:u}|°|度|
+
+- `directionS()`, `destBearingS()` and `TrackS()` use common format.
+
+#### 5.2.3 Speed Data Format
+
+for `speedS()`
+
+- [5.2.3.1. PHP](#5231-php)
+- [5.2.3.2. Output](#5232-output)
+- [5.2.3.3. Details](#5233-details)
+
+##### 5.2.3.1. PHP
+
+- [ConfigSpeedFormat.php](example/ConfigSpeedFormat.php)
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpPhotoGps\PhotoGps;
+
+    $filename = 'img/with_gps.jpg';
+    $pg = new PhotoGps($filename);
+
+    echo "[" . $filename . "]--------------------\n";
+
+    // Format: default
+    echo "Current format [eng]: " . $pg->lang('eng')->speedFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->speedFormat() . "\n\n";
+
+    // Speed: default format
+    echo "Speed [eng]: " . $pg->lang('eng')->speedS() . "\n";
+    echo "Speed [ja]: " . $pg->lang('ja')->speedS() . "\n\n";
+
+    // Configure Format: eng
+    $pg->lang('eng')->speedFormat('{speed:v}({speed:u})');
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->speedFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->speedFormat() . "\n\n";
+
+    // Speed: Current Format
+    echo "Speed [eng]: " . $pg->lang('eng')->speedS() . "\n";
+    echo "Speed [ja]: " . $pg->lang('ja')->speedS() . "\n\n";
+
+    // Configure Format: ja
+    $pg->lang('ja')->speedFormat('時速{speed:v}マイル');
+
+    // Reset Format: eng
+    $pg->lang('eng')->resetSpeedFormat();
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->speedFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->speedFormat() . "\n\n";
+
+    // Speed: Current Format
+    echo "Speed [eng]: " . $pg->lang('eng')->speedS() . "\n";
+    echo "Speed [ja]: " . $pg->lang('ja')->speedS() . "\n\n";
+    ```
+
+##### 5.2.3.2. Output
+
+- [ConfigSpeedFormat.txt](example/ConfigSpeedFormat.txt)
+
+    ```bash
+    [img/with_gps.jpg]--------------------
+    Current format [eng]: {speed:v}{speed:u}
+    Current format [ja]: {speed:v}{speed:u}
+
+    Speed [eng]: 1.60mph
+    Speed [ja]: 1.60マイル／時
+
+    Current format [eng]: {speed:v}({speed:u})
+    Current format [ja]: {speed:v}{speed:u}
+
+    Speed [eng]: 1.60(mph)
+    Speed [ja]: 1.60マイル／時
+
+    Current format [eng]: {speed:v}{speed:u}
+    Current format [ja]: 時速{speed:v}マイル
+
+    Speed [eng]: 1.60mph
+    Speed [ja]: 時速1.60マイル
+
+    ```
+
+##### 5.2.3.3. Details
+
+- Get Format: `speedFormat()`
+- Set Format: `speedFormat($format)`
+- Reset Format: `resetSpeedFormat()`
+- Default Format: `{speed:v}{speed:u}`
+- Format-Tags:
+
+    |Item|Tag|`eng`|`ja`|
+    |:---|:---|---|---|
+    |Degrees Value|{speed:v}|12.34|12.34|
+    |Degrees Unit|{speed:u}|km/h|キロメートル／時|
 
 ### 5.3. Usage: Photo List with Checking Geo Data
 
@@ -898,6 +1102,8 @@ The code below creates a list of photos in the dir `img/`.
 - [BasicUsage.php](example/BasicUsage.php) >> results in [BasicUsage.txt](example/BasicUsage.txt)
 - [CheckGeoData.php](example/CheckGeoData.md) >> results in [CheckGeoData.md](example/CheckGeoData.md)
 - [ConfigFormat.php](example/ConfigFormat.php) >> results in [ConfigFormat.txt](example/ConfigFormat.txt)
+- [ConfigDirectionFormat.php](example/ConfigDirectionFormat.php) >> results in [ConfigDirectionFormat.txt](example/ConfigDirectionFormat.txt)
+- [ConfigSpeedFormat.php](example/ConfigSpeedFormat.php) >> results in [ConfigSpeedFormat.txt](example/ConfigSpeedFormat.txt)
 - [ReadAllGpsTags.php](example/ReadAllGpsTags.php) >> results in [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
 - [GpsAttrInfo.php](example/GpsAttrInfo.php) >> results in [GpsAttrInfo.md](example/GpsAttrInfo.md)
 
@@ -908,6 +1114,15 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/02/05: version updated => 1.5.4
+
+#### Improvement
+
+- Added: `directionFormat()`
+- Added: `resetDirectionFormat()`
+- Added: `speedFormat()`
+- Added: `resetSpeedFormat()`
 
 ### 2024/01/27: version updated => 1.5.3
 
@@ -997,6 +1212,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/01/27*
+*Document updated: 2024/02/05*
 
 Copyright 2023 - 2024 macocci7
