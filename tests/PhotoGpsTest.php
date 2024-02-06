@@ -904,8 +904,10 @@ final class PhotoGpsTest extends TestCase
     public static function tearDownAfterClass(): void
     {
         $dir = './download/';
-        Dir::clear($dir);
-        Dir::remove($dir);
+        if (file_exists($dir)) {
+            Dir::clear($dir);
+            Dir::remove($dir);
+        }
     }
 
     public static function provide_timestampFormat_can_return_current_format_with_no_param(): array
