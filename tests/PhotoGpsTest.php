@@ -35,6 +35,14 @@ final class PhotoGpsTest extends TestCase
         'eng' => '{speed:v}{speed:u}',
         'ja' => '{speed:v}{speed:u}',
     ];
+    private $defaultDatestampFormat = [
+        'eng' => 'Y/m/d',
+        'ja' => 'Y年m月d日',
+    ];
+    private $defaultTimestampFormat = [
+        'eng' => 'H:i:s',
+        'ja' => 'H時i分s秒',
+    ];
 
     public static function provide_load_can_throw_exception_with_invalid_path(): array
     {
@@ -820,6 +828,61 @@ final class PhotoGpsTest extends TestCase
         $this->assertSame($expect, $pg->datestamp());
     }
 
+    public static function provide_datestampFormat_can_return_current_format_with_no_param(): array
+    {
+        return [
+            "lang:eng" => [ 'lang' => 'eng', 'expect' => 'Y/m/d', ],
+            "lang:ja" => [ 'lang' => 'ja', 'expect' => 'Y年m月d日', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_datestampFormat_can_return_current_format_with_no_param
+     */
+    public function test_datestampFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang);
+        $this->assertSame($expect, $pg->datestampFormat());
+    }
+
+    public static function provide_datestampFormat_can_set_format_correctly(): array
+    {
+        return [
+            "l1:eng, l2:eng" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'hoge', ],
+            "l1:eng, l2:ja" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'Y年m月d日', ],
+            "l1:ja, l2:eng" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'Y/m/d', ],
+            "l1:ja, l2:ja" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'hoge', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_datestampFormat_can_set_format_correctly
+     */
+    public function test_datestampFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang1);
+        $pg->datestampFormat($format);
+        $pg->lang($lang2);
+        $this->assertSame($expect, $pg->datestampFormat());
+    }
+
+    public function test_resetDatestampFormat_can_reset_format_correctly(): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang('eng')->datestampFormat('foo');
+        $pg->lang('ja')->datestampFormat('hoge');
+        $pg->lang('eng')->resetDatestampFormat();
+        $this->assertSame($this->defaultDatestampFormat['eng'], $pg->lang('eng')->datestampFormat());
+        $this->assertSame('hoge', $pg->lang('ja')->datestampFormat());
+        $pg->lang('eng')->datestampFormat('foo');
+        $pg->lang('ja')->datestampFormat('hoge');
+        $pg->lang('ja')->resetDatestampFormat();
+        $this->assertSame('foo', $pg->lang('eng')->datestampFormat());
+        $this->assertSame($this->defaultDatestampFormat['ja'], $pg->lang('ja')->datestampFormat());
+    }
+
     public static function provide_timestamp_can_return_timestamp_correctly(): array
     {
         return [
@@ -843,5 +906,60 @@ final class PhotoGpsTest extends TestCase
         $dir = './download/';
         Dir::clear($dir);
         Dir::remove($dir);
+    }
+
+    public static function provide_timestampFormat_can_return_current_format_with_no_param(): array
+    {
+        return [
+            "lang:eng" => [ 'lang' => 'eng', 'expect' => 'H:i:s', ],
+            "lang:ja" => [ 'lang' => 'ja', 'expect' => 'H時i分s秒', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_timestampFormat_can_return_current_format_with_no_param
+     */
+    public function test_timestampFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang);
+        $this->assertSame($expect, $pg->timestampFormat());
+    }
+
+    public static function provide_timestampFormat_can_set_format_correctly(): array
+    {
+        return [
+            "l1:eng, l2:eng" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'hoge', ],
+            "l1:eng, l2:ja" => [ 'lang1' => 'eng', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'H時i分s秒', ],
+            "l1:ja, l2:eng" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'eng', 'expect' => 'H:i:s', ],
+            "l1:ja, l2:ja" => [ 'lang1' => 'ja', 'format' => 'hoge', 'lang2' => 'ja', 'expect' => 'hoge', ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_timestampFormat_can_set_format_correctly
+     */
+    public function test_timestampFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang($lang1);
+        $pg->timestampFormat($format);
+        $pg->lang($lang2);
+        $this->assertSame($expect, $pg->timestampFormat());
+    }
+
+    public function test_resetTimestampFormat_can_reset_format_correctly(): void
+    {
+        $pg = new PhotoGps();
+        $pg->lang('eng')->timestampFormat('foo');
+        $pg->lang('ja')->timestampFormat('hoge');
+        $pg->lang('eng')->resetTimestampFormat();
+        $this->assertSame($this->defaultTimestampFormat['eng'], $pg->lang('eng')->timestampFormat());
+        $this->assertSame('hoge', $pg->lang('ja')->timestampFormat());
+        $pg->lang('eng')->timestampFormat('foo');
+        $pg->lang('ja')->timestampFormat('hoge');
+        $pg->lang('ja')->resetTimestampFormat();
+        $this->assertSame('foo', $pg->lang('eng')->timestampFormat());
+        $this->assertSame($this->defaultTimestampFormat['ja'], $pg->lang('ja')->timestampFormat());
     }
 }

@@ -33,9 +33,11 @@ Supported Exif Versions:
 - [5. Usage](#5-usage)
   - [5.1. Usage: Basic](#51-usage-basic)
   - [5.2. Usage: Format Configuration](#52-usage-format-configuration)
-    - [5.2.1 Geo Data Format](#521-geo-data-format)
-    - [5.2.2 Direction Data Format](#522-direction-data-format)
-    - [5.2.3 Speed Data Format](#523-speed-data-format)
+    - [5.2.1. Geo Data Format](#521-geo-data-format)
+    - [5.2.2. Direction Data Format](#522-direction-data-format)
+    - [5.2.3. Speed Data Format](#523-speed-data-format)
+    - [5.2.4. Datestamp Data Format](#524-datestamp-data-format)
+    - [5.2.5. Timestamp Data Format](#525-timestamp-data-format)
   - [5.3. Usage: Photo List with Checking Geo Data](#53-usage-photo-list-with-checking-geo-data)
   - [5.4. Usage: Read All GPS Tags](#54-usage-read-all-gps-tags)
   - [5.5. Usage: GPS Attribute Information](#55-usage-gps-attribute-information)
@@ -64,6 +66,17 @@ composer require macocci7/php-photo-gps
 ```
 
 ## 5. Usage
+
+  - [5.1. Usage: Basic](#51-usage-basic)
+  - [5.2. Usage: Format Configuration](#52-usage-format-configuration)
+    - [5.2.1. Geo Data Format](#521-geo-data-format)
+    - [5.2.2. Direction Data Format](#522-direction-data-format)
+    - [5.2.3. Speed Data Format](#523-speed-data-format)
+    - [5.2.4. Datestamp Data Format](#524-datestamp-data-format)
+    - [5.2.5. Timestamp Data Format](#525-timestamp-data-format)
+  - [5.3. Usage: Photo List with Checking Geo Data](#53-usage-photo-list-with-checking-geo-data)
+  - [5.4. Usage: Read All GPS Tags](#54-usage-read-all-gps-tags)
+  - [5.5. Usage: GPS Attribute Information](#55-usage-gps-attribute-information)
 
 ### 5.1. Usage: Basic
 
@@ -143,11 +156,13 @@ composer require macocci7/php-photo-gps
     
 ### 5.2. Usage: Format Configuration
 
-- [5.2.1 Geo Data Format](#521-geo-data-format)
-- [5.2.2 Direction Data Format](#522-direction-data-format)
-- [5.2.3 Speed Data Format](#523-speed-data-format)
+- [5.2.1. Geo Data Format](#521-geo-data-format)
+- [5.2.2. Direction Data Format](#522-direction-data-format)
+- [5.2.3. Speed Data Format](#523-speed-data-format)
+- [5.2.4. Datestamp Data Fromat](#524-datestamp-data-format)
+- [5.2.5. Timestamp Data Format](#525-timestamp-data-format)
 
-#### 5.2.1 Geo Data Format
+#### 5.2.1. Geo Data Format
 
 for `latitudeS()` and `longitudeS()`.
 
@@ -296,7 +311,7 @@ for `latitudeS()` and `longitudeS()`.
     |Seconds Unit|{seconds:u}|"|秒|
 - `latitudeS()` and `longitudeS()` use common format.
 
-#### 5.2.2 Direction Data Format
+#### 5.2.2. Direction Data Format
 
 for `directionS()`, `destBearingS()` and `TrackS()`.
 
@@ -396,7 +411,7 @@ for `directionS()`, `destBearingS()` and `TrackS()`.
 
 - `directionS()`, `destBearingS()` and `TrackS()` use common format.
 
-#### 5.2.3 Speed Data Format
+#### 5.2.3. Speed Data Format
 
 for `speedS()`
 
@@ -492,6 +507,194 @@ for `speedS()`
     |:---|:---|---|---|
     |Speed Value|{speed:v}|12.34|12.34|
     |Speed Unit|{speed:u}|km/h|キロメートル／時|
+
+#### 5.2.4. Datestamp Data Format
+
+for `datestamp()`
+
+- [5.2.4.1. PHP](#5241-php)
+- [5.2.4.2. Output](#5242-output)
+- [5.2.4.3. Details](#5243-details)
+
+##### PHP
+
+- [ConfigDatestampFormat.php](example/ConfigDatestampFormat.php)
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpPhotoGps\PhotoGps;
+
+    $filename = 'img/with_gps.jpg';
+    $pg = new PhotoGps($filename);
+
+    echo "[" . $filename . "]--------------------\n";
+
+    // Format: default
+    echo "Current format [eng]: " . $pg->lang('eng')->datestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->datestampFormat() . "\n\n";
+
+    // Datestamp: default format
+    echo "Datestamp [eng]: " . $pg->lang('eng')->datestamp() . "\n";
+    echo "Datestamp [ja]: " . $pg->lang('ja')->datestamp() . "\n\n";
+
+    // Configure Format: eng
+    $pg->lang('eng')->datestampFormat('l jS \of F Y');
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->datestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->datestampFormat() . "\n\n";
+
+    // Datestamp: Current Format
+    echo "Datestamp [eng]: " . $pg->lang('eng')->datestamp() . "\n";
+    echo "Datestamp [ja]: " . $pg->lang('ja')->datestamp() . "\n\n";
+
+    // Configure Format: ja
+    $pg->lang('ja')->datestampFormat('n月j日(\'y)');
+
+    // Reset Format: eng
+    $pg->lang('eng')->resetDatestampFormat();
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->datestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->datestampFormat() . "\n\n";
+
+    // Datestamp: Current Format
+    echo "Datestamp [eng]: " . $pg->lang('eng')->datestamp() . "\n";
+    echo "Datestamp [ja]: " . $pg->lang('ja')->datestamp() . "\n\n";
+    ```
+
+##### Output
+
+- [ConfigDatestampFormat.txt](example/ConfigDatestampFormat.txt)
+
+    ```bash
+    [img/with_gps.jpg]--------------------
+    Current format [eng]: Y/m/d
+    Current format [ja]: Y年m月d日
+
+    Datestamp [eng]: 2023/09/18
+    Datestamp [ja]: 2023年09月18日
+
+    Current format [eng]: l jS \of F Y
+    Current format [ja]: Y年m月d日
+
+    Datestamp [eng]: Monday 18th of September 2023
+    Datestamp [ja]: 2023年09月18日
+
+    Current format [eng]: Y/m/d
+    Current format [ja]: n月j日('y)
+
+    Datestamp [eng]: 2023/09/18
+    Datestamp [ja]: 9月18日('23)
+
+    ```
+
+##### Details
+
+- Get Format: `datestampFormat()`
+- Set Format: `datestampFormat($format)`
+- Reset Format: `resetDatestampFormat()`
+- Default Format:
+    - `eng`: `Y/m/d`
+    - `ja`: `Y年m月d日`
+- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php)
+
+#### 5.2.5. Timestamp Data Format
+
+for `timestamp()`
+
+- [5.2.5.1. PHP](#5251-php)
+- [5.2.5.2. Output](#5252-output)
+- [5.2.5.3. Details](#5253-details)
+
+##### PHP
+
+- [ConfigTimestampFormat.php](example/ConfigTimestampFormat.php)
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpPhotoGps\PhotoGps;
+
+    $filename = 'img/with_gps.jpg';
+    $pg = new PhotoGps($filename);
+
+    echo "[" . $filename . "]--------------------\n";
+
+    // Format: default
+    echo "Current format [eng]: " . $pg->lang('eng')->timestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->timestampFormat() . "\n\n";
+
+    // Timestamp: default format
+    echo "Timestamp [eng]: " . $pg->lang('eng')->timestamp() . "\n";
+    echo "Timestamp [ja]: " . $pg->lang('ja')->timestamp() . "\n\n";
+
+    // Configure Format: eng
+    $pg->lang('eng')->timestampFormat('g:i a');
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->timestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->timestampFormat() . "\n\n";
+
+    // Timestamp: Current Format
+    echo "Timestamp [eng]: " . $pg->lang('eng')->timestamp() . "\n";
+    echo "Timestamp [ja]: " . $pg->lang('ja')->timestamp() . "\n\n";
+
+    // Configure Format: ja
+    $pg->lang('ja')->timestampFormat('G時i分s秒');
+
+    // Reset Format: eng
+    $pg->lang('eng')->resetTimestampFormat();
+
+    // Current Format
+    echo "Current format [eng]: " . $pg->lang('eng')->timestampFormat() . "\n";
+    echo "Current format [ja]: " . $pg->lang('ja')->timestampFormat() . "\n\n";
+
+    // Timestamp: Current Format
+    echo "Timestamp [eng]: " . $pg->lang('eng')->timestamp() . "\n";
+    echo "Timestamp [ja]: " . $pg->lang('ja')->timestamp() . "\n\n";
+    ```
+
+##### Output
+
+- [ConfigTimestampFormat.txt](example/ConfigtimestampFormat.txt)
+
+    ```bash
+    [img/with_gps.jpg]--------------------
+    Current format [eng]: H:i:s
+    Current format [ja]: H時i分s秒
+
+    Timestamp [eng]: 03:43:32
+    Timestamp [ja]: 03時43分32秒
+
+    Current format [eng]: g:i a
+    Current format [ja]: H時i分s秒
+
+    Timestamp [eng]: 3:43 am
+    Timestamp [ja]: 03時43分32秒
+
+    Current format [eng]: H:i:s
+    Current format [ja]: G時i分s秒
+
+    Timestamp [eng]: 03:43:32
+    Timestamp [ja]: 3時43分32秒
+
+    ```
+
+##### Details
+
+- Get Format: `timestampFormat()`
+- Set Format: `timestampFormat($format)`
+- Reset Format: `resetTimestampFormat()`
+- Default Format:
+    - `eng`: `H:i:s`
+    - `ja`: `H時i分s秒`
+- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php)
 
 ### 5.3. Usage: Photo List with Checking Geo Data
 
@@ -1118,6 +1321,16 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/02/06: version updated => 1.5.6
+
+#### Improvement
+
+- Added: `DatestampFormat()`
+- Added: `resetDatestampFormat()`
+- Added: `TimestampFormat()`
+- Added: `resetTimestampFormat()`
+- Updated: README
 
 ### 2024/02/06: version updated => 1.5.5
 

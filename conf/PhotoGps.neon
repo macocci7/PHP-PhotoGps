@@ -89,6 +89,10 @@ units:
                 T: 'T'
                 M: 'M'
             format: '{ref} {degrees:v}{degrees:u}'
+        datestamp:
+            format: 'Y/m/d'
+        timestamp:
+            format: 'H:i:s'
 
     # Language: Japanese
     ja:
@@ -153,3 +157,7 @@ units:
                 T: '真北'
                 M: '磁北'
             format: '{ref} {degrees:v}{degrees:u}'
+        datestamp:
+            format: 'Y年m月d日'
+        timestamp:
+            format: 'H時i分s秒'

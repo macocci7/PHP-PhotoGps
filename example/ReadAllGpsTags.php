@@ -31,7 +31,7 @@ foreach ($images as $title => $image) {
     echo "<img src='$image' alt='$title' width='200'>\n\n";
 
     // Load GPS Data
-    $pg->load($image)->lang('ja');
+    $pg->load($image);
 
     // Show Attributes Converted from GPS Data
     $style = 'display: flex; justify-content: right; align-items: center;';
