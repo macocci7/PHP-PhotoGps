@@ -82,19 +82,16 @@ jobs:
         id: composerinstall
         run: composer install --no-interaction
 
-      - name: Run Composer Update
-        if: ${{ steps.composerinstall.conclusion == 'failure' }}
-        run: composer update
-
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests example
 
-      - name: Unit tests
+      - name: Neon Lint
+        run: ./vendor/nette/neon/bin/neon-lint conf
+
+      - name: PHP MD
         run: |
-          mkdir -p build/logs
-          ./vendor/bin/phpunit --version
-          echo "Test suite All"
-          ./vendor/bin/phpunit ./tests/
+          ./vendor/bin/phpmd --version
+          ./vendor/bin/phpmd ./src/ ./example/ ./tests/ text phpmd.xml
 
       - name: PHP Code Sniffer
         run: |
@@ -106,6 +103,13 @@ jobs:
           ./vendor/bin/phpstan --version
           ./vendor/bin/phpstan analyze -c phpstan.neon
 
+      - name: Unit tests
+        run: |
+          mkdir -p build/logs
+          ./vendor/bin/phpunit --version
+          echo "Test suite All"
+          ./vendor/bin/phpunit ./tests/
+  
   code-coverage:
     name: Code coverage
     runs-on: ubuntu-latest

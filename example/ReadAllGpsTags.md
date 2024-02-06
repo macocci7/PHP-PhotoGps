@@ -10,10 +10,10 @@
 |Attribute|Value|
 |:---|---:|
 |ExifVersion|0300|
-|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow352.40.png' width=30 height=30 />磁北 352.40度</div>|
-|Speed|12.45ノット|
-|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow62.90.png' width=30 height=30 />磁北 62.90度</div>|
-|Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow138.69.png' width=30 height=30 />磁北 138.69度</div>|
+|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow352.40.png' width=30 height=30 />M 352.40°</div>|
+|Speed|12.45kt|
+|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow62.90.png' width=30 height=30 />M 62.90°</div>|
+|Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow138.69.png' width=30 height=30 />M 138.69°</div>|
 |Datestamp|2018/03/31 (UTC)|
 |Timestamp|02:22:14 (UTC)|
 </td>
@@ -52,10 +52,10 @@
 |Attribute|Value|
 |:---|---:|
 |ExifVersion|0300|
-|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow278.63.png' width=30 height=30 />真北 278.63度</div>|
-|Speed|100.00マイル／時|
-|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow268.44.png' width=30 height=30 />真北 268.44度</div>|
-|Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow273.47.png' width=30 height=30 />真北 273.47度</div>|
+|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
+|Speed|100.00mph|
+|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
+|Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow273.47.png' width=30 height=30 />T 273.47°</div>|
 |Datestamp|2015/06/07 (UTC)|
 |Timestamp|01:31:46 (UTC)|
 </td>
@@ -94,9 +94,9 @@
 |Attribute|Value|
 |:---|---:|
 |ExifVersion|0300|
-|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow306.25.png' width=30 height=30 />真北 306.25度</div>|
-|Speed|1.60マイル／時|
-|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow359.90.png' width=30 height=30 />磁北 359.90度</div>|
+|Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow306.25.png' width=30 height=30 />T 306.25°</div>|
+|Speed|1.60mph|
+|Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='img/arrow359.90.png' width=30 height=30 />M 359.90°</div>|
 |Datestamp|2023/09/18 (UTC)|
 |Timestamp|03:43:32 (UTC)|
 </td>

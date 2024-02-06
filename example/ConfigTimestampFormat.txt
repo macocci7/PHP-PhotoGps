@@ -1,0 +1,19 @@
+[img/with_gps.jpg]--------------------
+Current format [eng]: H:i:s
+Current format [ja]: H時i分s秒
+
+Timestamp [eng]: 03:43:32
+Timestamp [ja]: 03時43分32秒
+
+Current format [eng]: g:i a
+Current format [ja]: H時i分s秒
+
+Timestamp [eng]: 3:43 am
+Timestamp [ja]: 03時43分32秒
+
+Current format [eng]: H:i:s
+Current format [ja]: G時i分s秒
+
+Timestamp [eng]: 03:43:32
+Timestamp [ja]: 3時43分32秒
+

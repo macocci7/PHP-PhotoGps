@@ -1,0 +1,19 @@
+[img/with_gps.jpg]--------------------
+Current format [eng]: Y/m/d
+Current format [ja]: Y年m月d日
+
+Datestamp [eng]: 2023/09/18
+Datestamp [ja]: 2023年09月18日
+
+Current format [eng]: l jS \of F Y
+Current format [ja]: Y年m月d日
+
+Datestamp [eng]: Monday 18th of September 2023
+Datestamp [ja]: 2023年09月18日
+
+Current format [eng]: Y/m/d
+Current format [ja]: n月j日('y)
+
+Datestamp [eng]: 2023/09/18
+Datestamp [ja]: 9月18日('23)
+
