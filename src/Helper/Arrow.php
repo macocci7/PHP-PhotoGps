@@ -2,7 +2,7 @@
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager as Image;
 use Macocci7\PhpPhotoGps\Helper\Config;
 use Macocci7\PhpPhotoGps\Helper\Exif;
 
@@ -23,7 +23,7 @@ class Arrow
     /**
      * makes compass image rotated.
      * @param   float   $degrees
-     * @return  \Intervention\Image\Image
+     * @return  \Intervention\Image\Interfaces\ImageInterface
      */
     public static function make(float $degrees)
     {
@@ -38,9 +38,9 @@ class Arrow
         // |  360°  |   North   |
         $degrees = Exif::simplifyDegrees($degrees);
         $basePath = __DIR__ . '/' . Config::get('pathBaseArrow');
-        $image = Image::make($basePath);
+        $image = Image::gd()->read($basePath);
         if ($degrees > 0) {
-            $image->rotate(0 - $degrees);
+            $image->rotate(0 - $degrees, 'transparent');
         }
         return $image;
     }

@@ -47,7 +47,7 @@ Supported Exif Versions:
 
 ## 3. Requirements
 
-- PHP 8.0.30 or later
+- PHP 8.1 or later
 - GD library enabled
 
   check with commands:
@@ -516,7 +516,7 @@ for `datestamp()`
 - [5.2.4.2. Output](#5242-output)
 - [5.2.4.3. Details](#5243-details)
 
-##### PHP
+##### 5.2.4.1. PHP
 
 - [ConfigDatestampFormat.php](example/ConfigDatestampFormat.php)
 
@@ -566,7 +566,7 @@ for `datestamp()`
     echo "Datestamp [ja]: " . $pg->lang('ja')->datestamp() . "\n\n";
     ```
 
-##### Output
+##### 5.2.4.2. Output
 
 - [ConfigDatestampFormat.txt](example/ConfigDatestampFormat.txt)
 
@@ -592,7 +592,7 @@ for `datestamp()`
 
     ```
 
-##### Details
+##### 5.2.4.3. Details
 
 - Get Format: `datestampFormat()`
 - Set Format: `datestampFormat($format)`
@@ -600,7 +600,7 @@ for `datestamp()`
 - Default Format:
     - `eng`: `Y/m/d`
     - `ja`: `Y年m月d日`
-- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php)
+- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php#refsect1-datetime.format-parameters)
 
 #### 5.2.5. Timestamp Data Format
 
@@ -610,7 +610,7 @@ for `timestamp()`
 - [5.2.5.2. Output](#5252-output)
 - [5.2.5.3. Details](#5253-details)
 
-##### PHP
+##### 5.2.5.1. PHP
 
 - [ConfigTimestampFormat.php](example/ConfigTimestampFormat.php)
 
@@ -660,7 +660,7 @@ for `timestamp()`
     echo "Timestamp [ja]: " . $pg->lang('ja')->timestamp() . "\n\n";
     ```
 
-##### Output
+##### 5.2.5.2. Output
 
 - [ConfigTimestampFormat.txt](example/ConfigtimestampFormat.txt)
 
@@ -686,7 +686,7 @@ for `timestamp()`
 
     ```
 
-##### Details
+##### 5.2.5.3. Details
 
 - Get Format: `timestampFormat()`
 - Set Format: `timestampFormat($format)`
@@ -694,7 +694,7 @@ for `timestamp()`
 - Default Format:
     - `eng`: `H:i:s`
     - `ja`: `H時i分s秒`
-- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php)
+- Format parameter strings: See [PHP Official](https://www.php.net/manual/en/datetime.format.php#refsect1-datetime.format-parameters)
 
 ### 5.3. Usage: Photo List with Checking Geo Data
 
@@ -1149,9 +1149,14 @@ The code below creates a list of photos in the dir `img/`.
 - Get Time Stamp: `timestamp()` returns `null` if not found.
 - Create Arrow Image: `Arrow::make($degree)->save($pathArrow)`
     - `$degree`: must be in clockwise degrees. (0° ～ 360°)
-    - `Arrow:make()`: returns the instance of `Intervention\Image\Image` (v2.7)
-    - Returning HTTP Response with it is available.
-    - See more: [Intervention/image Official Document](https://image.intervention.io/v2/usage/http-response)
+    - `Arrow:make()`: returns the instance of `Intervention\Image\Interfaces\ImageInterface` (v3.3)
+    - <s>Returning HTTP Response with it is available.</s>
+    - <s>See more: [Intervention/image Official Document](https://image.intervention.io/v2/usage/http-response)</s>
+
+      `response()` has removed since v3.
+
+      See more: [Removed Features | Intervention/image v3 Official](https://image.intervention.io/v3/introduction/upgrade#removed-features)
+
     - **Note**:
         - If the reference is 'M' (**Magnetic North**), the arrow image shows the relative direction from **Magnetic North**(Magnetic North upward).
         - **Magnetic North** pole moves over time. [See more.](https://en.wikipedia.org/wiki/North_magnetic_pole)
@@ -1321,6 +1326,14 @@ The code below creates a list of photos in the dir `img/`.
 ***
 
 ## 8. Changelog
+
+### 2024/02/06: version updated => 1.6.0
+
+#### What's Changed
+
+- Version Updated: Intervention/Image: 2.7 => 3.3
+- Deprecated: Supporting PHP 8.0
+- Updated: README
 
 ### 2024/02/06: version updated => 1.5.6
 

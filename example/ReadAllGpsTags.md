@@ -21,7 +21,6 @@
 
 |Tag|Value|
 |:---|---:|
-|GPS_IFD_Pointer|366|
 |GPSLatitudeRef|N|
 |GPSLatitude|31/1<br />34/1<br />8083/1000|
 |GPSLongitudeRef|E|
@@ -63,7 +62,6 @@
 
 |Tag|Value|
 |:---|---:|
-|GPS_IFD_Pointer|214|
 |GPSLatitudeRef|S|
 |GPSLatitude|20/1<br />11/1<br />20898/1000|
 |GPSLongitudeRef|W|
@@ -104,7 +102,6 @@
 
 |Tag|Value|
 |:---|---:|
-|GPS_IFD_Pointer|908|
 |GPSLatitudeRef|N|
 |GPSLatitude|37/1<br />3/1<br />26187/1000|
 |GPSLongitudeRef|E|

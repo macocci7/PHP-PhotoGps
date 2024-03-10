@@ -2,9 +2,8 @@
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager as Image;
 use Macocci7\PhpPhotoGps\Helper\Uri;
-use Macocci7\PhpPhotoGps\Helper\File;
 
 /**
  * Class for Exif Data Handling
@@ -52,14 +51,14 @@ class Exif
             if (!ini_get('allow_url_fopen')) {
                 ini_set('allow_url_fopen', '1');
             }
-            $path = File::download($path);
+            $path = file_get_contents($path);
             if (!$path) {
                 return null;
             }
         }
-        $exif = Image::make($path)->exif();
-        self::$version = $exif['ExifVersion'] ?? null; // @phpstan-ignore-line
-        return $exif; // @phpstan-ignore-line
+        $exif = Image::gd()->read($path)->exif();
+        self::$version = $exif->get('EXIF.ExifVersion') ?? null; // @phpstan-ignore-line
+        return $exif->get('GPS'); // @phpstan-ignore-line
     }
 
     /**
