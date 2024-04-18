@@ -1,6 +1,6 @@
 <?php
 
-require('../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Macocci7\PhpPhotoGps\PhotoGps;
 use Macocci7\PhpPhotoGps\Helper\Dir;

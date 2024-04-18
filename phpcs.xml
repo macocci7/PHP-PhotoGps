@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <ruleset name="PhotoGps">
- <description>The coding standard for PhotoGps.</description>
+    <description>The coding standard for PhotoGps.</description>
 
- <config name="php_version" value="80000"/>
+    <config name="php_version" value="80000"/>
 
- <rule ref="PSR12">
+    <rule ref="PSR12">
+    </rule>
     <!-- tests are special -->
     <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="Generic.Files.LineLength.TooLong">
+    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+    <rule ref="Generic.Files.LineLength.TooLong">
         <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
     <!-- Options:
@@ -20,6 +21,5 @@
         - s: show the rule name in error
     -->
     <arg value="ps" />
- </rule>
 
 </ruleset>

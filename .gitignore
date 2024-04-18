@@ -3,3 +3,5 @@
 */download/
 /tool/
 /research/
+composer.lock
+.php-version

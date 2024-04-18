@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\PhotoGps;
 use Macocci7\PhpPhotoGps\Helper\Dir;
@@ -19,8 +18,6 @@ use Macocci7\PhpPhotoGps\Helper\Dir;
  */
 final class PhotoGpsTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
     private $langs = [ 'eng', 'ja', ];
     private $defaultLang = 'eng';
     private $defaultFormat = [
@@ -53,9 +50,9 @@ final class PhotoGpsTest extends TestCase
     }
 
     /**
-     * @dataProvider provide_load_can_throw_exception_with_invalid_path
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
+    #[DataProvider('provide_load_can_throw_exception_with_invalid_path')]
     public function test_load_can_throw_exception_with_invalid_path(string $path): void
     {
         $this->expectException(\Exception::class);
@@ -84,10 +81,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_load_can_load_gps_data_correctly
-     * @SuppressWarnings(PHPMD.ElseExpression)
-     */
+    #[DataProvider('provide_load_can_load_gps_data_correctly')]
     public function test_load_can_load_gps_data_correctly(string $path, array $expect): void
     {
         $pg = new PhotoGps($path);
@@ -133,9 +127,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_format_can_return_current_format_with_no_param
-     */
+    #[DataProvider('provide_format_can_return_current_format_with_no_param')]
     public function test_format_can_return_current_format_with_no_param(string $lang, string $expect): void
     {
         $pg = new PhotoGps();
@@ -153,9 +145,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_format_can_set_format_correctly
-     */
+    #[DataProvider('provide_format_can_set_format_correctly')]
     public function test_format_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
     {
         $pg = new PhotoGps();
@@ -189,9 +179,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_gps_can_return_gps_data_correctly
-     */
+    #[DataProvider('provide_gps_can_return_gps_data_correctly')]
     public function test_gps_can_return_gps_data_correctly(string $path, array $expect): void
     {
         $pg = new PhotoGps($path);
@@ -208,9 +196,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_hasGeo_can_judge_correctly
-     */
+    #[DataProvider('provide_hasGeo_can_judge_correctly')]
     public function test_hasGeo_can_judge_correctly(string $path, bool $expect): void
     {
         $pg = new PhotoGps($path);
@@ -245,9 +231,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_hasGps_can_judge_correctly
-     */
+    #[DataProvider('provide_hasGps_can_judge_correctly')]
     public function test_hasGps_can_judge_correctly(array|null $gps, bool $expect): void
     {
         $pg = new PhotoGps();
@@ -263,9 +247,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_hasAltitude_can_judge_correctly
-     */
+    #[DataProvider('provide_hasAltitude_can_judge_correctly')]
     public function test_hasAltitude_can_judge_correctly(string $path, bool $expect): void
     {
         $pg = new PhotoGps($path);
@@ -285,9 +267,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_s2d_can_return_correct_value
-     */
+    #[DataProvider('provide_s2d_can_return_correct_value')]
     public function test_s2d_can_return_correct_value(array $param, float|null $expect): void
     {
         $pg = new PhotoGps();
@@ -302,9 +282,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_d2s_can_return_correct_values
-     */
+    #[DataProvider('provide_d2s_can_return_correct_values')]
     public function test_d2s_can_return_correct_values(float $param, array|null $expect): void
     {
         $pg = new PhotoGps();
@@ -335,9 +313,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_sexagesimal_can_return_value_correctly
-     */
+    #[DataProvider('provide_sexagesimal_can_return_value_correctly')]
     public function test_sexagesimal_can_return_value_correctly(string $lang, array $coord, string $ref, string|null $expect): void
     {
         $pg = new PhotoGps();
@@ -364,9 +340,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_decimal_can_return_value_correctly
-     */
+    #[DataProvider('provide_decimal_can_return_value_correctly')]
     public function test_decimal_can_return_value_correctly(array $coord, string $ref, float|null $expect): void
     {
         $pg = new PhotoGps();
@@ -390,9 +364,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_latitudeS_can_return_value_correctly
-     */
+    #[DataProvider('provide_latitudeS_can_return_value_correctly')]
     public function test_latitudeS_can_return_value_correctly(array $gps, string|null $expect): void
     {
         $pg = new PhotoGps();
@@ -427,9 +399,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_latitudeD_can_return_value_correctly
-     */
+    #[DataProvider('provide_latitudeD_can_return_value_correctly')]
     public function test_latitudeD_can_return_value_correctly(array $gps, float|null $expect): void
     {
         $pg = new PhotoGps();
@@ -454,9 +424,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_longitudeS_can_return_value_correctly
-     */
+    #[DataProvider('provide_longitudeS_can_return_value_correctly')]
     public function test_longitudeS_can_return_value_correctly(array $gps, string|null $expect): void
     {
         $pg = new PhotoGps();
@@ -491,9 +459,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_longitudeD_can_return_value_correctly
-     */
+    #[DataProvider('provide_longitudeD_can_return_value_correctly')]
     public function test_longitudeD_can_return_value_correctly(array $gps, float|null $expect): void
     {
         $pg = new PhotoGps();
@@ -518,9 +484,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_altitude_can_return_value_correctly
-     */
+    #[DataProvider('provide_altitude_can_return_value_correctly')]
     public function test_altitude_can_return_value_correctly(array $gps, float|null $expect): void
     {
         $pg = new PhotoGps();
@@ -539,9 +503,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_altitudeS_can_return_value_correctly
-     */
+    #[DataProvider('provide_altitudeS_can_return_value_correctly')]
     public function test_altitudeS_can_return_value_correctly(string $path, string $lang, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -557,9 +519,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_direction_can_return_direction_correctly
-     */
+    #[DataProvider('provide_direction_can_return_direction_correctly')]
     public function test_direction_can_return_direction_correctly(string $path, float|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -577,9 +537,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_directionS_can_return_direction_correctly
-     */
+    #[DataProvider('provide_directionS_can_return_direction_correctly')]
     public function test_directionS_can_return_direction_correctly(string $path, string $lang, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -594,9 +552,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_directionFormat_can_return_current_format_with_no_param
-     */
+    #[DataProvider('provide_directionFormat_can_return_current_format_with_no_param')]
     public function test_directionFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
     {
         $pg = new PhotoGps();
@@ -614,9 +570,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_directionFormat_can_set_format_correctly
-     */
+    #[DataProvider('provide_directionFormat_can_set_format_correctly')]
     public function test_directionFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
     {
         $pg = new PhotoGps();
@@ -650,9 +604,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_speed_can_return_speed_correctly
-     */
+    #[DataProvider('provide_speed_can_return_speed_correctly')]
     public function test_spped_can_return_speed_correctly(string $path, float|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -670,9 +622,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_speedS_can_return_speed_correctly
-     */
+    #[DataProvider('provide_speedS_can_return_speed_correctly')]
     public function test_speedS_can_return_speed_correctly(string $path, string $lang, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -687,9 +637,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_speedFormat_can_return_current_format_with_no_param
-     */
+    #[DataProvider('provide_speedFormat_can_return_current_format_with_no_param')]
     public function test_speedFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
     {
         $pg = new PhotoGps();
@@ -707,9 +655,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_speedFormat_can_set_format_correctly
-     */
+    #[DataProvider('provide_speedFormat_can_set_format_correctly')]
     public function test_speedFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
     {
         $pg = new PhotoGps();
@@ -743,9 +689,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_destBearing_can_return_dest_bearing_correctly
-     */
+    #[DataProvider('provide_destBearing_can_return_dest_bearing_correctly')]
     public function test_destBearing_can_return_dest_bearing_correctly(string $path, float|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -763,9 +707,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_destBearingS_can_return_dest_bearing_correctly
-     */
+    #[DataProvider('provide_destBearingS_can_return_dest_bearing_correctly')]
     public function test_destBearingS_can_return_dest_bearing_correctly(string $path, string $lang, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -781,9 +723,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_track_can_return_track_correctly
-     */
+    #[DataProvider('provide_track_can_return_track_correctly')]
     public function test_track_can_return_track_correctly(string $path, float|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -801,9 +741,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_trackS_can_return_track_correctly
-     */
+    #[DataProvider('provide_trackS_can_return_track_correctly')]
     public function test_trackS_can_return_track_correctly(string $path, string $lang, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -819,9 +757,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_datestamp_can_return_datestamp_correctly
-     */
+    #[DataProvider('provide_datestamp_can_return_datestamp_correctly')]
     public function test_datestamp_can_return_datestamp_correctly(string $path, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -836,9 +772,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_datestampFormat_can_return_current_format_with_no_param
-     */
+    #[DataProvider('provide_datestampFormat_can_return_current_format_with_no_param')]
     public function test_datestampFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
     {
         $pg = new PhotoGps();
@@ -856,9 +790,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_datestampFormat_can_set_format_correctly
-     */
+    #[DataProvider('provide_datestampFormat_can_set_format_correctly')]
     public function test_datestampFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
     {
         $pg = new PhotoGps();
@@ -892,9 +824,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_timestamp_can_return_timestamp_correctly
-     */
+    #[DataProvider('provide_timestamp_can_return_timestamp_correctly')]
     public function test_timestamp_can_return_timestamp_correctly(string $path, string|null $expect): void
     {
         $pg = new PhotoGps($path);
@@ -918,9 +848,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_timestampFormat_can_return_current_format_with_no_param
-     */
+    #[DataProvider('provide_timestampFormat_can_return_current_format_with_no_param')]
     public function test_timestampFormat_can_return_current_format_with_no_param(string $lang, string $expect): void
     {
         $pg = new PhotoGps();
@@ -938,9 +866,7 @@ final class PhotoGpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_timestampFormat_can_set_format_correctly
-     */
+    #[DataProvider('provide_timestampFormat_can_set_format_correctly')]
     public function test_timestampFormat_can_set_format_correctly(string $lang1, string $format, string $lang2, string $expect): void
     {
         $pg = new PhotoGps();

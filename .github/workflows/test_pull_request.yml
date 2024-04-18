@@ -15,7 +15,7 @@ jobs:
           tools: composer:v2
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -63,12 +63,12 @@ jobs:
           tools: composer:v2
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '14.x'
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -126,12 +126,12 @@ jobs:
           tools: composer:v2
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '14.x'
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -139,7 +139,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: Update PHPUnit for Code Coverage
-        run: composer require phpunit/phpunit:^9.6 phploc/phploc:* sebastian/version:* --with-all-dependencies
+        run: composer require phpunit/phpunit:^10.5 sebastian/version:* --with-all-dependencies
 
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests example
@@ -147,4 +147,4 @@ jobs:
       - name: Unit tests
         run: |
           mkdir -p build/logs
-          ./vendor/bin/phpunit ./tests/ --coverage-clover build/logs/clover.xml
+          XDEBUG_MODE=coverage ./vendor/bin/phpunit ./tests/ --coverage-clover build/logs/clover.xml --coverage-filter=./src/

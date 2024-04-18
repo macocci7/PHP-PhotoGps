@@ -122,7 +122,7 @@ class Exif
      */
     public static function simplifyDegrees(int|float $degrees)
     {
-        return $degrees % 360 + $degrees - (int) $degrees;
+        return (int) $degrees % 360 + $degrees - (int) $degrees;
     }
 
     /**

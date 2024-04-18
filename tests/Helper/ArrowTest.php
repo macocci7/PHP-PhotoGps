@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\Arrow;
 use Macocci7\PhpPhotoGps\Helper\File;
 use Macocci7\PhpPhotoGps\Helper\Dir;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 final class ArrowTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
-
     public function test_make_can_return_instance_correctly(): void
     {
         $this->assertSame(
@@ -41,9 +35,7 @@ final class ArrowTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_save_can_save_image_correctly
-     */
+    #[DataProvider('provide_save_can_save_image_correctly')]
     public function test_save_can_save_image_correctly(int|float $degrees, string $expect): void
     {
         $dir = __DIR__ . '/img';
