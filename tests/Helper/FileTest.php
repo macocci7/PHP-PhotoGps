@@ -4,33 +4,25 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\File;
 use Macocci7\PhpPhotoGps\Helper\Dir;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 final class FileTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
-
-    public function provide_download_can_download_correctly(): array
+    public static function provide_download_can_download_correctly(): array
     {
         return [
-            "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'savePath' => '', ],
-            "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'savePath' => 'download/remote_fake_gps_002.jpg', ],
+            "image 1" => [ 'uri' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'savePath' => '', ],
+            "image 2" => [ 'uri' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'savePath' => 'download/remote_fake_gps_002.jpg', ],
         ];
     }
 
-    /**
-     * @dataProvider provide_download_can_download_correctly
-     */
+    #[DataProvider('provide_download_can_download_correctly')]
     public function test_download_can_download_correctly(string $uri, string $savePath): void
     {
         $dir = './download/';

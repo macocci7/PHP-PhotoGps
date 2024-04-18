@@ -7,6 +7,7 @@
     <!-- Rules to exclude -->
     <exclude name="MissingImport" />
     <exclude name="StaticAccess" />
+    <exclude name="ElseExpression" />
   </rule>
   <rule ref="rulesets/codesize.xml" />
   <rule ref="rulesets/controversial.xml" />

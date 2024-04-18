@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\Uri;
 use Nette\Neon\Neon;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 final class UriTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
-
     public function test_init_can_load_config_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Uri.neon';
@@ -44,7 +38,7 @@ final class UriTest extends TestCase
         }
     }
 
-    public function provide_isAvailable_can_judge_correctly(): array
+    public static function provide_isAvailable_can_judge_correctly(): array
     {
         return [
             "empty" => [ 'uri' => '', 'expect' => false, ],
@@ -56,9 +50,7 @@ final class UriTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_isAvailable_can_judge_correctly
-     */
+    #[DataProvider('provide_isAvailable_can_judge_correctly')]
     public function test_isAvailable_can_judge_correctly(string $uri, bool $expect): void
     {
         $this->assertSame($expect, Uri::isAvailable($uri));

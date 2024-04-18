@@ -17,7 +17,6 @@ class File
      * @param   string  $savePath = ''
      * @return  string|null  file path saved
      * @thrown  \Exception
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public static function download(string $uri, string $savePath = '')
     {

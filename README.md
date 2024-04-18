@@ -91,7 +91,7 @@ composer require macocci7/php-photo-gps
     ```php
     <?php
 
-    require('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -133,7 +133,7 @@ composer require macocci7/php-photo-gps
 
 #### 5.1.3. Details
 
-- Import autoloader: `require_once('../vendor/autoload.php')`
+- Import autoloader: `require_once __DIR__ . '/../vendor/autoload.php'`
 - `use` declaration: `use Macocci7\PhpPhotoGps\PhotoGps;`
 - Instantiation: `new PhotoGps()` or `new PhotoGps($path)`
     - **Note**: If HTTP or HTTPS url is specified as `$path`, `download` directory will be created in current directory, and the image will be downloaded in it.
@@ -177,7 +177,7 @@ for `latitudeS()` and `longitudeS()`.
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -326,7 +326,7 @@ for `directionS()`, `destBearingS()` and `TrackS()`.
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -426,7 +426,7 @@ for `speedS()`
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -523,7 +523,7 @@ for `datestamp()`
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -617,7 +617,7 @@ for `timestamp()`
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -713,7 +713,7 @@ The code below creates a list of photos in the dir `img/`.
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
 
@@ -852,7 +852,7 @@ The code below creates a list of photos in the dir `img/`.
     ```php
     <?php
 
-    require('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
     use Macocci7\PhpPhotoGps\Helper\Dir;
@@ -1193,7 +1193,7 @@ The code below creates a list of photos in the dir `img/`.
     ```php
     <?php
 
-    require_once('../vendor/autoload.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\Helper\Gps;
 
@@ -1327,6 +1327,19 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 8. Changelog
 
+### 2024/04/18: version updated => 1.7.0
+
+#### What's Changed
+
+- Version Updated: Intervention/Image: 3.3 => 3.5
+- Version Updated: PHPUnit/PHPUnit: 9.6 => 10.5
+- Updated: Tests to use `DataProvider` Attribute.
+- Removed: `composer.lock` and `.php-version` from git control.
+- Updated: `Helper\Exif::simplifyDegrees()` to use explicit conversion from `float` to `int`.
+- Updated: GitHub Workflows.
+- Updated: examples
+- Updated: README
+
 ### 2024/02/06: version updated => 1.6.0
 
 #### What's Changed
@@ -1448,6 +1461,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/02/06*
+*Document updated: 2024/04/18*
 
 Copyright 2023 - 2024 macocci7

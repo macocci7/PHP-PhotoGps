@@ -91,13 +91,11 @@ class Gps
      * converts GPS Data.
      * @param   mixed[]     $gps
      * @return  mixed[]|null
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public static function convert(array $gps)
     {
         $prefix = sprintf("exif%s.fields.", Exif::version());
         foreach ($gps as $key => $value) {
-            $type = self::type($prefix . $key);
             $count = self::count($prefix . $key);
             if (self::isDefByte($prefix . $key)) {
                 $separator = self::def($prefix . $key)['separator']; // @phpstan-ignore-line
@@ -119,7 +117,7 @@ class Gps
      */
     public static function isDefByte(string $key)
     {
-        return 0 === strcmp('BYTE', self::type($key));
+        return 0 === strcmp('BYTE', self::type($key) ?: '');
     }
 
     /**

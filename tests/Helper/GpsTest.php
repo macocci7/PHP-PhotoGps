@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\Gps;
 use Macocci7\PhpPhotoGps\Helper\Exif;
@@ -13,15 +12,11 @@ use Macocci7\PhpPhotoGps\Helper\Config;
 use Nette\Neon\Neon;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 final class GpsTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
-
     public function test_init_can_load_config_correctly(): void
     {
         $pathConf = __DIR__ . '/../../conf/Gps.neon';
@@ -132,9 +127,7 @@ final class GpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_filter_can_filter_correctly
-     */
+    #[DataProvider('provide_filter_can_filter_correctly')]
     public function test_filter_can_filter_correctly(array $exif, array $expect): void
     {
         Exif::version($exif['ExifVersion']);
@@ -145,7 +138,7 @@ final class GpsTest extends TestCase
     {
         return [
             "gps" => [
-                'exif' => [
+                'gps' => [
                     'ExifVersion' => '0300',
                     'gpshoge' => 'hoge',
                     'GPSHoge' => 'Hoge',
@@ -167,9 +160,7 @@ final class GpsTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_convert_can_convert_correctly
-     */
+    #[DataProvider('provide_convert_can_convert_correctly')]
     public function test_convert_can_convert_correctly(array $gps, array $expect): void
     {
         Exif::version($gps['ExifVersion']);

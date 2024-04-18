@@ -4,45 +4,38 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps\Helper;
 
-require('vendor/autoload.php');
-
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpPhotoGps\Helper\Exif;
 
 /**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 final class ExifTest extends TestCase
 {
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
-    // phpcs:disable Generic.Files.LineLength.TooLong
-
     public static function provide_version_can_set_version_correctly(): array
     {
         return [
-            "exif0210" => [ 'ExifVersion' => '0210', ],
-            "exif0220" => [ 'ExifVersion' => '0220', ],
-            "exif0221" => [ 'ExifVersion' => '0221', ],
-            "exif0230" => [ 'ExifVersion' => '0230', ],
-            "exif0231" => [ 'ExifVersion' => '0231', ],
-            "exif0232" => [ 'ExifVersion' => '0232', ],
-            "exif0300" => [ 'ExifVersion' => '0300', ],
+            "exif0210" => [ 'exifVersion' => '0210', ],
+            "exif0220" => [ 'exifVersion' => '0220', ],
+            "exif0221" => [ 'exifVersion' => '0221', ],
+            "exif0230" => [ 'exifVersion' => '0230', ],
+            "exif0231" => [ 'exifVersion' => '0231', ],
+            "exif0232" => [ 'exifVersion' => '0232', ],
+            "exif0300" => [ 'exifVersion' => '0300', ],
         ];
     }
 
-    /**
-     * @dataProvider provide_version_can_set_version_correctly
-     */
-    public function test_version_can_set_version_correctly(string $version): void
+    #[DataProvider('provide_version_can_set_version_correctly')]
+    public function test_version_can_set_version_correctly(string $exifVersion): void
     {
-        Exif::version($version);
+        Exif::version($exifVersion);
         $r = new \ReflectionClass(Exif::class);
         $p = $r->getProperty('version');
         $p->setAccessible(true);
-        $this->assertSame($version, $p->getValue());
-        $this->assertSame($version, Exif::version());
+        $this->assertSame($exifVersion, $p->getValue());
+        $this->assertSame($exifVersion, Exif::version());
     }
 
     public static function provide_get_can_return_exif_data_correctly(): array
@@ -54,9 +47,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_get_can_return_exif_data_correctly
-     */
+    #[DataProvider('provide_get_can_return_exif_data_correctly')]
     public function test_get_can_return_exif_data_correctly(string $path, array $expect): void
     {
         $tag = array_keys($expect)[0];
@@ -64,7 +55,7 @@ final class ExifTest extends TestCase
         $this->assertSame($value, Exif::get($path)[$tag]);
     }
 
-    public function provide_byte2array_can_convert_value_correctly(): array
+    public static function provide_byte2array_can_convert_value_correctly(): array
     {
         return [
             "byte:2, count:1" => [ 'byte' => [ 1 => 2],],
@@ -72,9 +63,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_byte2array_can_convert_value_correctly
-     */
+    #[DataProvider('provide_byte2array_can_convert_value_correctly')]
     public function test_byte2array_can_convert_value_correctly(array $byte): void
     {
         $format = "C" . count($byte);
@@ -92,9 +81,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_byte2ascii_can_convert_value_correctly
-     */
+    #[DataProvider('provide_byte2ascii_can_convert_value_correctly')]
     public function test_byte2ascii_can_convert_value_correctly(array $byte): void
     {
         $format = "C" . count($byte);
@@ -114,9 +101,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_rational2Float_can_return_value_correctly
-     */
+    #[DataProvider('provide_rational2Float_can_return_value_correctly')]
     public function test_rational2Float_can_return_value_correctly(string $rational, float|null $expect): void
     {
         $this->assertSame($expect, Exif::rational2Float($rational));
@@ -132,9 +117,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_isRational_can_judge_correctly
-     */
+    #[DataProvider('provide_isRational_can_judge_correctly')]
     public function test_isRational_can_judge_correctly(string $rational, bool $expect): void
     {
         $this->assertSame($expect, Exif::isRational($rational));
@@ -152,9 +135,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_simplifyDegrees_can_simplify_degrees_correctly
-     */
+    #[DataProvider('provide_simplifyDegrees_can_simplify_degrees_correctly')]
     public function test_simplifyDegrees_can_simplify_degrees_correctly(int|float $degrees, int|float $expect): void
     {
         $this->assertSame($expect, Exif::simplifyDegrees($degrees));
@@ -172,9 +153,7 @@ final class ExifTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_stripNullByte_can_strip_null_byte_correctly
-     */
+    #[DataProvider('provide_stripNullByte_can_strip_null_byte_correctly')]
     public function test_stripNullByte_can_strip_null_byte_correctly(string $strings, string $expect): void
     {
         $this->assertSame($expect, Exif::stripNullByte($strings));
