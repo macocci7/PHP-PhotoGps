@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
+use Macocci7\PhpPhotoGps\Helpers\Arrow;
+use Macocci7\PhpPhotoGps\Helpers\Dir;
+use Macocci7\PhpPhotoGps\Helpers\File;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Macocci7\PhpPhotoGps\Helper\Arrow;
-use Macocci7\PhpPhotoGps\Helper\File;
-use Macocci7\PhpPhotoGps\Helper\Dir;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

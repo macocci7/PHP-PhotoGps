@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpPhotoGps;
 
+use Macocci7\PhpPhotoGps\Helpers\Dir;
+use Macocci7\PhpPhotoGps\PhotoGps;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Macocci7\PhpPhotoGps\PhotoGps;
-use Macocci7\PhpPhotoGps\Helper\Dir;
 
 /**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 final class PhotoGpsTest extends TestCase
 {
