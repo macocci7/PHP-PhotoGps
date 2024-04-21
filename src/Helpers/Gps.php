@@ -1,9 +1,9 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
-use Macocci7\PhpPhotoGps\Helper\Config;
-use Macocci7\PhpPhotoGps\Helper\Exif;
+use Macocci7\PhpPhotoGps\Helpers\Config;
+use Macocci7\PhpPhotoGps\Helpers\Exif;
 
 /**
  * Class for GPS Data Definition and Conversion.

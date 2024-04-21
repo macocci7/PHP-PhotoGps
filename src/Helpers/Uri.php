@@ -1,8 +1,8 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
-use Macocci7\PhpPhotoGps\Helper\Config;
+use Macocci7\PhpPhotoGps\Helpers\Config;
 
 /**
  * Class for Uri matter.

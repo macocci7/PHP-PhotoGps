@@ -3,9 +3,9 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Macocci7\PhpPhotoGps\PhotoGps;
-use Macocci7\PhpPhotoGps\Helper\Dir;
-use Macocci7\PhpPhotoGps\Helper\Arrow;
-use Macocci7\PhpPhotoGps\Helper\Exif;
+use Macocci7\PhpPhotoGps\Helpers\Dir;
+use Macocci7\PhpPhotoGps\Helpers\Arrow;
+use Macocci7\PhpPhotoGps\Helpers\Exif;
 
 $pg = new PhotoGps();
 $images = [

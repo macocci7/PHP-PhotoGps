@@ -53,11 +53,10 @@ Supported Exif Versions:
   check with commands:
 
   ```bash
-  php -m | grep gd
-  php -i | grep gd
+  (php -m; php -i) | grep gd
   ```
 
-- Composer
+- [Composer](https://getcomposer.org/)
 
 ## 4. Installation
 
@@ -855,9 +854,9 @@ The code below creates a list of photos in the dir `img/`.
     require_once __DIR__ . '/../vendor/autoload.php';
 
     use Macocci7\PhpPhotoGps\PhotoGps;
-    use Macocci7\PhpPhotoGps\Helper\Dir;
-    use Macocci7\PhpPhotoGps\Helper\Arrow;
-    use Macocci7\PhpPhotoGps\Helper\Exif;
+    use Macocci7\PhpPhotoGps\Helpers\Dir;
+    use Macocci7\PhpPhotoGps\Helpers\Arrow;
+    use Macocci7\PhpPhotoGps\Helpers\Exif;
 
     $pg = new PhotoGps();
     $images = [
@@ -1124,11 +1123,11 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.4.3. Details
 
-- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Dir;`
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helpers\Dir;`
 
     to clear entries in `download` directory.
 
-- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Arrow;`
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helpers\Arrow;`
 
     to create arrow images.
 
@@ -1195,7 +1194,7 @@ The code below creates a list of photos in the dir `img/`.
 
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    use Macocci7\PhpPhotoGps\Helper\Gps;
+    use Macocci7\PhpPhotoGps\Helpers\Gps;
 
     //$exifVersion = "0210";
     //$exifVersion = "0220";
@@ -1273,7 +1272,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.5.3. Details
 
-- `use` declaration: `use Macocci7\PhpPhotoGps\Helper\Gps;`
+- `use` declaration: `use Macocci7\PhpPhotoGps\Helpers\Gps;`
 
     to use GPS Data Interface.
 - Get GPS Tag Attributes: `Gps::def()` or `Gps::def($tagName)`
@@ -1327,6 +1326,15 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 8. Changelog
 
+### 2024/04/20: version updated => 1.8.0
+
+#### What's Changed
+
+- Version Updated: Intervention/Image: 3.5 => 3.6
+- Changed: `Helper` as `Helpers`
+- Updated: examples
+- Updated: README
+
 ### 2024/04/18: version updated => 1.7.0
 
 #### What's Changed
@@ -1335,7 +1343,7 @@ The code below creates a list of photos in the dir `img/`.
 - Version Updated: PHPUnit/PHPUnit: 9.6 => 10.5
 - Updated: Tests to use `DataProvider` Attribute.
 - Removed: `composer.lock` and `.php-version` from git control.
-- Updated: `Helper\Exif::simplifyDegrees()` to use explicit conversion from `float` to `int`.
+- Updated: `Helpers\Exif::simplifyDegrees()` to use explicit conversion from `float` to `int`.
 - Updated: GitHub Workflows.
 - Updated: examples
 - Updated: README
@@ -1414,7 +1422,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### Improvement
 
-- Fixed: `Macocci7\PhpPhotoGps\Helper\Arrow` retunrs `Intervention\Image\Image`
+- Fixed: `Macocci7\PhpPhotoGps\Helpers\Arrow` retunrs `Intervention\Image\Image`
 - Fixed: `example/ConfigFormat.php`
 - Updated: wrong statements in README corrected.
 
@@ -1461,6 +1469,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/04/18*
+*Document updated: 2024/04/20*
 
 Copyright 2023 - 2024 macocci7

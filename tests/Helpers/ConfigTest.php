@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
+use Macocci7\PhpPhotoGps\Helpers\Config;
+use Nette\Neon\Neon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Macocci7\PhpPhotoGps\Helper\Config;
-use Nette\Neon\Neon;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

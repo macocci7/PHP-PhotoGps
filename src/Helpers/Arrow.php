@@ -1,10 +1,10 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
 use Intervention\Image\ImageManager as Image;
-use Macocci7\PhpPhotoGps\Helper\Config;
-use Macocci7\PhpPhotoGps\Helper\Exif;
+use Macocci7\PhpPhotoGps\Helpers\Config;
+use Macocci7\PhpPhotoGps\Helpers\Exif;
 
 /**
  * Class for Handling an Arrow Image

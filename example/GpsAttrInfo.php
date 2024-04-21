@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Macocci7\PhpPhotoGps\Helper\Gps;
+use Macocci7\PhpPhotoGps\Helpers\Gps;
 
 //$exifVersion = "0210";
 //$exifVersion = "0220";

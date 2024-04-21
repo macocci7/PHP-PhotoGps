@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
+use Macocci7\PhpPhotoGps\Helpers\Exif;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Macocci7\PhpPhotoGps\Helper\Exif;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

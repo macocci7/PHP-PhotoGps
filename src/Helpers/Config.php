@@ -1,6 +1,6 @@
 <?php
 
-namespace Macocci7\PhpPhotoGps\Helper;
+namespace Macocci7\PhpPhotoGps\Helpers;
 
 use Nette\Neon\Neon;
 
