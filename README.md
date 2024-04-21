@@ -1331,7 +1331,7 @@ The code below creates a list of photos in the dir `img/`.
 #### What's Changed
 
 - Version Updated: Intervention/Image: 3.5 => 3.6
-- Changed: `Helper` as `Helpers`
+- Changed: `Helper` to `Helpers`
 - Updated: examples
 - Updated: README
 
