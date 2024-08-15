@@ -51,14 +51,15 @@ class Exif
             if (!ini_get('allow_url_fopen')) {
                 ini_set('allow_url_fopen', '1');
             }
-            $path = file_get_contents($path);
-            if (!$path) {
-                return null;
-            }
         }
-        $exif = Image::gd()->read($path)->exif();
-        self::$version = $exif->get('EXIF.ExifVersion') ?? null; // @phpstan-ignore-line
-        return $exif->get('GPS'); // @phpstan-ignore-line
+        $exif = exif_read_data(
+            file: $path,
+            required_sections: null,
+            as_arrays: true,
+            read_thumbnail: false,
+        );
+        self::$version = $exif['EXIF']['ExifVersion'] ?? null;
+        return $exif['GPS'] ?? null;
     }
 
     /**

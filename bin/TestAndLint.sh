@@ -54,8 +54,7 @@ test_and_lint() {
     ./vendor/bin/phpstan analyze -c phpstan.neon
     echo "-----------------------------------------------------------"
     echo "[PHP $1][phpunit]"
-    ./vendor/bin/phpunit ./tests/ \
-                         --color=auto
+    ./vendor/bin/phpunit ./tests/
     echo "-----------------------------------------------------------"
 }
 
