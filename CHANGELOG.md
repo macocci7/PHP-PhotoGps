@@ -1,5 +1,11 @@
 # Changelog
 
+## 2024/10/02: version updated => 1.8.3
+
+### what's changed
+
+- Fixed: misspelled tag names in the definition.
+
 ## 2024/08/15: version updated => 1.8.2
 
 ### What's Changed

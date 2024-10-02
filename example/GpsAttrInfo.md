@@ -10,7 +10,7 @@
 |GPSLongitude|RATIONAL|3|---|None|---|
 |GPSAltitudeRef|BYTE|1|* 0: Positive ellipsoidal height (at or above ellipsoidal surface)<br />* 1: Negative ellipsoid height (below ellipsoidal surface)<br />* 2: Positive sea level value (at or above sea level reference)<br />* 3: Negative sea level value (below sea level reference)|0||
 |GPSAltitude|RATIONAL|1|---|None|---|
-|GPStimeStamp|RATIONAL|3|---|None|---|
+|GPSTimeStamp|RATIONAL|3|---|None|---|
 |GPSSatellites|ASCII|0|---|None|---|
 |GPSStatus|ASCII|2|* A: Measurement in progress<br />* V: Measurement interrupted|None|---|
 |GPSMeasureMode|ASCII|2|* 2: 2-dimensional measurement<br />* 3: 3-dimensional measurement|None|---|
@@ -30,7 +30,7 @@
 |GPSDestBearing|RATIONAL|1|---|None|---|
 |GPSDestDistanceRef|ASCII|2|* K: Kilometers<br />* M: Miles<br />* N: Nautical miles|K|---|
 |GPSDestDistance|RATIONAL|1|---|None|---|
-|GPSProcessingMethod|UNDEFINED|0|* GPS: GPS [GPSMeaMeasureMode: 2 or 3]<br />* QZSS: Quasi-Zenith Satellite System [GPSMeasureMode: 2 or 3]<br />* GALILEO: Galileo System [GPSMeasureMode: 2 or 3]<br />* GLONASS: Global Navigation Satellite System [GPSMeasureMode: 2 or 3]<br />* BEIDOU: Beidou Satellite Positioning System [GPSMeasureMode: 2 or 3]<br />* NAVID: Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]<br />* CELLID: Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]<br />* WLAN: Wireless LAN [GPSMeasureMode: 2 (generally)]<br />* MANUAL: Manual input [GPSMeasureMode: (not recorded)]|None|---|
+|GPSProcessingMethod|UNDEFINED|0|* GPS: GPS [GPSMeaMeasureMode: 2 or 3]<br />* QZSS: Quasi-Zenith Satellite System [GPSMeasureMode: 2 or 3]<br />* GALILEO: Galileo System [GPSMeasureMode: 2 or 3]<br />* GLONASS: Global Navigation Satellite System [GPSMeasureMode: 2 or 3]<br />* BEIDOU: Beidou Satellite Positioning System [GPSMeasureMode: 2 or 3]<br />* NAVIC: Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]<br />* CELLID: Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]<br />* WLAN: Wireless LAN [GPSMeasureMode: 2 (generally)]<br />* MANUAL: Manual input [GPSMeasureMode: (not recorded)]|None|---|
 |GPSAreaInformation|UNDEFINED|0|---|None|---|
 |GPSDateStamp|ASCII|11|---|None|---|
 |GPSDifferential|SHORT|1|* 0: Measurement without differential correction<br />* 1: Differential correction applied|None|---|

@@ -1252,7 +1252,7 @@ The code below creates a list of photos in the dir `img/`.
     |GPSLongitude|RATIONAL|3|---|None|---|
     |GPSAltitudeRef|BYTE|1|* 0: Positive ellipsoidal height (at or above ellipsoidal surface)<br />* 1: Negative ellipsoid height (below ellipsoidal surface)<br />* 2: Positive sea level value (at or above sea level reference)<br />* 3: Negative sea level value (below sea level reference)|0||
     |GPSAltitude|RATIONAL|1|---|None|---|
-    |GPStimeStamp|RATIONAL|3|---|None|---|
+    |GPSTimeStamp|RATIONAL|3|---|None|---|
     |GPSSatellites|ASCII|0|---|None|---|
     |GPSStatus|ASCII|2|* A: Measurement in progress<br />* V: Measurement interrupted|None|---|
     |GPSMeasureMode|ASCII|2|* 2: 2-dimensional measurement<br />* 3: 3-dimensional measurement|None|---|
@@ -1338,6 +1338,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/08/15*
+*Document updated: 2024/10/02*
 
 Copyright 2023 - 2024 macocci7
