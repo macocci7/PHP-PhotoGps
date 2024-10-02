@@ -55,7 +55,7 @@ exif0210:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -239,7 +239,7 @@ exif0220:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -446,7 +446,7 @@ exif0221:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -653,7 +653,7 @@ exif0230:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -870,7 +870,7 @@ exif0231:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -1087,7 +1087,7 @@ exif0232:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -1308,7 +1308,7 @@ exif0300:
             count: 1
             default: None
 
-        GPStimeStamp:
+        GPSTimeStamp:
             type: RATIONAL
             count: 3
             default: None
@@ -1448,7 +1448,7 @@ exif0300:
                 GALILEO: 'Galileo System [GPSMeasureMode: 2 or 3]'
                 GLONASS: 'Global Navigation Satellite System [GPSMeasureMode: 2 or 3]'
                 BEIDOU: 'Beidou Satellite Positioning System [GPSMeasureMode: 2 or 3]'
-                NAVID: 'Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]'
+                NAVIC: 'Navigation Indian Constellation System [GPSMeasureMode: 2 or 3]'
                 CELLID: 'Mobile Phone Base Stations [GPSMeasureMode: 2 (generally)]'
                 WLAN: 'Wireless LAN [GPSMeasureMode: 2 (generally)]'
                 MANUAL: 'Manual input [GPSMeasureMode: (not recorded)]'
