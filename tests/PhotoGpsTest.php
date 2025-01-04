@@ -9,13 +9,6 @@ use Macocci7\PhpPhotoGps\PhotoGps;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 final class PhotoGpsTest extends TestCase
 {
     private $langs = [ 'eng', 'ja', ];
@@ -65,7 +58,7 @@ final class PhotoGpsTest extends TestCase
     {
         return [
             "GPS tags included" => [
-                'path' => 'example/img/with_gps.jpg',
+                'path' => 'examples/img/with_gps.jpg',
                 'expect' => [
                     'GPSLatitudeRef' => 'N',
                     'GPSLatitude' => ['37/1', '3/1', '26187/1000'],
@@ -75,7 +68,7 @@ final class PhotoGpsTest extends TestCase
                 ],
             ],
             "GPS tags not included" => [
-                'path' => 'example/img/without_gps.jpg',
+                'path' => 'examples/img/without_gps.jpg',
                 'expect' => [],
             ],
         ];
@@ -175,7 +168,7 @@ final class PhotoGpsTest extends TestCase
         return [
             "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
             "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
-            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
+            "local" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
         ];
     }
 
@@ -191,8 +184,8 @@ final class PhotoGpsTest extends TestCase
     public static function provide_hasGeo_can_judge_correctly(): array
     {
         return [
-            "without geo" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => false, ],
-            "with geo" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => true, ],
+            "without geo" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => false, ],
+            "with geo" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => true, ],
         ];
     }
 
@@ -242,8 +235,8 @@ final class PhotoGpsTest extends TestCase
     public static function provide_hasAltitude_can_judge_correctly(): array
     {
         return [
-            "without altitude" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => false, ],
-            "with altitude" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => true, ],
+            "without altitude" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => false, ],
+            "with altitude" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => true, ],
         ];
     }
 
@@ -495,11 +488,11 @@ final class PhotoGpsTest extends TestCase
     public static function provide_altitudeS_can_return_value_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
-            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '(Above Ellipsoidal Surface) 13.00 m', ],
-            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '（正値楕円体高） 13.00 メートル', ],
-            "image 2, lang:eng" => [ 'path' => 'example/img/fake_gps_003.jpg', 'lang' => 'eng', 'expect' => '(Below Sea Level) 422.00 m', ],
-            "image 2, lang:ja" => [ 'path' => 'example/img/fake_gps_003.jpg', 'lang' => 'ja', 'expect' => '（負値海抜） 422.00 メートル', ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '(Above Ellipsoidal Surface) 13.00 m', ],
+            "image 1, lang:ja" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '（正値楕円体高） 13.00 メートル', ],
+            "image 2, lang:eng" => [ 'path' => 'examples/img/fake_gps_003.jpg', 'lang' => 'eng', 'expect' => '(Below Sea Level) 422.00 m', ],
+            "image 2, lang:ja" => [ 'path' => 'examples/img/fake_gps_003.jpg', 'lang' => 'ja', 'expect' => '（負値海抜） 422.00 メートル', ],
         ];
     }
 
@@ -513,8 +506,8 @@ final class PhotoGpsTest extends TestCase
     public static function provide_direction_can_return_direction_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
-            "image 1" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => 306.25440000000003, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => 306.25440000000003, ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 352.3981981981982, ],
         ];
     }
@@ -529,9 +522,9 @@ final class PhotoGpsTest extends TestCase
     public static function provide_directionS_can_return_direction_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
-            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => 'T 306.25°', ],
-            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '真北 306.25度', ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'eng', 'expect' => 'T 306.25°', ],
+            "image 1, lang:ja" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '真北 306.25度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 352.40°', ],
             "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 352.40度', ],
         ];
@@ -598,8 +591,8 @@ final class PhotoGpsTest extends TestCase
     public static function provide_speed_can_return_speed_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
-            "image 1" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => 1.60, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
+            "image 1" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => 1.60, ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 12.453799890650629, ],
         ];
     }
@@ -614,9 +607,9 @@ final class PhotoGpsTest extends TestCase
     public static function provide_speedS_can_return_speed_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
-            "image 1, lang:eng" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '1.60mph', ],
-            "image 1, lang:ja" => [ 'path' => 'example/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '1.60マイル／時', ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "image 1, lang:eng" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'eng', 'expect' => '1.60mph', ],
+            "image 1, lang:ja" => [ 'path' => 'examples/img/with_gps.jpg', 'lang' => 'ja', 'expect' => '1.60マイル／時', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => '12.45kt', ],
             "image 2, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '12.45ノット', ],
         ];
@@ -683,7 +676,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_destBearing_can_return_dest_bearing_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
             "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 138.6932006633499, ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => 273.46589259796815, ],
         ];
@@ -699,7 +692,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_destBearingS_can_return_dest_bearing_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
             "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 138.69°', ],
             "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 138.69度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 273.47°', ],
@@ -717,7 +710,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_track_can_return_track_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
             "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => 62.8972, ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => 268.44216417910445, ],
         ];
@@ -733,7 +726,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_trackS_can_return_track_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'lang' => 'eng', 'expect' => null, ],
             "image 1, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'eng', 'expect' => 'M 62.90°', ],
             "image 1, lang:ja" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'lang' => 'ja', 'expect' => '磁北 62.90度', ],
             "image 2, lang:eng" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'lang' => 'eng', 'expect' => 'T 268.44°', ],
@@ -751,7 +744,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_datestamp_can_return_datestamp_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
             "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => '2018/03/31', ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => '2015/06/07', ],
         ];
@@ -818,7 +811,7 @@ final class PhotoGpsTest extends TestCase
     public static function provide_timestamp_can_return_timestamp_correctly(): array
     {
         return [
-            "without gps" => [ 'path' => 'example/img/without_gps.jpg', 'expect' => null, ],
+            "without gps" => [ 'path' => 'examples/img/without_gps.jpg', 'expect' => null, ],
             "image 1" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => '02:22:14', ],
             "image 2" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => '01:31:46', ],
         ];

@@ -10,9 +10,6 @@ use Macocci7\PhpPhotoGps\Helpers\File;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 final class ArrowTest extends TestCase
 {
     public function test_make_can_return_instance_correctly(): void

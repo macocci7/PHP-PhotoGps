@@ -93,7 +93,7 @@ composer require macocci7/php-photo-gps
 
 #### 5.1.1. PHP
 
-- [BasicUsage.php](example/BasicUsage.php)
+- [BasicUsage.php](examples/BasicUsage.php)
 
     ```php
     <?php
@@ -125,7 +125,7 @@ composer require macocci7/php-photo-gps
 
 #### 5.1.2. Output
 
-- [BasicUsage.txt](example/BasicUsage.txt)
+- [BasicUsage.txt](examples/BasicUsage.txt)
 
     ```
     [img/with_gps.jpg]--------------------
@@ -179,7 +179,7 @@ for `latitudeS()` and `longitudeS()`.
 
 ##### 5.2.1.1. PHP
 
-- [ConfigFormat.php](example/ConfigFormat.php)
+- [ConfigFormat.php](examples/ConfigFormat.php)
 
     ```php
     <?php
@@ -259,7 +259,7 @@ for `latitudeS()` and `longitudeS()`.
 
 ##### 5.2.1.2. Output
 
-- [ConfigFormat.txt](example/ConfigFormat.txt)
+- [ConfigFormat.txt](examples/ConfigFormat.txt)
 
     ```
     [img/with_gps.jpg]--------------------
@@ -328,7 +328,7 @@ for `directionS()`, `destBearingS()` and `TrackS()`.
 
 ##### 5.2.2.1. PHP
 
-- [ConfigDirectionFormat.php](example/ConfigDirectionFormat.php)
+- [ConfigDirectionFormat.php](examples/ConfigDirectionFormat.php)
 
     ```php
     <?php
@@ -378,7 +378,7 @@ for `directionS()`, `destBearingS()` and `TrackS()`.
 
 ##### 5.2.2.2. Output
 
-- [ConfigDirectionFormat.txt](example/ConfigDirectionFormat.txt)
+- [ConfigDirectionFormat.txt](examples/ConfigDirectionFormat.txt)
 
     ```bash
     [img/with_gps.jpg]--------------------
@@ -428,7 +428,7 @@ for `speedS()`
 
 ##### 5.2.3.1. PHP
 
-- [ConfigSpeedFormat.php](example/ConfigSpeedFormat.php)
+- [ConfigSpeedFormat.php](examples/ConfigSpeedFormat.php)
 
     ```php
     <?php
@@ -478,7 +478,7 @@ for `speedS()`
 
 ##### 5.2.3.2. Output
 
-- [ConfigSpeedFormat.txt](example/ConfigSpeedFormat.txt)
+- [ConfigSpeedFormat.txt](examples/ConfigSpeedFormat.txt)
 
     ```bash
     [img/with_gps.jpg]--------------------
@@ -525,7 +525,7 @@ for `datestamp()`
 
 ##### 5.2.4.1. PHP
 
-- [ConfigDatestampFormat.php](example/ConfigDatestampFormat.php)
+- [ConfigDatestampFormat.php](examples/ConfigDatestampFormat.php)
 
     ```php
     <?php
@@ -575,7 +575,7 @@ for `datestamp()`
 
 ##### 5.2.4.2. Output
 
-- [ConfigDatestampFormat.txt](example/ConfigDatestampFormat.txt)
+- [ConfigDatestampFormat.txt](examples/ConfigDatestampFormat.txt)
 
     ```bash
     [img/with_gps.jpg]--------------------
@@ -619,7 +619,7 @@ for `timestamp()`
 
 ##### 5.2.5.1. PHP
 
-- [ConfigTimestampFormat.php](example/ConfigTimestampFormat.php)
+- [ConfigTimestampFormat.php](examples/ConfigTimestampFormat.php)
 
     ```php
     <?php
@@ -669,7 +669,7 @@ for `timestamp()`
 
 ##### 5.2.5.2. Output
 
-- [ConfigTimestampFormat.txt](example/ConfigtimestampFormat.txt)
+- [ConfigTimestampFormat.txt](examples/ConfigtimestampFormat.txt)
 
     ```bash
     [img/with_gps.jpg]--------------------
@@ -715,7 +715,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.3.1. PHP
 
-- [CheckGeoData.php](example/CheckGeoData.php)
+- [CheckGeoData.php](examples/CheckGeoData.php)
 
     ```php
     <?php
@@ -778,13 +778,13 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.3.2. Result
 
-- [CheckGeoData.md](example/CheckGeoData.md)
+- [CheckGeoData.md](examples/CheckGeoData.md)
 
     # Photo List: Geo Data
 
     <table>
     <tr><th>Image</th><th>Geo</th><th>Coordinate</th></tr>
-    <td><a href='example/img/fake_gps_003.jpg'><img src='example/img/fake_gps_003.jpg' width=100 /></a></td><td>o</td><td>
+    <td><a href='examples/img/fake_gps_003.jpg'><img src='examples/img/fake_gps_003.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/31%C2%B031%2759.7%22N+35%C2%B028%2745.3%22E/@31.5332455,35.4792375,17z/?authuser=0&entry=ttu'>31.53324552730697, 35.47923749904281</a><br />
     31°31'59.7"N, 35°28'45.3"E<br />
     北緯31度31分59.7秒, 東経35度28分45.3秒<br />
@@ -793,7 +793,7 @@ The code below creates a list of photos in the dir `img/`.
     （負値海抜） 422.00 メートル
 
     </td></tr>
-    <td><a href='example/img/fake_gps_004.jpg'><img src='example/img/fake_gps_004.jpg' width=100 /></a></td><td>o</td><td>
+    <td><a href='examples/img/fake_gps_004.jpg'><img src='examples/img/fake_gps_004.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/20%C2%B011%2720.9%22S+67%C2%B035%2715.8%22W/@-20.1891385,-67.5877247,17z/?authuser=0&entry=ttu'>-20.18913849132269, -67.58772465286874</a><br />
     20°11'20.9"S, 67°35'15.8"W<br />
     南緯20度11分20.9秒, 西経67度35分15.8秒<br />
@@ -802,7 +802,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値海抜） 3700.00 メートル
 
     </td></tr>
-    <td><a href='example/img/miracle_north_intersection.jpg'><img src='example/img/miracle_north_intersection.jpg' width=100 /></a></td><td>o</td><td>
+    <td><a href='examples/img/miracle_north_intersection.jpg'><img src='examples/img/miracle_north_intersection.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/35%C2%B052%2720.5%22N+139%C2%B047%270.8%22E/@35.8723586,139.7835639,17z/?authuser=0&entry=ttu'>35.87235861111111, 139.78356388888889</a><br />
     35°52'20.5"N, 139°47'0.8"E<br />
     北緯35度52分20.5秒, 東経139度47分0.8秒<br />
@@ -811,7 +811,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値楕円体高） 3.70 メートル
 
     </td></tr>
-    <td><a href='example/img/sendai_snowman01.JPEG'><img src='example/img/sendai_snowman01.JPEG' width=100 /></a></td><td>o</td><td>
+    <td><a href='examples/img/sendai_snowman01.JPEG'><img src='examples/img/sendai_snowman01.JPEG' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/38%C2%B015%2749.9%22N+140%C2%B052%2715.1%22E/@38.2638617,140.8708508,17z/?authuser=0&entry=ttu'>38.26386166666666, 140.87085083333335</a><br />
     38°15'49.9"N, 140°52'15.1"E<br />
     北緯38度15分49.9秒, 東経140度52分15.1秒<br />
@@ -820,7 +820,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値楕円体高） 42.00 メートル
 
     </td></tr>
-    <td><a href='example/img/with_gps.jpg'><img src='example/img/with_gps.jpg' width=100 /></a></td><td>o</td><td>
+    <td><a href='examples/img/with_gps.jpg'><img src='examples/img/with_gps.jpg' width=100 /></a></td><td>o</td><td>
     <a href='https://www.google.com/maps/place/37%C2%B03%2726.2%22N+140%C2%B053%2732.8%22E/@37.0572742,140.8924417,17z/?authuser=0&entry=ttu'>37.05727416666667, 140.89244166666666</a><br />
     37°3'26.2"N, 140°53'32.8"E<br />
     北緯37度3分26.2秒, 東経140度53分32.8秒<br />
@@ -829,7 +829,7 @@ The code below creates a list of photos in the dir `img/`.
     （正値楕円体高） 13.00 メートル
 
     </td></tr>
-    <td><a href='example/img/without_gps.jpg'><img src='example/img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
+    <td><a href='examples/img/without_gps.jpg'><img src='examples/img/without_gps.jpg' width=100 /></a></td><td>x</td><td>
     No Geo Data
 
     No Altitude Data
@@ -854,7 +854,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.4.1. PHP
 
-- [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
+- [ReadAllGpsTags.md](examples/ReadAllGpsTags.md)
 
     ```php
     <?php
@@ -983,7 +983,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.4.2. Result
 
-- [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
+- [ReadAllGpsTags.md](examples/ReadAllGpsTags.md)
 
     # Exif: GPS Tags
 
@@ -997,10 +997,10 @@ The code below creates a list of photos in the dir `img/`.
     |Attribute|Value|
     |:---|---:|
     |ExifVersion|0300|
-    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow352.40.png' width=30 height=30 />M 352.40°</div>|
+    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow352.40.png' width=30 height=30 />M 352.40°</div>|
     |Speed|12.45kt|
-    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow62.90.png' width=30 height=30 />M 62.90°</div>|
-    |Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow138.69.png' width=30 height=30 />M 138.69°</div>|
+    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow62.90.png' width=30 height=30 />M 62.90°</div>|
+    |Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow138.69.png' width=30 height=30 />M 138.69°</div>|
     |Datestamp|2018/03/31 (UTC)|
     |Timestamp|02:22:14 (UTC)|
     </td>
@@ -1039,10 +1039,10 @@ The code below creates a list of photos in the dir `img/`.
     |Attribute|Value|
     |:---|---:|
     |ExifVersion|0300|
-    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
+    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow278.63.png' width=30 height=30 />T 278.63°</div>|
     |Speed|100.00mph|
-    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
-    |Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow273.47.png' width=30 height=30 />T 273.47°</div>|
+    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow268.44.png' width=30 height=30 />T 268.44°</div>|
+    |Destination Bearing|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow273.47.png' width=30 height=30 />T 273.47°</div>|
     |Datestamp|2015/06/07 (UTC)|
     |Timestamp|01:31:46 (UTC)|
     </td>
@@ -1076,14 +1076,14 @@ The code below creates a list of photos in the dir `img/`.
     <table>
     <tr style='display: flex; align-items: top;'>
     <td>
-    <img src='example/img/with_gps.jpg' alt='Local File with GPS' width='200'>
+    <img src='examples/img/with_gps.jpg' alt='Local File with GPS' width='200'>
 
     |Attribute|Value|
     |:---|---:|
     |ExifVersion|0300|
-    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow306.25.png' width=30 height=30 />T 306.25°</div>|
+    |Image Direction|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow306.25.png' width=30 height=30 />T 306.25°</div>|
     |Speed|1.60mph|
-    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='example/img/arrow359.90.png' width=30 height=30 />M 359.90°</div>|
+    |Track|<div style='display: flex; justify-content: right; align-items: center;'><img src='examples/img/arrow359.90.png' width=30 height=30 />M 359.90°</div>|
     |Datestamp|2023/09/18 (UTC)|
     |Timestamp|03:43:32 (UTC)|
     </td>
@@ -1115,7 +1115,7 @@ The code below creates a list of photos in the dir `img/`.
     <table>
     <tr style='display: flex; align-items: top;'>
     <td>
-    <img src='example/img/without_gps.jpg' alt='No GPS tags' width='200'>
+    <img src='examples/img/without_gps.jpg' alt='No GPS tags' width='200'>
 
     |Attribute|Value|
     |:---|---:|
@@ -1195,7 +1195,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.5.1. PHP
 
-- [GpsAttrInfo.php](example/GpsAttrInfo.php)
+- [GpsAttrInfo.php](examples/GpsAttrInfo.php)
 
     ```php
     <?php
@@ -1238,7 +1238,7 @@ The code below creates a list of photos in the dir `img/`.
 
 #### 5.5.2. Result
 
-- [GpsAttrInfo.md](example/GpsAttrInfo.md)
+- [GpsAttrInfo.md](examples/GpsAttrInfo.md)
 
     # Exif0300: GPS Attribute Information
 
@@ -1318,13 +1318,13 @@ The code below creates a list of photos in the dir `img/`.
 
 ## 6. Examples
 
-- [BasicUsage.php](example/BasicUsage.php) >> results in [BasicUsage.txt](example/BasicUsage.txt)
-- [CheckGeoData.php](example/CheckGeoData.md) >> results in [CheckGeoData.md](example/CheckGeoData.md)
-- [ConfigFormat.php](example/ConfigFormat.php) >> results in [ConfigFormat.txt](example/ConfigFormat.txt)
-- [ConfigDirectionFormat.php](example/ConfigDirectionFormat.php) >> results in [ConfigDirectionFormat.txt](example/ConfigDirectionFormat.txt)
-- [ConfigSpeedFormat.php](example/ConfigSpeedFormat.php) >> results in [ConfigSpeedFormat.txt](example/ConfigSpeedFormat.txt)
-- [ReadAllGpsTags.php](example/ReadAllGpsTags.php) >> results in [ReadAllGpsTags.md](example/ReadAllGpsTags.md)
-- [GpsAttrInfo.php](example/GpsAttrInfo.php) >> results in [GpsAttrInfo.md](example/GpsAttrInfo.md)
+- [BasicUsage.php](examples/BasicUsage.php) >> results in [BasicUsage.txt](examples/BasicUsage.txt)
+- [CheckGeoData.php](examples/CheckGeoData.md) >> results in [CheckGeoData.md](examples/CheckGeoData.md)
+- [ConfigFormat.php](examples/ConfigFormat.php) >> results in [ConfigFormat.txt](examples/ConfigFormat.txt)
+- [ConfigDirectionFormat.php](examples/ConfigDirectionFormat.php) >> results in [ConfigDirectionFormat.txt](examples/ConfigDirectionFormat.txt)
+- [ConfigSpeedFormat.php](examples/ConfigSpeedFormat.php) >> results in [ConfigSpeedFormat.txt](examples/ConfigSpeedFormat.txt)
+- [ReadAllGpsTags.php](examples/ReadAllGpsTags.php) >> results in [ReadAllGpsTags.md](examples/ReadAllGpsTags.md)
+- [GpsAttrInfo.php](examples/GpsAttrInfo.php) >> results in [GpsAttrInfo.md](examples/GpsAttrInfo.md)
 
 ## 7. LICENSE
 
@@ -1338,6 +1338,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/10/02*
+*Document updated: 2025/01/04*
 
-Copyright 2023 - 2024 macocci7
+Copyright 2023 - 2025 macocci7

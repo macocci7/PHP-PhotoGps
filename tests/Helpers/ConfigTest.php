@@ -9,9 +9,6 @@ use Nette\Neon\Neon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 final class ConfigTest extends TestCase
 {
     public string $basConf = __DIR__ . '/../../conf/PhotoGps.neon';

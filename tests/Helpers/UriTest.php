@@ -9,9 +9,6 @@ use Nette\Neon\Neon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 final class UriTest extends TestCase
 {
     public function test_init_can_load_config_correctly(): void

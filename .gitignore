@@ -5,3 +5,4 @@
 /research/
 composer.lock
 .php-version
+.tool-versions

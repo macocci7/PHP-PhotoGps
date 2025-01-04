@@ -9,9 +9,6 @@ use Macocci7\PhpPhotoGps\Helpers\File;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- */
 final class FileTest extends TestCase
 {
     public static function provide_download_can_download_correctly(): array

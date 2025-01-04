@@ -1,5 +1,21 @@
 # Changelog
 
+## 2025/01/04: version updated => 1.8.4
+
+### what's changed
+
+- Upgraded dependencies.
+  - intervention/image: 3.7 => 3.10
+  - squizlabs/php_codesniffer: 3.7 => 3.11
+  - phpstan/phpstan: 1.11 => 2.1
+  - phpmd/phpmd: removed.
+- PHP8.4 compatibility.
+- (DEV) Replaced phpenv with mise.
+- (DEV) Removed check by phpmd.
+- Renamed `example/` to `examples/`.
+- Updated github workflows.
+- Updated README.
+
 ## 2024/10/02: version updated => 1.8.3
 
 ### what's changed
