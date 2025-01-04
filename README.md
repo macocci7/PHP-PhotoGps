@@ -1338,6 +1338,6 @@ The code below creates a list of photos in the dir `img/`.
 
 *Document created: 2023/09/30*
 
-*Document updated: 2024/10/02*
+*Document updated: 2025/01/04*
 
-Copyright 2023 - 2024 macocci7
+Copyright 2023 - 2025 macocci7

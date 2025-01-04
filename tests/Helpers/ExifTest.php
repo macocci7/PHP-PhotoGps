@@ -8,10 +8,6 @@ use Macocci7\PhpPhotoGps\Helpers\Exif;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- */
 final class ExifTest extends TestCase
 {
     public static function provide_version_can_set_version_correctly(): array
@@ -43,7 +39,7 @@ final class ExifTest extends TestCase
         return [
             "http" => [ 'path' => 'http://macocci7.net/photo/gps/remote_fake_gps_001.jpg', 'expect' => [ 'GPSDateStamp' => '2018:03:31', ], ],
             "https" => [ 'path' => 'https://macocci7.net/photo/gps/remote_fake_gps_002.jpg', 'expect' => [ 'GPSDateStamp' => '2015:06:07', ], ],
-            "local" => [ 'path' => 'example/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
+            "local" => [ 'path' => 'examples/img/with_gps.jpg', 'expect' => [ 'GPSDateStamp' => '2023:09:18', ], ],
         ];
     }
 

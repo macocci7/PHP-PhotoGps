@@ -37,7 +37,7 @@ class Arrow
         // |  270°  |   West    |
         // |  360°  |   North   |
         $degrees = Exif::simplifyDegrees($degrees);
-        $basePath = __DIR__ . '/' . Config::get('pathBaseArrow');
+        $basePath = __DIR__ . '/' . Config::get('pathBaseArrow');   // @phpstan-ignore-line
         $image = Image::gd()->read($basePath);
         if ($degrees > 0) {
             $image->rotate(0 - $degrees, 'transparent');

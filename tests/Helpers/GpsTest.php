@@ -11,10 +11,6 @@ use Nette\Neon\Neon;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
- */
 final class GpsTest extends TestCase
 {
     public function test_init_can_load_config_correctly(): void

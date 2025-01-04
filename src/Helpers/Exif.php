@@ -2,7 +2,6 @@
 
 namespace Macocci7\PhpPhotoGps\Helpers;
 
-use Intervention\Image\ImageManager as Image;
 use Macocci7\PhpPhotoGps\Helpers\Uri;
 
 /**

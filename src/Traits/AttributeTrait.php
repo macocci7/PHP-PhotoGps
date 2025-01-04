@@ -19,11 +19,11 @@ trait AttributeTrait
 
     /**
      * sets specified language, returns current lang with no param.
-     * @param   string  $lang = null
+     * @param   string|null  $lang = null
      * @return  self|string
      * @thrown  \Exception
      */
-    public function lang(string $lang = null)
+    public function lang(string|null $lang = null)
     {
         if (is_null($lang)) {
             return $this->lang;

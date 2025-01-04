@@ -74,7 +74,6 @@ class Gps
      * filters Exif Data.
      * @param   mixed[]     $exif
      * @return  mixed[]|null
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public static function filter(array $exif)
     {
@@ -103,7 +102,7 @@ class Gps
                 continue;
             }
             $gps[$key] = is_array($value)
-            ? array_map(fn ($v) => Exif::stripNullByte($v), $value)
+            ? array_map(fn ($v) => Exif::stripNullByte($v), $value) // @phpstan-ignore-line
             : Exif::stripNullByte($value)   // @phpstan-ignore-line
             ;
         }

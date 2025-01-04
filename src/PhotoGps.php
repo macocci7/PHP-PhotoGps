@@ -33,10 +33,10 @@ class PhotoGps
 
     /**
      * constructor.
-     * @param   string  $path   = null
+     * @param   string|null  $path   = null
      * @return  self
      */
-    public function __construct(string $path = null)
+    public function __construct(string|null $path = null)
     {
         $this->loadConf();
         if (!is_null($path)) {
