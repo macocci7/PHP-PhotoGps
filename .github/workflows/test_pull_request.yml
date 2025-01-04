@@ -83,7 +83,7 @@ jobs:
         run: composer install --no-interaction
 
       - name: PHP Lint
-        run: ./vendor/bin/parallel-lint src tests example
+        run: ./vendor/bin/parallel-lint src tests examples
 
       - name: Neon Lint
         run: ./vendor/nette/neon/bin/neon-lint conf
@@ -142,7 +142,7 @@ jobs:
         run: composer require phpunit/phpunit:^10.5 sebastian/version:* --with-all-dependencies
 
       - name: PHP Lint
-        run: ./vendor/bin/parallel-lint src tests example
+        run: ./vendor/bin/parallel-lint src tests examples
 
       - name: Unit tests
         run: |
