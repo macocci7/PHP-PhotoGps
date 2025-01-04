@@ -5,9 +5,9 @@
 ### what's changed
 
 - Upgraded dependencies.
+  - intervention/image: 3.7 => 3.10
   - squizlabs/php_codesniffer: 3.7 => 3.11
   - phpstan/phpstan: 1.11 => 2.1
-  - intervention/image: removed.
   - phpmd/phpmd: removed.
 - PHP8.4 compatibility.
 - (DEV) Replaced phpenv with mise.
