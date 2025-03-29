@@ -51,6 +51,32 @@ final class ExifTest extends TestCase
         $this->assertSame($value, Exif::get($path)[$tag]);
     }
 
+    public static function provide_get_can_throw_exception_with_unreadable_paths(): array
+    {
+        return [
+            'local' => [
+                'uri' => '/no/such/file',
+                'message' => 'The file is not readable.',
+            ],
+            'uri, unavaiable' => [
+                'uri' => 'ftps://macocci7.net/img/new-php-logo.png',
+                'message' => 'The scheme ftps is unavailable.',
+            ],
+            'uri, unreadable' => [
+                'uri' => 'https://macocci7.net/no/such/file',
+                'message' => 'The uri is not readable.',
+            ],
+        ];
+    }
+
+    #[DataProvider('provide_get_can_throw_exception_with_unreadable_paths')]
+    public function test_get_can_throw_exception_with_unreadable_paths(string $uri, string $message): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($message);
+        Exif::get($uri);
+    }
+
     public static function provide_byte2array_can_convert_value_correctly(): array
     {
         return [

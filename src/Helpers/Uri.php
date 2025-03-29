@@ -2,6 +2,7 @@
 
 namespace Macocci7\PhpPhotoGps\Helpers;
 
+use GuzzleHttp\Client;
 use Macocci7\PhpPhotoGps\Helpers\Config;
 
 /**
@@ -15,6 +16,9 @@ class Uri
      * @var mixed[]|null   $config
      */
     private static array|null $config;
+
+    private const URI_SCHEME_CHECK_PATTERN = '/^[A-Za-z0-9\+\-\.]+\:\/\//';
+    private const URI_SCHEME_RETRIEVE_PATTERN = '/^([A-Za-z0-9\+\-\.]+)\:\/\//';
 
     /**
      * init
@@ -64,5 +68,50 @@ class Uri
             }
         }
         return false;
+    }
+
+    /**
+     * judges if the uri is readable or not
+     * @param   string  $uri
+     * @return  bool
+     */
+    public static function isReadable(string $uri)
+    {
+        $client = new Client();
+        try {
+            $response = $client->request('HEAD', $uri);
+            if ($response->getStatusCode() === 200) {
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * judges if the string is an uri or not
+     * this method checkes if the string starts with uri scheme or not
+     * @param   string  $string
+     * @return  bool
+     * @see https://developer.mozilla.org/ja/docs/Web/URI/Reference/Schemes
+     */
+    public static function isUri(string $string)
+    {
+        return preg_match(self::URI_SCHEME_CHECK_PATTERN, $string) === 1;
+    }
+
+    /**
+     * returns shceme
+     * @param   string  $uri
+     * @return  string|null
+     */
+    public static function getScheme(string $uri)
+    {
+        if (!static::isUri($uri)) {
+            return null;
+        }
+        preg_match(self::URI_SCHEME_RETRIEVE_PATTERN, $uri, $matches);
+        return $matches[1] ?? null;
     }
 }

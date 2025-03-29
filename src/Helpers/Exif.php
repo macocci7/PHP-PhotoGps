@@ -43,13 +43,20 @@ class Exif
      */
     public static function get(string $path)
     {
-        if (!is_readable($path) && !Uri::isAvailable($path)) {
-            throw new \Exception("The file is not readable.");
-        }
-        if (Uri::isAvailable($path)) {
+        $isUri = Uri::isUri($path);
+        if ($isUri) {
+            if (!Uri::isAvailable($path)) {
+                $scheme = Uri::getScheme($path);
+                throw new \Exception("The scheme {$scheme} is unavailable.");
+            }
+            if (!Uri::isReadable($path)) {
+                throw new \Exception("The uri is not readable.");
+            }
             if (!ini_get('allow_url_fopen')) {
                 ini_set('allow_url_fopen', '1');
             }
+        } elseif (!is_readable($path)) {
+            throw new \Exception("The file is not readable.");
         }
         $exif = exif_read_data(
             file: $path,

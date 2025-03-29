@@ -1,6 +1,6 @@
 {
     "name": "macocci7/php-photo-gps",
-    "version": "1.8.4",
+    "version": "1.8.5",
     "description": "Retrieves EXIF GPS data from a photo.",
     "type": "library",
     "license": "MIT",
@@ -18,10 +18,11 @@
     "minimum-stability": "stable",
     "require": {
         "nette/neon": "^3.4",
-        "intervention/image": "^3.10"
+        "intervention/image": "^3.11",
+        "guzzlehttp/guzzle": "^7.9"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.11",
+        "squizlabs/php_codesniffer": "^3.12",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^10.5",
         "php-parallel-lint/php-parallel-lint": "1.4"
