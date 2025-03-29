@@ -1,5 +1,15 @@
 # Changelog
 
+## 2025/03/29: version updated => 1.8.5
+
+### what's changed
+
+- Added `Uri::isReadable()` method.
+- Added `Uri::isUri()` method.
+- Added `Uri::getScheme()` method.
+- Modified `Exif::get()` method to check readability of uri.
+- Upgraded dependencies.
+
 ## 2025/01/04: version updated => 1.8.4
 
 ### what's changed
