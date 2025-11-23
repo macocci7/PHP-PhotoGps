@@ -26,7 +26,6 @@ final class ConfigTest extends TestCase
         Config::load();
         $r = new \ReflectionClass(Config::class);
         $p = $r->getProperty('conf');
-        $p->setAccessible(true);
         $this->assertSame(
             Neon::decodeFile($this->testConf),
             $p->getValue()[$this::class]

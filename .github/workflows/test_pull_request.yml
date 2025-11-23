@@ -3,56 +3,12 @@ name: Test and Static Analysis (Pull Request)
 on: pull_request
 
 jobs:
-  check-version-in-composer-json:
-    name: Check Version
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.4
-          tools: composer:v2
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: PHP Version Check
-        run: php -v
-
-      - name: Validate Composer JSON
-        run: composer validate
-
-      - name: Get Version From Comopser JSON
-        id: new-version
-        run: |
-          echo version=$(cat composer.json | grep version | head -1 | grep -Po '\d+\.\d+\.\d+') >> $GITHUB_OUTPUT
-      
-      - name: Show New Version
-        run: echo "version=${{ steps.new-version.outputs.version }}"
-
-      - name: Show Tags
-        run: git tag
-
-      - name: Check If The Version Is Not In The Tag List
-        run: |
-          for tag in `git tag`
-          do
-            if [ $tag = ${{ steps.new-version.outputs.version }} ]; then
-              echo "version ${{ steps.new-version.outputs.version }} already exists."
-              exit 1
-            fi
-          done
-          echo "OK."
-
   test-and-static-analysis:
     name: Test and Lint
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4']
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
 
     steps:
       - name: Set up PHP
@@ -63,12 +19,12 @@ jobs:
           tools: composer:v2
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22.x'
+          node-version: '24.x'
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -87,11 +43,6 @@ jobs:
 
       - name: Neon Lint
         run: ./vendor/nette/neon/bin/neon-lint conf
-
-      #- name: PHP MD
-      #  run: |
-      #    ./vendor/bin/phpmd --version
-      #    ./vendor/bin/phpmd ./src/ ./example/ ./tests/ text phpmd.xml
 
       - name: PHP Code Sniffer
         run: |
@@ -126,12 +77,12 @@ jobs:
           tools: composer:v2
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '22.x'
+          node-version: '24.x'
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
