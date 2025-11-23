@@ -24,6 +24,27 @@ Supported Exif Versions:
 - 2.2
 - 2.1
 
+```php
+use Macocci7\PhpPhotoGps\PhotoGps;
+
+$pg = new PhotoGps(__DIR__ . '/img/my_photo.jpg'); // URL is also available
+
+if ($pg->hasGeo()) {
+    echo sprintf(
+        "<a href='%s'>%s, %s</a><br />\n",
+        sprintf(
+            "https://www.google.com/maps/place/%s+%s/@%.7f,%.7f,17z/?authuser=0&entry=ttu",
+            urlencode($pg->lang('eng')->latitudeS()),
+            urlencode($pg->lang('eng')->longitudeS()),
+            $pg->latitudeD(),
+            $pg->longitudeD()
+        ),
+        sprintf("%.14f", $pg->latitudeD()),
+        sprintf("%.14f", $pg->longitudeD())
+    );
+}
+```
+
 ## 2. Contents
 
 - [1. Features](#1-features)
@@ -1335,9 +1356,5 @@ The code below creates a list of photos in the dir `img/`.
 [CHANGELOG](CHANGELOG.md)
 
 ***
-
-*Document created: 2023/09/30*
-
-*Document updated: 2025/01/04*
 
 Copyright 2023 - 2025 macocci7

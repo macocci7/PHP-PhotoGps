@@ -29,7 +29,6 @@ final class ExifTest extends TestCase
         Exif::version($exifVersion);
         $r = new \ReflectionClass(Exif::class);
         $p = $r->getProperty('version');
-        $p->setAccessible(true);
         $this->assertSame($exifVersion, $p->getValue());
         $this->assertSame($exifVersion, Exif::version());
     }

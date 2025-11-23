@@ -16,7 +16,7 @@ trait GeoTrait
     public function hasGeo()
     {
         foreach (Config::get('geo') as $key) { // @phpstan-ignore-line
-            if (isset($this->gpsData[$key])) {
+            if (isset($this->gpsData[$key])) { // @phpstan-ignore-line
                 return true;
             }
         }
@@ -42,7 +42,7 @@ trait GeoTrait
     public function hasAltitude()
     {
         foreach (Config::get('altitude') as $key) { // @phpstan-ignore-line
-            if (!isset($this->gpsData[$key])) {
+            if (!isset($this->gpsData[$key])) { // @phpstan-ignore-line
                 return false;
             }
         }

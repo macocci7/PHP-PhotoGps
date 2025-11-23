@@ -2,10 +2,10 @@
 
 # Script to Test and Lint
 # requirement:
-# - https://github.com/jdx/mise installed
+# - https://github.com/phpenv/phpenv installed
 # - PHP versions defined in ../PHP_VERSIONS installed
 
-CMD=mise
+CMD=phpenv
 $CMD -v &> /dev/null
 if [ $? -ne 0 ]; then
     echo "command [${CMD}] not found!"
@@ -19,13 +19,40 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-switch_version() {
+test_and_lint() {
     echo "==========================================================="
-    echo "[PHP $1][Switching PHP version to $1]"
-    mise x php@$1 -- bash bin/TestAndLintSub.sh $1;
+    echo "[PHP $1][phpenv global $1]"
+    phpenv global $1
+    if [ $? -ne 0 ]; then
+        echo "Failed to switch version to $1. skipped."
+        return 1
+    fi
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][php -v]"
+    php -v
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][parallel-lint]"
+    ./vendor/bin/parallel-lint src tests examples
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][neon-lint]"
+    ./vendor/nette/neon/bin/neon-lint conf
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][phpcs]"
+    ./vendor/bin/phpcs --ignore=vendor \
+                        --standard=phpcs.xml \
+                        -p \
+                        -s \
+                        .
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][phpstan]"
+    ./vendor/bin/phpstan analyze -c phpstan.neon
+    echo "-----------------------------------------------------------"
+    echo "[PHP $1][phpunit]"
+    ./vendor/bin/phpunit ./tests/
+    echo "-----------------------------------------------------------"
 }
 
-echo "[[TestAndLint.sh]]"
+echo "[[TesAndLint.sh]]"
 
 SUPPORTED_PHP_VERSIONS=PHP_VERSIONS
 if [ ! -f $SUPPORTED_PHP_VERSIONS ]; then
@@ -40,6 +67,6 @@ if [ ! -r $SUPPORTED_PHP_VERSIONS ]; then
 fi
 STR_CMD=''
 while read version ; do
-    STR_CMD="$STR_CMD switch_version $version;"
+    STR_CMD="$STR_CMD test_and_lint $version;"
 done < $SUPPORTED_PHP_VERSIONS
 eval $STR_CMD

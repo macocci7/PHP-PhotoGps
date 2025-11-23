@@ -19,11 +19,9 @@ final class GpsTest extends TestCase
         Gps::init();
         $r = new \ReflectionClass(Gps::class);
         $p = $r->getProperty('configLoaded');
-        $p->setAccessible(true);
         $this->assertTrue($p->getValue());
         $r = new \ReflectionClass(Config::class);
         $p = $r->getProperty('conf');
-        $p->setAccessible(true);
         $this->assertSame(
             Neon::decodeFile($pathConf),
             $p->getValue()[Gps::class]

@@ -17,7 +17,6 @@ final class UriTest extends TestCase
         Uri::init();
         $r = new \ReflectionClass(Uri::class);
         $p = $r->getProperty('config');
-        $p->setAccessible(true);
         $this->assertSame(
             Neon::decodeFile($pathConf),
             $p->getValue()
